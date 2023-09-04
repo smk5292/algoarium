@@ -21,6 +21,4 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
     override fun getViewBinding(): FragmentRankingBinding = FragmentRankingBinding.inflate(layoutInflater)
     override val viewModel: RankingFragmentViewModel by viewModels()
 
-
-
 }
