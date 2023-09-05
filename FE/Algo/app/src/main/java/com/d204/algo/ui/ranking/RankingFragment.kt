@@ -7,7 +7,6 @@ import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentRankingBinding
 import com.d204.algo.presentation.viewmodel.RankingFragmentViewModel
 
-
 class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     companion object {
@@ -20,5 +19,4 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     override fun getViewBinding(): FragmentRankingBinding = FragmentRankingBinding.inflate(layoutInflater)
     override val viewModel: RankingFragmentViewModel by viewModels()
-
 }

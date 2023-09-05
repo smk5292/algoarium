@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.presentation.utils.CoroutineContextProvider
 import com.d204.algo.presentation.utils.ExceptionHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
@@ -23,5 +23,4 @@ class HomeFragmentViewModel @Inject constructor(
         val message = ExceptionHandler.parse(exception)
         // _character.postValue(CharacterDetailUIModel.Error(exception.message ?: "Error"))
     }
-
 }
