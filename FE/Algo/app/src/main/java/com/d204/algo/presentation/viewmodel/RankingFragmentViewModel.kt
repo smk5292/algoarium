@@ -3,9 +3,11 @@ package com.d204.algo.presentation.viewmodel
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.presentation.utils.CoroutineContextProvider
 import com.d204.algo.presentation.utils.ExceptionHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 
+@HiltViewModel
 class RankingFragmentViewModel @Inject constructor(
     contextProvider: CoroutineContextProvider,
     // private val userRepository: UserRepository // -> Module에 @provide로 impl return 하는 함수 있어야함
