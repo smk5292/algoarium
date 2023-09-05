@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setVideo() {
         val videoPath = "android.resource://" + packageName + "/" + R.raw.login
-        binding.loginBg.apply{
+        binding.loginBg.apply {
             setOnCompletionListener {
                 start()
             }
@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     e: GlideException?,
                     model: Any?,
                     target: Target<GifDrawable>?,
-                    isFirstResource: Boolean
+                    isFirstResource: Boolean,
                 ): Boolean {
                     return false
                 }
@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                     model: Any?,
                     target: com.bumptech.glide.request.target.Target<GifDrawable>?,
                     dataSource: DataSource?,
-                    isFirstResource: Boolean
+                    isFirstResource: Boolean,
                 ): Boolean {
                     clickRipple = resource!!
                     clickRipple.setLoopCount(1)
@@ -92,7 +92,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
             .into(binding.touchRipple)
-
 
         binding.activityLogin.setOnTouchListener { v, event ->
             val x = event.x
