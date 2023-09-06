@@ -19,8 +19,8 @@ private const val TAG = "HomeFragment"
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     override fun getViewBinding(): FragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
-
     override val viewModel: HomeFragmentViewModel by viewModels()
+    private lateinit var coralGenerator: CoralGenerator
 
 //    @Inject
 //    lateinit var userAdapter: UserAdapter
@@ -31,11 +31,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        setupClickListener()
+        coralGenerator = CoralGenerator(binding)
+        setupInitSettings()
         return binding.root
     }
 
-    private fun setupClickListener() {
+    override fun onResume() {
+        super.onResume()
+        coralGenerator.isRunning = true
+        coralGenerator.generateCoral()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        coralGenerator.isRunning = false
+    }
+
+    private fun setupInitSettings() {
+        coralGenerator.generateCoral()
+
         binding.apply {
             fragmentHomeScrollView.post { fragmentHomeScrollView.scrollTo(fragmentHomeScrollView.getChildAt(0).width/3, 0) }
             homeRecommend.setOnClickListener {

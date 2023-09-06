@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.bumptech.glide.RequestManager
 import com.d204.algo.databinding.ActivityMainBinding
+import com.d204.algo.ui.home.CoralGenerator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
