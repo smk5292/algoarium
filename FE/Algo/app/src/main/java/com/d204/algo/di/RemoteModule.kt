@@ -1,6 +1,7 @@
 package com.d204.algo.di
 
 import com.d204.algo.presentation.utils.Constants
+import com.d204.algo.presentation.utils.TokenManager
 import com.d204.algo.remote.api.ServiceFactory
 import com.d204.algo.remote.api.UserService
 import dagger.Module
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 object RemoteModule {
     @Provides
     @Singleton
-    fun provideUserService(): UserService {
-        return ServiceFactory.createUserService(Constants.DEBUG, Constants.BASE_URL)
+    fun provideUserService(tokenManager: TokenManager): UserService {
+        return ServiceFactory.createUserService(Constants.DEBUG, Constants.BASE_URL, tokenManager)
     }
 }

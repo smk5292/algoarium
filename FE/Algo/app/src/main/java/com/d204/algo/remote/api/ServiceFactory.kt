@@ -2,42 +2,36 @@ package com.d204.algo.remote.api
 
 import com.d204.algo.presentation.utils.AuthAuthenticator
 import com.d204.algo.presentation.utils.AuthInterceptor
+import com.d204.algo.presentation.utils.TokenManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 // RemoteModule에서 사용합니다.
 object ServiceFactory {
-    @Inject
-    lateinit var authInterceptor: AuthInterceptor
-
-    @Inject
-    lateinit var authAuthenticator: AuthAuthenticator
-
     // 각 서비스 별로 create 함수를 별도로 만든다.
-    fun createUserService(isDebug: Boolean, baseUrl: String): UserService {
-        val retrofit = createRetrofit(isDebug, baseUrl)
+    fun createUserService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): UserService {
+        val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
         return retrofit.create(UserService::class.java)
     }
 
-    private fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {
+    private fun createRetrofit(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .client(createOkHttpClient(createLoggingInterceptor(isDebug)))
+            .client(createOkHttpClient(createLoggingInterceptor(isDebug), tokenManager))
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
 
-    private fun createOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    private fun createOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, tokenManager: TokenManager): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .connectTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
-            .authenticator(authAuthenticator)
-            .addNetworkInterceptor(authInterceptor)
+            .authenticator(createAuthAuthenticator(tokenManager))
+            .addNetworkInterceptor(createAuthInterceptor(tokenManager))
             .build()
     }
 
@@ -49,6 +43,14 @@ object ServiceFactory {
                 HttpLoggingInterceptor.Level.NONE
             }
         }
+    }
+
+    private fun createAuthInterceptor(tokenManager: TokenManager): AuthInterceptor {
+        return AuthInterceptor(tokenManager)
+    }
+
+    private fun createAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator {
+        return AuthAuthenticator(tokenManager)
     }
 
     private const val OK_HTTP_TIMEOUT = 30L
