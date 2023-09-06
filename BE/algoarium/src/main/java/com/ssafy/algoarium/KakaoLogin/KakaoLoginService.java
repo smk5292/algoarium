@@ -52,7 +52,7 @@ public class KakaoLoginService {
 		return kakaoOauthToken;
 	}
 
-	public String findKakaoInfo(String accessToken){
+	public KakaoInfo findKakaoInfo(String accessToken){
 
 		String tokenUrl = "https://kapi.kakao.com/v2/user/me";
 
@@ -72,8 +72,30 @@ public class KakaoLoginService {
 			,String.class
 		);
 
-		return response.getBody();
+		//Gson , Json, Simple, Object Mapper
+		ObjectMapper objectMapper = new ObjectMapper();
+		KakaoInfo kakaoInfo =null;
+		try {
+			kakaoInfo = objectMapper.readValue(response.getBody(),KakaoInfo.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return kakaoInfo;
 	}
+
+	public KakaoDto sendKakaoDto(KakaoInfo kakaoInfo){
+
+		KakaoDto kakaoDto = KakaoDto.builder()
+			.email(kakaoInfo.getKakaoAccount().getEmail())
+			.name(kakaoInfo.getKakaoAccount().getKakaoProfile().getNickname())
+			.profileUrl(kakaoInfo.getKakaoAccount().getKakaoProfile().getProfileImageUrl())
+			.build();
+
+		return kakaoDto;
+	}
+
+
 
 
 }

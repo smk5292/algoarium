@@ -22,6 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("")
 public class KakaoLoginController {
 
+	//접속 창 이동
+	//https://kauth.kakao.com/oauth/authorize
+	//?response_type=code&client_id=1e6e787538b273266b9e8054397aec13
+	//&redirect_uri=http://localhost:8080/auth/kakao/callback
 	@Autowired
 	KakaoLoginService kakaoLoginService;
 
@@ -30,24 +34,20 @@ public class KakaoLoginController {
 	public String kakaoCallback(String code){
 
 		KakaoOauthToken kakaoOauthToken = kakaoLoginService.findKakaoToken(code);
-
-		System.out.println("카카오 엑세스 토큰 : " + kakaoOauthToken.getAccess_token());
-
-		String profile = kakaoLoginService.findKakaoInfo(kakaoOauthToken.getAccess_token());
-
+		// System.out.println("카카오 엑세스 토큰 : " + kakaoOauthToken.getAccess_token());
 		return kakaoOauthToken.getAccess_token();
 	}
 
 
 	@ResponseBody
 	@GetMapping("/auth/kakao/{accessToken}")
-	public String findKakaoInfo(@PathVariable String accessToken){
+	public KakaoDto findKakaoInfo(@PathVariable String accessToken){
 
-		String profile = kakaoLoginService.findKakaoInfo(accessToken);
+		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 
-		return profile;
+		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
+
+		return profileDto;
 	}
-
-
 
 }
