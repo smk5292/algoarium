@@ -37,8 +37,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
 
     private fun setupClickListener() {
         binding.apply {
+            fragmentHomeScrollView.post { fragmentHomeScrollView.scrollTo(fragmentHomeScrollView.getChildAt(0).width/3, 0) }
             homeRecommend.setOnClickListener {
-                Log.d(TAG, "setupClickListener: 눌림")
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_recommend)
             }
 
@@ -47,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
             }
 
             homeMypage.setOnClickListener {
+                Log.d(TAG, "setupClickListener: 눌림")
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_status)
             }
         }
