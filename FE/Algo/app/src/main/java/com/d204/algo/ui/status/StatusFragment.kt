@@ -17,7 +17,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.radarChartView
+        binding.statusRadarChartView
             .setDataList(
                 arrayListOf(
                     RadarChartData(CharacteristicType.AGILITY, 76),

@@ -6,22 +6,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.status.StatusFragment">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/status_profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/status_profile_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/status_profile_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="홍길동"
+            style="@style/regularKorText"
+            app:layout_constraintStart_toStartOf="@+id/status_profile_img"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/status_chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:chipSpacing="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="2dp"
+        app:singleLine="false"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/status_profile_layout"
+        app:layout_constraintStart_toStartOf="@+id/status_profile_layout"
+        app:layout_constraintEnd_toEndOf="@+id/status_profile_layout"
+        />
+
+    <CheckBox
+        android:id="@+id/status_chart_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/starfish"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/status_checkbox_text"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintEnd_toEndOf="@+id/status_radar_chart_view"
+        app:layout_constraintBottom_toTopOf="@+id/status_radar_chart_view"
         />
 
     <com.d204.algo.ui.status.RadarChartView
-        android:id="@+id/radar_chart_view"
+        android:id="@+id/status_radar_chart_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="@dimen/_240sdp"
+        android:layout_marginHorizontal="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/_60sdp"
+        app:layout_constraintTop_toBottomOf="@+id/status_chip_group"
+        />
+
+    <ListView
+        android:id="@+id/status_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/status_radar_chart_view"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

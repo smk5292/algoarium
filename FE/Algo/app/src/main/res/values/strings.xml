@@ -9,4 +9,7 @@
     <string name="app_exit_label">한번 더 뒤로가기를 누르면 종료됩니다.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- StatusFragment -->
+    <string name="status_checkbox_text">같은 등급 비교하기</string>
 </resources>

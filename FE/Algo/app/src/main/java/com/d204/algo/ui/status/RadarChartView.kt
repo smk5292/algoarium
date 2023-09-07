@@ -1,18 +1,21 @@
 package com.d204.algo.ui.status
 
-import android.R
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
+import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import com.d204.algo.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -80,6 +83,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
     }
     private var path = Path()
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas ?: return
@@ -161,12 +165,15 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
 
         // 4. 전달된 데에터를 표시하기
         path.close()
-        paint.color = 0x7FFF0000
-        paint.style = Paint.Style.FILL
+//        paint.color = 0x7FFF0000
+//        paint.style = Paint.Style.FILL
 //        canvas.drawPath(path, paint)
-        
-        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.racquet)
-        canvas.drawBitmap(bitmap, null, 0, paint)
+
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.starfish)
+        Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true)).drawPath(path, paint)
+
+//        canvas.drawBitmap(bitmap, null, 100F, paint)
+
     }
 
     fun setDataList(dataList: ArrayList<RadarChartData>) {
