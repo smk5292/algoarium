@@ -4,7 +4,9 @@ import android.R.attr.height
 import android.R.attr.width
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
@@ -13,27 +15,28 @@ import com.d204.algo.R
 import com.d204.algo.databinding.FragmentHomeBinding
 import kotlin.random.Random
 
-
 private const val TAG = "CoralGenerator"
 class CoralGenerator(private val binding: FragmentHomeBinding) {
     private val handler = Handler(Looper.getMainLooper())
     private val constraintLayoutParam = binding.fragmentHomeConstraintLayout
     private var windowWidth = 0
     private var windowHeight = 0
+    private var isWindowSizeSetting = false
     var isRunning = true
 
     init {
         binding.fragmentHomeBg.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-            if (binding.fragmentHomeBg.width > 0 && binding.fragmentHomeBg.height > 0) {
+            if (binding.fragmentHomeBg.width > 0 && binding.fragmentHomeBg.height > 0 && isWindowSizeSetting == false) {
                 windowWidth = binding.fragmentHomeBg.width
                 windowHeight = binding.fragmentHomeBg.height
+                isWindowSizeSetting = true
             }
         }
     }
 
     private fun setImageView() {
-        var randomX = Random.nextFloat() * windowWidth;
-        var randomY = Random.nextFloat() * windowHeight;
+        var randomX = Random.nextFloat() * windowWidth
+        var randomY = -(windowHeight + SIZE).toFloat()
         val params = LinearLayout.LayoutParams(SIZE, SIZE)
 
         val coral = selectRandomCoralImg()
@@ -42,12 +45,23 @@ class CoralGenerator(private val binding: FragmentHomeBinding) {
             layoutParams = params
             x = randomX - SIZE
             y = randomY - SIZE
-            elevation = 100f
+            elevation = Resources.getSystem().displayMetrics.density * 7 // 7dp
         }
 
-        // 애니메이션 생성
-        val animator = ObjectAnimator.ofFloat(imageView, "translationY",  windowHeight - randomY, -SIZE.toFloat());
-        animator.duration = Random.nextLong(1000,10000)
+        // 이동 애니메이션
+        val translationAnimator = ObjectAnimator.ofFloat(imageView, "translationY", windowHeight - randomY, -SIZE.toFloat())
+        // 회전 애니메이션
+        val rotationAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f)
+
+        val duration = Random.nextLong(3000, 20000)
+        translationAnimator.duration = duration
+        rotationAnimator.duration = duration
+
+        // 애니메이션 세트 생성
+        val animator = AnimatorSet()
+
+        // 애니메이션을 동시에 실행하기 위해 설정
+        animator.playTogether(translationAnimator, rotationAnimator)
 
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
@@ -83,6 +97,6 @@ class CoralGenerator(private val binding: FragmentHomeBinding) {
     }
 
     companion object {
-        private const val SIZE = 150
+        private const val SIZE = 200
     }
 }
