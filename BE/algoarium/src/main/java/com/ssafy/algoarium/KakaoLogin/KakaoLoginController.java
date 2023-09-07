@@ -35,7 +35,7 @@ public class KakaoLoginController {
 
 		KakaoOauthToken kakaoOauthToken = kakaoLoginService.findKakaoToken(code);
 		// System.out.println("카카오 엑세스 토큰 : " + kakaoOauthToken.getAccess_token());
-		return kakaoOauthToken.getAccess_token();
+		return kakaoOauthToken.getAccessToken();
 	}
 
 
