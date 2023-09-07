@@ -88,7 +88,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/medal1" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                android:id="@+id/ranking_list_item_rank"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -122,9 +123,10 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/spongebob_list_bg_light">
+                    android:background="@drawable/spongebob_frame_list_bg_light">
 
                     <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ranking_list_item_profile_image"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_5sdp"
@@ -135,16 +137,18 @@
                         app:civ_border_width="2dp"
                         tools:src="@drawable/ic_launcher_foreground" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:id="@+id/ranking_list_item_name"
                         style="@style/regularKorFillText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical|left"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="정용우"
                         tools:text="정용우" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:id="@+id/ranking_list_item_point"
                         style="@style/regularKorFillText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

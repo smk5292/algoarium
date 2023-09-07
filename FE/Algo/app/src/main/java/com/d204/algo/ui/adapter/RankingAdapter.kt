@@ -19,7 +19,6 @@ class RankingAdapter @Inject constructor(
     private val glide: RequestManager,
     @ApplicationContext private val context: Context
 ) : BaseAdapter<Ranking>() {
-
     // this(context) 때문에 override로 구현
     override val differ = AsyncListDiffer(this, diffCallback)
 
@@ -33,9 +32,9 @@ class RankingAdapter @Inject constructor(
         override fun bind(item: Ranking) {
             binding.apply {
                 rankingListItemStart.setImageResource(selectRandomImg())
-                // 점수텍스트 = item.점수
-                // 유저텍스트 = item.유저이름
-                // 랭킹 = item.랭킹
+                rankingListItemRank.text = item.ranking.toString()
+                rankingListItemPoint.text = item.score.toString()
+//                 rankingListItemName = item.유저이름
 //                root.setOnClickListener {
 //                    onItemClickListener?.let { itemClick ->
 //                        itemClick(item)
