@@ -19,8 +19,8 @@ dependencies {
 }
 
 javafx {
-	version = "13"
-	modules = [ 'javafx.controls', 'javafx.web' ]
+	version = "15"
+	modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'algoarium.BrowserApp'  // Replace with your actual package and class name
+mainClassName = 'com.ssafy.socket.WebSocketClient'
