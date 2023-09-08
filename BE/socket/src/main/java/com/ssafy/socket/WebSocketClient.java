@@ -4,7 +4,12 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.util.Scanner;
+
 public class WebSocketClient {
+
+    private WebSocketStompClient stompClient;
+
 
     public static void main(String[] args) {
         // 서버의 웹소켓 URL
@@ -16,8 +21,13 @@ public class WebSocketClient {
         // 메시지 변환기 설정 - JSON 형태의 메시지를 Java 객체로 변환할 수 있게 해줍니다.
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
+        // 사용자로부터 채널 ID를 입력받습니다.
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter channel ID: ");
+        String channelId = scanner.nextLine();
+
         // 세션 핸들러 인스턴스 생성 - 웹소켓 연결 후의 동작을 정의합니다.
-        MySessionHandler sessionHandler = new MySessionHandler();
+        MySessionHandler sessionHandler = new MySessionHandler(channelId);
 
         // 주어진 URL로 웹소켓 서버에 연결하고, 세션 핸들러를 등록하여 연결 후에 수행할 작업들을 설정합니다.
         stompClient.connect(url, sessionHandler);

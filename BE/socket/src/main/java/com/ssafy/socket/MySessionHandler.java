@@ -10,11 +10,18 @@ import java.lang.reflect.Type;
 import java.net.URI;
 
 class MySessionHandler extends StompSessionHandlerAdapter {
+
+    private final String channelId;
+
+    public MySessionHandler(String channelId) {
+        this.channelId = channelId;
+    }
+
     // 웹소켓 연결이 성공하면 호출되는 메서드
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         // "/topic/url" 주제를 구독하고 메시지가 도착하면 처리할 핸들러를 등록합니다.
-        session.subscribe("/topic/url", new StompFrameHandler() {
+        session.subscribe("/topic/url/" + channelId, new StompFrameHandler() {  // 여기서 구독하는 주제 경로가 변경되었습니다.
             // 수신된 메시지의 payload 타입을 반환합니다. 여기서는 Url 클래스로 지정되어 있습니다.
             @Override
             public Type getPayloadType(StompHeaders headers) {
