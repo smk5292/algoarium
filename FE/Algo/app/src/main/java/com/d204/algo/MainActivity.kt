@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun removeAnimation() {
         val animation = AlphaAnimation(1.0f, 0.0f) // 투명도 1.0에서 0.0으로 애니메이션
-        animation.duration = 1500 // 1.5초 동안
+        animation.duration = 2000 // 2초 동안
         binding.activityMainUpperBg.startAnimation(animation)
 
         animation.setAnimationListener(object : Animation.AnimationListener {
@@ -82,8 +82,6 @@ class MainActivity : AppCompatActivity() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean,
                 ): Boolean {
-                    removeAnimation()
-
                     bubbleTransition = resource!!
                     bubbleTransition.setLoopCount(1)
 
@@ -93,9 +91,16 @@ class MainActivity : AppCompatActivity() {
                             binding.transitionAnim.visibility = View.GONE
                         }
                     })
+
+                    removeAnimation()
                     return false
                 }
             })
             .into(binding.transitionAnim)
+    }
+
+    fun callTransition() {
+        binding.transitionAnim.visibility = View.VISIBLE
+        bubbleTransition.start()
     }
 }

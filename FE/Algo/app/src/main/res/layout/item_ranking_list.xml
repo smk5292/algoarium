@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -81,12 +81,12 @@
                 android:id="@+id/appCompatImageView"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:src="@drawable/medal1"
+                android:src="@drawable/medal1_fill"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/medal1" />
+                tools:src="@drawable/medal1_fill" />
 
             <com.blueiobase.api.android.strokedtextview.StrokedTextView
                 android:id="@+id/ranking_list_item_rank"
@@ -123,7 +123,7 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/spongebob_frame_list_bg_light">
+                    android:background="@drawable/spongebob_frame_list_bg_light_blur">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ranking_list_item_profile_image"
@@ -135,11 +135,12 @@
                         android:src="@drawable/ic_launcher_foreground"
                         app:civ_border_color="#FF000000"
                         app:civ_border_width="2dp"
-                        tools:src="@drawable/ic_launcher_foreground" />
+                        tools:src="@drawable/profile_sample_bg" />
 
                     <com.blueiobase.api.android.strokedtextview.StrokedTextView
                         android:id="@+id/ranking_list_item_name"
                         style="@style/regularKorFillText"
+                        android:layout_marginLeft="@dimen/_minus5sdp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

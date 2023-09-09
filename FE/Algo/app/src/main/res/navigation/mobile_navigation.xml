@@ -12,13 +12,16 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_ranking"
-            app:destination="@id/navigation_ranking" />
+            app:destination="@id/navigation_ranking"
+            app:enterAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_navigation_home_to_navigation_recommend"
-            app:destination="@id/navigation_recommend" />
+            app:destination="@id/navigation_recommend"
+            app:enterAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_navigation_home_to_navigation_status"
-            app:destination="@id/navigation_status" />
+            app:destination="@id/navigation_status"
+            app:enterAnim="@anim/fade_out"/>
     </fragment>
 
     <fragment
