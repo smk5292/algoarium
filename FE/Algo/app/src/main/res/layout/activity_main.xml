@@ -58,4 +58,73 @@
         app:loopCount="1"
         app:lottie_rawRes="@drawable/bubble_transition" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_main_rankUp"
+        android:elevation="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_main_rankUp_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/tier_up_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.blueiobase.api.android.strokedtextview.StrokedTextView
+            android:id="@+id/activity_main_rankUp_text"
+            style="@style/rankKorFillText"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="시즌 랭크 업데이트"
+            android:layout_marginTop="@dimen/_30sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cardElevation="0dp"
+            android:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_main_rankUp_text">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/activity_main_tier_after"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_128sdp"
+                android:layout_height="@dimen/_128sdp"
+                android:src="@drawable/tier2_transparent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/activity_main_rankUp_effect"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_600sdp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:src="@drawable/tier_up_light_transparent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/activity_main_tier_before"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_128sdp"
+                android:layout_height="@dimen/_128sdp"
+                android:src="@drawable/tier1_transparent"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,4 +10,5 @@
     <color name="mainBlue">#CB0094FF</color>
     <color name="deepBlue">#CB1900FF</color>
     <color name="transparent">#27EEECEC</color>
+    <color name="rankText">#CB00FFCC</color>
 </resources>
