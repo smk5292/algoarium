@@ -106,6 +106,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setRankAnimation() {
+        // 처음에 아무 것도 안하는 클릭이벤트를 달아야 아래에 겹쳐진 뷰로 클릭이벤트 전달을 막을 수 있음
+        binding.activityMainRankUp.setOnClickListener {}
+
         val animator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "rotationY", 0f, 10800f)
         animator.duration = 5000
         animator.start()
