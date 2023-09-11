@@ -17,15 +17,36 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.statusRadarChartView
+        init()
+    }
+
+    private fun init() = with(binding) {
+        statusRadarChartView
             .setDataList(
                 arrayListOf(
-                    RadarChartData(CharacteristicType.AGILITY, 76),
-                    RadarChartData(CharacteristicType.ENDURANCE, 55),
+                    RadarChartData(CharacteristicType.AGILITY, 92),
+                    RadarChartData(CharacteristicType.ENDURANCE, 20),
                     RadarChartData(CharacteristicType.STRENGTH, 60),
                     RadarChartData(CharacteristicType.LEXIBILITY, 70),
                     RadarChartData(CharacteristicType.INTELLECT, 80),
                 ),
             )
+
+        statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                statusRadarChartView
+                    .setSameLevelDataList(
+                        arrayListOf(
+                            RadarChartData(CharacteristicType.AGILITY, 12),
+                            RadarChartData(CharacteristicType.ENDURANCE, 40),
+                            RadarChartData(CharacteristicType.STRENGTH, 23),
+                            RadarChartData(CharacteristicType.LEXIBILITY, 96),
+                            RadarChartData(CharacteristicType.INTELLECT, 7),
+                        ),
+                    )
+            } else {
+                statusRadarChartView.setSameLevelDataList(arrayListOf())
+            }
+        }
     }
 }

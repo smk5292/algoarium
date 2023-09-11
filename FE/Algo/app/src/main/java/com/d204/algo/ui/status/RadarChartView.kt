@@ -1,16 +1,12 @@
 package com.d204.algo.ui.status
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
-import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
@@ -19,7 +15,6 @@ import com.d204.algo.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-
 
 enum class CharacteristicType(val value: String) {
     AGILITY("민첩성"),
@@ -64,6 +59,10 @@ data class RadarChartData(
 class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
     private var dataList: ArrayList<RadarChartData>? = null
+    private var sameLevelDataList: ArrayList<RadarChartData>? = null
+
+    private val mainColor = 0x7FFF0000
+    private val subColor = 0x7F018786
 
     // 5개의 특성을 갖도록 한다
     private var chartTypes = arrayListOf(
@@ -81,9 +80,10 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         textSize = 28f
         textAlign = Paint.Align.CENTER
     }
-    private var path = Path()
 
-    @SuppressLint("DrawAllocation")
+    private var path = Path()
+    private var sameLevelPath = Path()
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas ?: return
@@ -139,7 +139,10 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         startX = cx
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f
+
         path.reset()
+        sameLevelPath.reset()
+
         chartTypes.forEach { type ->
             val point = transformRotate(r, startX, startY, cx, cy)
             canvas.drawText(
@@ -160,20 +163,34 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
                 }
             }
 
+            sameLevelDataList?.firstOrNull { it.type == type }?.animatedValue?.let { value ->
+                val conValue = heightMaxValue * value / 100 // 차트크기에 맞게 변환
+                val valuePoint = transformRotate(r, startX, cy - conValue, cx, cy)
+                if (sameLevelPath.isEmpty) {
+                    sameLevelPath.moveTo(valuePoint.x, valuePoint.y)
+                } else {
+                    sameLevelPath.lineTo(valuePoint.x, valuePoint.y)
+                }
+            }
+
             r += radian
         }
 
         // 4. 전달된 데에터를 표시하기
         path.close()
-//        paint.color = 0x7FFF0000
-//        paint.style = Paint.Style.FILL
-//        canvas.drawPath(path, paint)
+        sameLevelPath.close()
 
-        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.starfish)
-        Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true)).drawPath(path, paint)
+        paint.color = mainColor
+        paint.style = Paint.Style.FILL
+        canvas.drawPath(path, paint)
+
+        paint.color = subColor
+        canvas.drawPath(sameLevelPath, paint)
+
+//        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.starfish)
+//        Canvas(bitmap.copy(Bitmap.Config.ARGB_8888, true)).drawPath(path, paint)
 
 //        canvas.drawBitmap(bitmap, null, 100F, paint)
-
     }
 
     fun setDataList(dataList: ArrayList<RadarChartData>) {
@@ -186,6 +203,20 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         }
         this.dataList = dataList
         this.dataList?.forEachIndexed { index, data ->
+            // 이전 애니메이션이 시작되고 30ms씩 대기했다가 처리되도록 delay 설정
+            data.animate(this, (index * 30).toLong())
+        }
+
+        invalidate()
+    }
+
+    fun setSameLevelDataList(dataList: ArrayList<RadarChartData>) {
+        // 이전에 처리되고 있던 애니메이션 모두 취소
+        this.sameLevelDataList?.forEach { data ->
+            data.cancelAnimate()
+        }
+        this.sameLevelDataList = dataList
+        this.sameLevelDataList?.forEachIndexed { index, data ->
             // 이전 애니메이션이 시작되고 30ms씩 대기했다가 처리되도록 delay 설정
             data.animate(this, (index * 30).toLong())
         }
