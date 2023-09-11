@@ -102,4 +102,7 @@ dependencies {
 
     // Outline TextView
     implementation 'io.github.iodevblue:strokedtextview:1.0.0'
+
+    // Toggle
+    implementation 'io.github.bitvale:switcher:1.1.2'
 }

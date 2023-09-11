@@ -1,5 +1,6 @@
 package com.d204.algo
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
@@ -17,18 +19,19 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
+import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
+    private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var bubbleTransition: GifDrawable
     private lateinit var rankUpEffect: GifDrawable
+    // private val kakaoToken = intent.extras?.getString("kakaoToken")
 
     @Inject
     lateinit var glide: RequestManager
@@ -109,12 +112,18 @@ class MainActivity : AppCompatActivity() {
         // 처음에 아무 것도 안하는 클릭이벤트를 달아야 아래에 겹쳐진 뷰로 클릭이벤트 전달을 막을 수 있음
         binding.activityMainRankUp.setOnClickListener {}
 
-        val animator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "rotationY", 0f, 10800f)
-        animator.duration = 5000
+        val rotateAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "rotationY", 0f, 10800f)
+        val transparentAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "alpha", 1.0f, 0.0f) // 투명도 1.0에서 0.0으로 애니메이션
+        rotateAnimator.duration = 6000
+        transparentAnimator.duration = 5500
+
+        val animator = AnimatorSet()
+        animator.playTogether(rotateAnimator, transparentAnimator)
+
         animator.start()
 
         glide.asGif()
-            .load(R.drawable.tier_up_light_transparent)
+            .load(R.drawable.tier_up_light_transparent_up)
             .listener(object : RequestListener<GifDrawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -138,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                     rankUpEffect.registerAnimationCallback(object :
                         Animatable2Compat.AnimationCallback() {
                         override fun onAnimationEnd(drawable: Drawable?) {
-                            binding.apply{
+                            binding.apply {
                                 activityMainRankUpEffect.visibility = View.GONE
                                 activityMainTierBefore.visibility = View.GONE
                                 activityMainRankUp.setOnClickListener {

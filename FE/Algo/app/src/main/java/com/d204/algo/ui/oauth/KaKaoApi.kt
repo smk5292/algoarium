@@ -1,6 +1,5 @@
 package com.d204.algo.ui.oauth
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.util.Log
 import android.widget.ImageButton
@@ -15,6 +14,8 @@ import com.kakao.sdk.user.UserApiClient
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity) {
+    var skinOn = false
+
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
             try {
@@ -69,6 +70,7 @@ class KaKaoApi(private val act: AppCompatActivity) {
 
                         val intent = Intent(act, MainActivity::class.java)
                         intent.putExtra("kakaoToken", token)
+                        intent.putExtra("skin", skinOn)
                         act.startActivity(intent)
                         act.finish()
                     }

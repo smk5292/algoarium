@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         kakaoApi.setLoginBtn(binding.btnKakao)
         setVideo()
+        setClickEvent()
         setClickAnimation() // ContraintLayout 0dp로 하면 클릭 시 화면이 왼쪽으로 치우치는 문제가 있음 -> match_parent 로 해결 why?
         setContentView(binding.root)
     }
@@ -48,6 +49,12 @@ class LoginActivity : AppCompatActivity() {
             }
             setVideoURI(Uri.parse(videoPath))
             start()
+        }
+    }
+
+    private fun setClickEvent() {
+        binding.activityLoginIsCopyright.setOnCheckedChangeListener { checked ->
+            kakaoApi.skinOn = checked
         }
     }
 

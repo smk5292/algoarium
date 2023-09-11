@@ -1,12 +1,10 @@
 package com.d204.algo.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
 import com.d204.algo.MainActivity
 import com.d204.algo.R
