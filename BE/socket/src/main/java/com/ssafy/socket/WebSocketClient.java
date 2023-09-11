@@ -4,45 +4,105 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WebSocketClient {
 
     private WebSocketStompClient stompClient;
 
+    public void start() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                // UI 요소 생성
+                ImageIcon starIcon = new ImageIcon(getClass().getResource("/star.png")); // star.png 이미지 추가
+                Image starImage = starIcon.getImage().getScaledInstance(starIcon.getIconWidth() / 2, starIcon.getIconHeight() / 2, Image.SCALE_SMOOTH);
+                ImageIcon smallStarIcon = new ImageIcon(starImage);
+                JLabel starLabel = new JLabel(smallStarIcon); // star.png 이미지 추가
+
+                JTextField channelIdField = new JTextField(23); // 채널 ID 입력 필드
+                Dimension fieldPreferredSize = channelIdField.getPreferredSize();
+                fieldPreferredSize.height *= 1.9; // 상하 길이를 두 배로 늘리기
+                channelIdField.setPreferredSize(fieldPreferredSize);
+
+                JButton connectButton = new JButton("로그인"); // 연결 버튼
+                connectButton.setMaximumSize(channelIdField.getPreferredSize());
+                connectButton.setMinimumSize(channelIdField.getPreferredSize());
+                connectButton.setPreferredSize(channelIdField.getPreferredSize());
+
+
+                // 버튼의 크기를 1.1배로 늘리기
+                Dimension buttonPreferredSize = connectButton.getPreferredSize();
+                buttonPreferredSize.height *= 20;
+                connectButton.setPreferredSize(buttonPreferredSize);
+
+
+
+                // 연결 버튼 이전에 채널 ID 입력 필드 추가
+                JPanel panel = new JPanel(); // 패널 생성
+
+
+                GroupLayout layout = new GroupLayout(panel);
+                panel.setLayout(layout);
+
+                layout.setAutoCreateGaps(true); // 자동 간격 생성
+                layout.setAutoCreateContainerGaps(true); // 컨테이너 간격 자동 생성
+
+                layout.setHorizontalGroup(
+                        layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(starLabel)
+                                .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(connectButton)
+                );
+
+                layout.setVerticalGroup(
+                        layout.createSequentialGroup()
+                                .addComponent(starLabel)
+                                .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(connectButton)
+                );
+
+                connectButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String url = "ws://192.168.100.169:8080/websocket"; // 서버 WebSocket URL
+
+                        stompClient = new WebSocketStompClient(new StandardWebSocketClient()); // WebSocket 클라이언트 생성
+                        stompClient.setMessageConverter(new MappingJackson2MessageConverter()); // JSON 메시지 변환기 설정
+
+                        String channelId = channelIdField.getText(); // 입력한 채널 ID 가져오기
+                        MySessionHandler sessionHandler = new MySessionHandler(channelId); // 세션 핸들러 생성
+                        stompClient.connect(url, sessionHandler); // 서버에 연결
+                    }
+                });
+
+                JFrame frame = new JFrame("Algoarium"); // 프레임 생성
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
+                frame.getContentPane().add(panel); // 패널을 프레임에 추가
+                frame.pack(); // 크기 자동 조절
+                frame.setVisible(true); // 화면에 표시
+                frame.setLocationRelativeTo(null); // 화면 중앙에 표시
+                ImageIcon icon = new ImageIcon(getClass().getResource("/star.png")); // resources 폴더 안에 있는 이미지 사용
+                frame.setIconImage(icon.getImage()); // 프레임 아이콘 설정
+
+                frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        if (stompClient != null) {
+                            stompClient.stop(); // 프로그램 종료 시 WebSocket 클라이언트 정지
+                        }
+                        System.exit(0); // 시스템 종료
+                    }
+                });
+            }
+        });
+    }
 
     public static void main(String[] args) {
-        // 서버의 웹소켓 URL
-        String url = "ws://192.168.100.169:8080/websocket";
-
-        // WebSocketStompClient 인스턴스 생성
-        WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
-
-        // 메시지 변환기 설정 - JSON 형태의 메시지를 Java 객체로 변환할 수 있게 해줍니다.
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        // 사용자로부터 채널 ID를 입력받습니다.
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter channel ID: ");
-        String channelId = scanner.nextLine();
-
-        // 세션 핸들러 인스턴스 생성 - 웹소켓 연결 후의 동작을 정의합니다.
-        MySessionHandler sessionHandler = new MySessionHandler(channelId);
-
-        // 주어진 URL로 웹소켓 서버에 연결하고, 세션 핸들러를 등록하여 연결 후에 수행할 작업들을 설정합니다.
-        stompClient.connect(url, sessionHandler);
-
-        // 이 스레드는 메인 스레드가 종료되는 것을 막기 위해 무한 루프를 실행합니다.
-        // 메인 스레드가 종료되면 JVM도 함께 종료되므로, 이 스레드는 프로그램이 계속 실행되게 만듭니다.
-        // 실제 상황에서는 좀 더 안전하고 효율적인 방법으로 비동기 처리나 스레드 관리가 필요할 것입니다.
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {  // 예외가 발생하면 스택 트레이스를 출력합니다.
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        WebSocketClient client = new WebSocketClient(); // WebSocketClient 객체 생성
+        client.start(); // 클라이언트 시작
     }
 }
