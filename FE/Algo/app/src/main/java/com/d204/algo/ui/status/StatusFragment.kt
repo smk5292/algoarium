@@ -1,8 +1,10 @@
 package com.d204.algo.ui.status
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentStatusBinding
@@ -21,6 +23,8 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     }
 
     private fun init() = with(binding) {
+        initBackground()
+
         statusRadarChartView
             .setDataList(
                 arrayListOf(
@@ -34,6 +38,15 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
         statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
+    
+                val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background
+                statusBg.apply {
+                    setOnCompletionListener {
+                        start()
+                    }
+                    setVideoURI(Uri.parse(videoPath))
+                    start()
+                }
                 statusRadarChartView
                     .setSameLevelDataList(
                         arrayListOf(
@@ -45,8 +58,27 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                         ),
                     )
             } else {
+                val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background3
+                statusBg.apply {
+                    setOnCompletionListener {
+                        start()
+                    }
+                    setVideoURI(Uri.parse(videoPath))
+                    start()
+                }
                 statusRadarChartView.setSameLevelDataList(arrayListOf())
             }
+        }
+    }
+
+    private fun initBackground() = with(binding) {
+        val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background3
+        statusBg.apply {
+            setOnCompletionListener {
+                start()
+            }
+            setVideoURI(Uri.parse(videoPath))
+            start()
         }
     }
 }

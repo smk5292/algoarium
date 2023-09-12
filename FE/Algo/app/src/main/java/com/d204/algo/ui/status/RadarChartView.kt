@@ -88,7 +88,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         super.onDraw(canvas)
         canvas ?: return
 
-        paint.color = Color.BLACK
+        paint.color = Color.WHITE
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1f
         val radian = PI.toFloat() * 2 / 5 // 360도를 5분할한 각만큼 회전시키 위해
@@ -136,6 +136,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
 
         // 3. 각 꼭지점 부근에 각 특성 문자열 표시하기
         textPaint.textAlign = Paint.Align.CENTER
+        textPaint.color = Color.WHITE
         startX = cx
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f
