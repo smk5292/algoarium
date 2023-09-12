@@ -107,7 +107,8 @@ public class WebSocketClient {
 
                 );
                 JFrame frame = new JFrame("Algoarium"); // 프레임 생성
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
+                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
+
 
                 // 시스템 트레이 설정
                 if (SystemTray.isSupported()) {
@@ -129,7 +130,10 @@ public class WebSocketClient {
                     MenuItem exitItem = new MenuItem("Exit");
                     exitItem.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            System.exit(0);
+                            if (stompClient != null) {
+                                stompClient.stop(); // WebSocket 클라이언트 정지
+                            }
+                            System.exit(0); // 시스템 종료
                         }
                     });
 
@@ -139,9 +143,6 @@ public class WebSocketClient {
                     Image image = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
                     TrayIcon trayIcon = new TrayIcon(image, "Algoarium", popup);
 
-
-//                    TrayIcon trayIcon = new TrayIcon(image, "Algoarium", popup);
-//                    trayIcon.setImageAutoSize(true);
                     trayIcon.addMouseListener(new MouseAdapter() {
                         public void mouseClicked(MouseEvent e) {
                             if (e.getButton() == MouseEvent.BUTTON1) { // BUTTON1은 좌클릭을 의미합니다.
@@ -158,10 +159,23 @@ public class WebSocketClient {
                         e.printStackTrace();
                     }
 
+                    // 프레임을 아이콘화할 때 처리할 이벤트
                     frame.addWindowListener(new WindowAdapter() {
                         public void windowIconified(WindowEvent e) {
+                            try {
+                                tray.add(trayIcon); // 시스템 트레이에 아이콘 추가
+                                frame.setVisible(false); // 프레임 숨기기
+                            } catch (AWTException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+
+                        public void windowClosing(WindowEvent e) {
+                            // 창이 닫히는 이벤트를 처리합니다.
                             frame.setVisible(false);
                         }
+
+
                     });
                 }
 
@@ -228,15 +242,15 @@ public class WebSocketClient {
                 connectButton.setFont(buttonFont);
                 exitButton.setFont(buttonFont);
 
-                frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                frame.addWindowListener(new WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        if (stompClient != null) {
-                            stompClient.stop(); // 프로그램 종료 시 WebSocket 클라이언트 정지
-                        }
-                        System.exit(0); // 시스템 종료
+                    public void windowClosing(WindowEvent e) {
+                        // 창을 닫았을 때의 동작 변경: 아이콘화하고 프레임 숨기기
+                        frame.setExtendedState(JFrame.ICONIFIED);
+                        frame.setVisible(false);
                     }
                 });
+
             }
         });
     }
