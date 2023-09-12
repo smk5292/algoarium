@@ -1,7 +1,5 @@
 package com.ssafy.algoarium.KakaoLogin;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
