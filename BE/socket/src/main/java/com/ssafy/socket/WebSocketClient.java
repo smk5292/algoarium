@@ -10,14 +10,24 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.InputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class WebSocketClient {
 
     private WebSocketStompClient stompClient;
-    private JLabel connectingLabel;
+    private static final String LOCK_FILE = "websocket.lock";
+    private static Path lockFilePath = Paths.get(LOCK_FILE);
 
     public void start() {
+        if (isAppAlreadyRunning()) {
+            System.out.println("The application is already running.");
+            return;
+        }
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -254,7 +264,19 @@ public class WebSocketClient {
             }
         });
     }
-
+    private static boolean isAppAlreadyRunning() {
+        try {
+            FileChannel channel = FileChannel.open(lockFilePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            FileLock lock = channel.tryLock();
+            if (lock == null) {
+                channel.close();
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static void main(String[] args) {
         WebSocketClient client = new WebSocketClient(); // WebSocketClient 객체 생성
         client.start(); // 클라이언트 시작
