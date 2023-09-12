@@ -38,15 +38,6 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
         statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-    
-                val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background
-                statusBg.apply {
-                    setOnCompletionListener {
-                        start()
-                    }
-                    setVideoURI(Uri.parse(videoPath))
-                    start()
-                }
                 statusRadarChartView
                     .setSameLevelDataList(
                         arrayListOf(
@@ -58,14 +49,6 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                         ),
                     )
             } else {
-                val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background3
-                statusBg.apply {
-                    setOnCompletionListener {
-                        start()
-                    }
-                    setVideoURI(Uri.parse(videoPath))
-                    start()
-                }
                 statusRadarChartView.setSameLevelDataList(arrayListOf())
             }
         }

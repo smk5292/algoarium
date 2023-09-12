@@ -1,11 +1,9 @@
 package com.d204.algo.cache.model
 
-class UserCacheModel {
+class UserCacheModel
 
-}
-
-//@Entity(tableName = CacheConstants.CHARACTER_TABLE_NAME)
-//data class CharacterCacheEntity(
+// @Entity(tableName = CacheConstants.CHARACTER_TABLE_NAME)
+// data class CharacterCacheEntity(
 //    val created: String,
 //    val gender: String,
 //    @PrimaryKey
@@ -20,4 +18,4 @@ class UserCacheModel {
 //    val url: String,
 //    @ColumnInfo(name = "is_bookmarked")
 //    var isBookMarked: Boolean
-//)
+// )
