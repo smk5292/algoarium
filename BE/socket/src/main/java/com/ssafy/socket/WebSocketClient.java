@@ -9,13 +9,13 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.InputStream;
 
 public class WebSocketClient {
 
     private WebSocketStompClient stompClient;
+    private JLabel connectingLabel;
 
     public void start() {
         SwingUtilities.invokeLater(new Runnable() {
@@ -34,16 +34,39 @@ public class WebSocketClient {
                 ImageIcon smallStarIcon = new ImageIcon(starImage);
                 JLabel starLabel = new JLabel(smallStarIcon); // star.png 이미지 추가
 
+
                 JTextField channelIdField = new JTextField(13); // 채널 ID 입력 필드
                 Dimension fieldPreferredSize = channelIdField.getPreferredSize();
                 fieldPreferredSize.height *= 1.9; // 상하 길이를 두 배로 늘리기
                 channelIdField.setPreferredSize(fieldPreferredSize);
                 channelIdField.setFont(new Font("Arial", Font.PLAIN, 18)); // 폰트 설정
 
+
+
                 JButton connectButton = new JButton("Connect"); // 연결 버튼
                 connectButton.setMaximumSize(channelIdField.getPreferredSize());
                 connectButton.setMinimumSize(channelIdField.getPreferredSize());
                 connectButton.setPreferredSize(channelIdField.getPreferredSize());
+
+                JButton exitButton = new JButton("Exit"); // 프로세스 종료 버튼
+                exitButton.setMaximumSize(channelIdField.getPreferredSize());
+                exitButton.setMinimumSize(channelIdField.getPreferredSize());
+                exitButton.setPreferredSize(channelIdField.getPreferredSize());
+
+// exitButton을 눌렀을 때의 동작 설정
+                exitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // 프로그램 종료 시 WebSocket 클라이언트 정지
+                        if (stompClient != null) {
+                            stompClient.stop();
+                        }
+                        System.exit(0); // 시스템 종료
+                    }
+                });
+
+                // channelIdField에 대한 텍스트 가운데 정렬 설정
+                channelIdField.setHorizontalAlignment(JTextField.CENTER);
 
 
 
@@ -67,51 +90,127 @@ public class WebSocketClient {
                                 .addComponent(starLabel)
                                 .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(connectButton)
+                                .addComponent(exitButton)
+
                 );
 
                 layout.setVerticalGroup(
                         layout.createSequentialGroup()
-                                .addGap(50) // 수직 간격을 둬서 아래로 내림
+                                .addGap(50)
                                 .addComponent(starLabel)
-                                .addGap(20) // 수직 간격을 둬서 아래로 내림
+                                .addGap(20)
                                 .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(connectButton)
-                );
+                                .addGap(40)
+                                .addComponent(exitButton)
+                                .addComponent(exitButton)
 
+                );
+                JFrame frame = new JFrame("Algoarium"); // 프레임 생성
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
+
+                // 시스템 트레이 설정
+                if (SystemTray.isSupported()) {
+                    SystemTray tray = SystemTray.getSystemTray();
+//                    Image image = Toolkit.getDefaultToolkit().getImage("/arrow.png"); // 아이콘 이미지 경로 지정
+
+                    ActionListener showAction = new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            frame.setVisible(true);
+                            frame.setExtendedState(JFrame.NORMAL);
+                        }
+                    };
+
+                    PopupMenu popup = new PopupMenu();
+                    MenuItem showItem = new MenuItem("Show");
+                    showItem.addActionListener(showAction);
+                    popup.add(showItem);
+
+                    MenuItem exitItem = new MenuItem("Exit");
+                    exitItem.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            System.exit(0);
+                        }
+                    });
+
+
+                    popup.add(exitItem);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/star2.png"));
+                    Image image = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+                    TrayIcon trayIcon = new TrayIcon(image, "Algoarium", popup);
+
+
+//                    TrayIcon trayIcon = new TrayIcon(image, "Algoarium", popup);
+//                    trayIcon.setImageAutoSize(true);
+                    trayIcon.addMouseListener(new MouseAdapter() {
+                        public void mouseClicked(MouseEvent e) {
+                            if (e.getButton() == MouseEvent.BUTTON1) { // BUTTON1은 좌클릭을 의미합니다.
+                                frame.setVisible(true);
+                                frame.setExtendedState(JFrame.NORMAL);
+                            }
+                        }
+                    });
+
+
+                    try {
+                        tray.add(trayIcon);
+                    } catch (AWTException e) {
+                        e.printStackTrace();
+                    }
+
+                    frame.addWindowListener(new WindowAdapter() {
+                        public void windowIconified(WindowEvent e) {
+                            frame.setVisible(false);
+                        }
+                    });
+                }
+
+                // Connect 버튼 ActionListener 내부에서의 코드
                 connectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String url = "ws://192.168.100.169:8080/websocket"; // 서버 WebSocket URL
+                        // 실행 창 숨기기
+                        frame.setVisible(false);
 
-                        stompClient = new WebSocketStompClient(new StandardWebSocketClient()); // WebSocket 클라이언트 생성
-                        stompClient.setMessageConverter(new MappingJackson2MessageConverter()); // JSON 메시지 변환기 설정
-
-                        String channelId = channelIdField.getText(); // 입력한 채널 ID 가져오기
-                        MySessionHandler sessionHandler = new MySessionHandler(channelId); // 세션 핸들러 생성
-
-                        // 연결 중 버튼으로 변경
-                        connectButton.setEnabled(false);
-                        connectButton.setText("Success");
-
-                        stompClient.connect(url, sessionHandler, new StompSessionHandlerAdapter() {
+                        // 백그라운드 스레드에서 작업 수행
+                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                             @Override
-                            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-                                // 연결 완료되면 '로그인'으로 버튼 텍스트 변경
-                                SwingUtilities.invokeLater(() -> {
-                                    connectButton.setEnabled(true);
-                                    connectButton.setText("Connect");
-                                });
+                            protected Void doInBackground() throws Exception {
+                                String url = "ws://192.168.100.169:8080/websocket";
 
-                                // 연결 완료 후 필요한 작업 수행
-                                // ...
+                                stompClient = new WebSocketStompClient(new StandardWebSocketClient());
+                                stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+                                String channelId = channelIdField.getText();
+                                MySessionHandler sessionHandler = new MySessionHandler(channelId);
+
+                                channelIdField.setVisible(false);
+                                connectButton.setEnabled(false);
+                                connectButton.setText("Connected!");
+
+                                stompClient.connect(url, sessionHandler, new StompSessionHandlerAdapter() {
+                                    @Override
+                                    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                                        SwingUtilities.invokeLater(() -> {
+                                            connectButton.setEnabled(true);
+                                            connectButton.setText("Connect");
+                                        });
+
+                                        // 연결 완료 후 필요한 작업 수행
+                                        // ...
+                                    }
+                                });
+                                return null;
                             }
-                        }); // 서버에 연결
+                        };
+
+                        worker.execute();
                     }
                 });
 
 
-                JFrame frame = new JFrame("Algoarium"); // 프레임 생성
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
+
+
 
                 // 백그라운드 이미지 추가
                 frame.setContentPane(new JLabel(backgroundIcon));
@@ -123,6 +222,11 @@ public class WebSocketClient {
                 frame.pack(); // 크기 자동 조절
                 frame.setVisible(true); // 화면에 표시
                 frame.setLocationRelativeTo(null); // 화면 중앙에 표시
+
+                // 버튼 폰트 설정
+                Font buttonFont = new Font("Arial", Font.BOLD, 18);
+                connectButton.setFont(buttonFont);
+                exitButton.setFont(buttonFont);
 
                 frame.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
