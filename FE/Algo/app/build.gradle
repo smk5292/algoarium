@@ -105,4 +105,7 @@ dependencies {
 
     // Toggle
     implementation 'io.github.bitvale:switcher:1.1.2'
+
+    // Stomp
+    implementation 'com.github.NaikSoftware:StompProtocolAndroid:1.6.6'
 }

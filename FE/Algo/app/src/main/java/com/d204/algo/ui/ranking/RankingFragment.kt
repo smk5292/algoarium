@@ -1,9 +1,11 @@
 package com.d204.algo.ui.ranking
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.viewModels
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
@@ -36,5 +38,23 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val viewToAnimate = binding.fragmentRankingWantedOuter // 애니메이션을 적용할 뷰
+        val targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._200sdp) // 200dp를 픽셀로 변환
+
+        val animation = ValueAnimator.ofInt(0, targetHeight)
+        animation.addUpdateListener { valueAnimator ->
+            val value = valueAnimator.animatedValue as Int
+            val layoutParams = viewToAnimate.layoutParams
+            layoutParams.height = value
+            viewToAnimate.layoutParams = layoutParams
+        }
+        animation.interpolator = AccelerateInterpolator()
+        animation.duration = 4000 // 10초 동안 애니메이션 진행
+        animation.start()
     }
 }
