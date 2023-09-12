@@ -11,7 +11,6 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import com.d204.algo.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -88,27 +87,48 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         super.onDraw(canvas)
         canvas ?: return
 
-        paint.color = Color.WHITE
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 1f
         val radian = PI.toFloat() * 2 / 5 // 360도를 5분할한 각만큼 회전시키 위해
         val step = 5 // 데이터 가이드 라인은 5단계로 표시한다
         val heightMaxValue = height / 2 * 0.7f // RadarChartView영역내에 모든 그림이 그려지도록 max value가 그려질 높이
         val heightStep = heightMaxValue / step // 1단계에 해당하는 높이
         val cx = width / 2f
         val cy = height / 2f
+
+        // 0. 흰색 배경 그리기
+        paint.color = Color.WHITE
+        paint.style = Paint.Style.FILL
+
+        path.reset()
+        var startX = cx
+        var startY = cy - heightMaxValue
+        path.moveTo(startX, startY)
+
+        repeat(chartTypes.size) {
+            // 중심좌표를 기준으로 점(startX,startY)를 radian만큼씩 회전시킨 점(stopX, stopY)을 계산한다.
+            val stopPoint = transformRotate(radian, startX, startY, cx, cy)
+            path.lineTo(stopPoint.x, stopPoint.y)
+            startX = stopPoint.x
+            startY = stopPoint.y
+        }
+        canvas.drawPath(path, paint)
+
+        paint.color = Color.BLACK
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 1f
+
         // 1. 단계별 가이드라인(5각형) 그리기
         for (i in 0..step) {
             var startX = cx
             var startY = (cy - heightMaxValue) + heightStep * i
+
             repeat(chartTypes.size) {
                 // 중심좌표를 기준으로 점(startX,startY)를 radian만큼씩 회전시킨 점(stopX, stopY)을 계산한다.
                 val stopPoint = transformRotate(radian, startX, startY, cx, cy)
                 canvas.drawLine(startX, startY, stopPoint.x, stopPoint.y, paint)
-
                 startX = stopPoint.x
                 startY = stopPoint.y
             }
+//            canvas.drawPath(path, paint)
 
             // 각 단계별 기준값 표시
 //            if (i < step) {
@@ -123,20 +143,9 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
 //            }
         }
 
-        // 2. 중심으로부터 5각형의 각 꼭지점까지 잇는 라인 그리기
-        var startX = cx
-        var startY = cy - heightMaxValue
-//        repeat(chartTypes.size) {
-//            val stopPoint = transformRotate(radian, startX, startY, cx, cy)
-//            canvas.drawLine(cx, cy, stopPoint.x, stopPoint.y, paint)
-//
-//            startX = stopPoint.x
-//            startY = stopPoint.y
-//        }
-
         // 3. 각 꼭지점 부근에 각 특성 문자열 표시하기
         textPaint.textAlign = Paint.Align.CENTER
-        textPaint.color = Color.WHITE
+        textPaint.color = Color.BLACK
         startX = cx
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f

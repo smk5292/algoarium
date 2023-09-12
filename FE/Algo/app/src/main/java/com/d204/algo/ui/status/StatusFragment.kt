@@ -1,29 +1,35 @@
 package com.d204.algo.ui.status
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
+import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.presentation.viewmodel.HomeFragmentViewModel
+import com.d204.algo.ui.adapter.StatusAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun getViewBinding(): FragmentStatusBinding = FragmentStatusBinding.inflate(layoutInflater)
     override val viewModel: HomeFragmentViewModel by viewModels()
 
+    @Inject
+    lateinit var statusAdapter: StatusAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        test()
         init()
     }
 
-    private fun init() = with(binding) {
-        initBackground()
+    // 테스트용 함수, 데이터 연결 후 제거
+    private fun test() = with(binding) {
+        statusProfileUsername.text = "홍길동"
 
         statusRadarChartView
             .setDataList(
@@ -54,14 +60,13 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         }
     }
 
-    private fun initBackground() = with(binding) {
-        val videoPath = "android.resource://" + context?.packageName + "/" + R.raw.status_background3
-        statusBg.apply {
-            setOnCompletionListener {
-                start()
-            }
-            setVideoURI(Uri.parse(videoPath))
-            start()
+    private fun init() {
+        initViewPager()
+    }
+
+    private fun initViewPager() = with(binding) {
+        statusViewPager.adapter = statusAdapter.apply {
+            list = listOf(Status(1), Status(2), Status(3), Status(4), Status(5))
         }
     }
 }
