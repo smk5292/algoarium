@@ -6,6 +6,8 @@ import com.d204.algo.data.repository.cache.UserCache
 import javax.inject.Inject
 
 class UserCacheImpl @Inject constructor(
-    // private val userDao: UserDao,
+    private val userDao: UserDao,
     private val userCacheMapper: UserCacheMapper,
-) : UserCache
+) : UserCache {
+
+}

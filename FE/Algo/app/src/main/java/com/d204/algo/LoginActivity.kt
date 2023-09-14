@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
@@ -28,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val kakaoApi = KaKaoApi(this)
     private lateinit var clickRipple: GifDrawable
-    private var esp: EncryptedSharedPreferences? = null
 
     @Inject
     lateinit var glide: RequestManager
@@ -38,25 +36,18 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         kakaoApi.setLoginBtn(binding.btnKakao)
         setVideo()
-        setClickEvent()
         setClickAnimation() // ContraintLayout 0dp로 하면 클릭 시 화면이 왼쪽으로 치우치는 문제가 있음 -> match_parent 로 해결 why?
         setContentView(binding.root)
     }
 
     private fun setVideo() {
         val videoPath = "android.resource://" + packageName + "/" + R.raw.login
-        binding.loginBg.apply {
+        binding.loginBg.apply{
             setOnCompletionListener {
                 start()
             }
             setVideoURI(Uri.parse(videoPath))
             start()
-        }
-    }
-
-    private fun setClickEvent() {
-        binding.activityLoginIsCopyright.setOnCheckedChangeListener { checked ->
-            kakaoApi.skinOn = checked
         }
     }
 
@@ -75,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     e: GlideException?,
                     model: Any?,
                     target: Target<GifDrawable>?,
-                    isFirstResource: Boolean,
+                    isFirstResource: Boolean
                 ): Boolean {
                     return false
                 }
@@ -85,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                     model: Any?,
                     target: com.bumptech.glide.request.target.Target<GifDrawable>?,
                     dataSource: DataSource?,
-                    isFirstResource: Boolean,
+                    isFirstResource: Boolean
                 ): Boolean {
                     clickRipple = resource!!
                     clickRipple.setLoopCount(1)
@@ -101,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
             .into(binding.touchRipple)
+
 
         binding.activityLogin.setOnTouchListener { v, event ->
             val x = event.x

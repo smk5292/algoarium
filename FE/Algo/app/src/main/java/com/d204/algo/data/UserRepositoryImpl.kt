@@ -16,19 +16,15 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     // local , remote 모두에서 가져올 수 있는 경우 isRemote를 이용해서 어디서 가져올 것인지 사용자에게 입력받는다.
     // remote return 타입 Response 이므로 body() 붙여야함
-    // 로컬에서 올 수 있는데 Response를 어떻게 분기 처리할까?
+    // 로컬에서 올 수 있는데 Response를 어떻게 분기 처리할까? 
     // Service는 Response로 return <> Repository는 NetworkResult<Response> return
     override suspend fun getUsers(): Flow<NetworkResult<List<User>>> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 UserRemoteImpl에 구현돼있음
         emit(handleApi { dataSourceFactory.getDataStore(isRemote).getUsers() })
     }
 
-    override suspend fun getUsersByTier(tier: Int): Flow<NetworkResult<List<User>>> = flow {
-        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 UserRemoteImpl에 구현돼있음
-        emit(handleApi { dataSourceFactory.getDataStore(isRemote).getUsersByTier(tier) })
-    }
-
     override suspend fun getUser(userId: Int): Flow<NetworkResult<User>> = flow {
         emit(handleApi { dataSourceFactory.getRemoteDataSource().getUser(userId) })
     }
+
 }

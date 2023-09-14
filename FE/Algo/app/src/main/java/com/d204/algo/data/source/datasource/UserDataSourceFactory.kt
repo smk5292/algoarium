@@ -12,9 +12,9 @@ open class UserDataSourceFactory @Inject constructor(
 ) {
     open suspend fun getDataStore(isRemote: Boolean): UserDataSource {
         return if (isRemote) {
-            return getRemoteDataSource()
+            return getCacheDataSource()
         } else {
-            getCacheDataSource()
+            getRemoteDataSource()
         }
     }
 

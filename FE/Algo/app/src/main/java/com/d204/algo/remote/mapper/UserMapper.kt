@@ -4,7 +4,7 @@ import com.d204.algo.data.model.User
 import com.d204.algo.remote.model.UserModel
 import javax.inject.Inject
 
-class UserMapper @Inject constructor() : Mapper<UserModel, User> {
+class UserMapper @Inject constructor() : Mapper<UserModel, User>  {
     override fun mapFromModel(model: UserModel): User {
         return User(
             id = model.id,
@@ -14,7 +14,7 @@ class UserMapper @Inject constructor() : Mapper<UserModel, User> {
             phoneNumber = model.phoneNumber,
             email = model.email,
             account = model.account,
-            isGhost = model.isGhost,
+            isGhost = model.isGhost
         )
     }
 
@@ -27,7 +27,7 @@ class UserMapper @Inject constructor() : Mapper<UserModel, User> {
             phoneNumber = type.phoneNumber,
             email = type.email,
             account = type.account,
-            isGhost = type.isGhost,
+            isGhost = type.isGhost
         )
     }
 }
