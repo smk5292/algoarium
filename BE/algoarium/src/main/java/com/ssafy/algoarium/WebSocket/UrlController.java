@@ -13,6 +13,7 @@ public class UrlController {
     // 이 메서드의 반환값은 "/topic/url" 경로에 publish 됩니다. 그러면 해당 topic을 구독하고 있는 클라이언트들이 그 값을 받게 됩니다.
     @SendTo("/topic/url/{channelId}")
     public Url url(UrlMessage message) throws Exception {
+        System.out.println(message);
 
         // HtmlUtils.htmlEscape()는 HTML 태그를 안전하게 escape하여 XSS 공격을 방지합니다.
         return new Url(HtmlUtils.htmlEscape(message.getUrl()));  // escape 처리된 URL 객체를 생성하여 반환합니다.
