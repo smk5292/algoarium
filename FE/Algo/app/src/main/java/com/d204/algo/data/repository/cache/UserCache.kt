@@ -1,3 +1,4 @@
 package com.d204.algo.data.repository.cache
 
-interface UserCache
+interface UserCache {
+}

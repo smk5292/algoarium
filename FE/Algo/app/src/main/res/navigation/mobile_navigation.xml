@@ -10,39 +10,6 @@
         android:name="com.d204.algo.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_ranking"
-            app:destination="@id/navigation_ranking"
-            app:enterAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_recommend"
-            app:destination="@id/navigation_recommend"
-            app:enterAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_navigation_home_to_navigation_status"
-            app:destination="@id/navigation_status"
-            app:enterAnim="@anim/fade_out"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_ranking"
-        android:name="com.d204.algo.ui.ranking.RankingFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_recommend"
-        android:name="com.d204.algo.ui.recommend.RecommendFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_status"
-        android:name="com.d204.algo.ui.status.StatusFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
     </fragment>
 
 </navigation>
