@@ -1,0 +1,26 @@
+plugins {
+	id 'java'
+	id 'application'
+	id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.17'
+	implementation 'org.springframework:spring-websocket:5.3.10'
+	implementation 'org.springframework:spring-messaging:5.3.10'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
+
+	// Add other dependencies as needed
+}
+
+javafx {
+	version = "15"
+	modules = [ 'javafx.controls' ]
+}
+
+mainClassName = 'com.ssafy.socket.WebSocketClient'
