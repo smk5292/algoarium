@@ -32,8 +32,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         coralGenerator = CoralGenerator(binding)
-        setupInitSettings()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupInitSettings()
+        binding.socket.setOnClickListener {
+            (requireActivity() as MainActivity).sendSocketMessage("www.naver.com")
+        }
     }
 
     override fun onResume() {
