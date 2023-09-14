@@ -9,6 +9,7 @@ import java.awt.*;
 import java.lang.reflect.Type;
 import java.net.URI;
 
+// 채널 ID를 기반으로 한 세션 핸들러 클래스
 class MySessionHandler extends StompSessionHandlerAdapter {
 
     private final String channelId;
@@ -21,7 +22,7 @@ class MySessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         // "/topic/url" 주제를 구독하고 메시지가 도착하면 처리할 핸들러를 등록합니다.
-        session.subscribe("/topic/url/" + channelId, new StompFrameHandler() {  // 여기서 구독하는 주제 경로가 변경되었습니다.
+        session.subscribe("/topic/url/" + channelId, new StompFrameHandler() {
             // 수신된 메시지의 payload 타입을 반환합니다. 여기서는 Url 클래스로 지정되어 있습니다.
             @Override
             public Type getPayloadType(StompHeaders headers) {
