@@ -1,36 +1,46 @@
 package com.ssafy.algoarium.User;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-/**
- * 회원 Collection
- */
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "user")
 public class UserEntity {
+
     @Id
-    private Integer userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
+    @Column(name = "kakao_id", nullable = false, length = 100)
     private String kakaoId;
+
+    @Column(name = "kakao_nickname", nullable = false, length = 50)
     private String kakaoNickname;
+
+    @Column(name = "profile_image", nullable = false, length = 200)
     private String profileImage;
-    private String preTier;
+
+    @Column(name = "pre_tier", nullable = false, length = 20)
+    private String preTier = "bronze";
+
+    @Column(name = "refresh_token", nullable = false, length = 100)
     private String refreshToken;
 
-    public static UserEntity toUserEntity(UserDTO userDTO) {
-        return UserEntity.builder()
-                .userId(userDTO.getUserId())
-                .kakaoId(userDTO.getKakaoId())
-                .kakaoNickname(userDTO.getKakaoNickname())
-                .profileImage(userDTO.getProfileImage())
-                .preTier(userDTO.getPreTier())
-                .refreshToken(userDTO.getRefreshToken())
-                .build();
+    @Builder
+    public UserEntity(String kakaoId, String kakaoNickname, String profileImage,
+        String preTier, String refreshToken) {
+        this.kakaoId = kakaoId;
+        this.kakaoNickname = kakaoNickname;
+        this.profileImage = profileImage;
+        this.preTier = preTier;
+        this.refreshToken = refreshToken;
     }
-
 }
-
-

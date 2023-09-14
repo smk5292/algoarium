@@ -13,7 +13,6 @@ public class KakaoDto {
 
 	String profileUrl;
 
-
 	@Builder
 	public KakaoDto(String email, String name, String profileUrl) {
 		this.email = email;
