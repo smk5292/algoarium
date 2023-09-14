@@ -36,4 +36,8 @@
         <item name="textStrokeColor">@color/black</item>
     </style>
 
+    <style name="wantedKorText">
+        <item name="android:fontFamily">@font/wanted</item>
+    </style>
+
 </resources>

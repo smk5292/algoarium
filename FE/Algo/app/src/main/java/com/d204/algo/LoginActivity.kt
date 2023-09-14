@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val kakaoApi = KaKaoApi(this)
     private lateinit var clickRipple: GifDrawable
+    private var esp: EncryptedSharedPreferences? = null
 
     @Inject
     lateinit var glide: RequestManager

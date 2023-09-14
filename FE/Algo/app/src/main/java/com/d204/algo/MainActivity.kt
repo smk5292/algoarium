@@ -19,6 +19,7 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
+import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,8 +32,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bubbleTransition: GifDrawable
     private lateinit var rankUpEffect: GifDrawable
+    // 로그인 activity에서 토큰을 넘겨줄 필요가 있으면 사용하세요.
     // private val kakaoToken = intent.extras?.getString("kakaoToken")
 
+    // 웹소켓
+    @Inject
+    lateinit var stompClient: StompHandler
+
+    // Glide
     @Inject
     lateinit var glide: RequestManager
 
@@ -43,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         setRankAnimation() // 새 시즌으로 랭크업 해야하면 호출 후 클릭 시 setAnimation 호출
         setContentView(binding.root)
         setupNavHost()
+        connectSocket()
 //        카카오 앱 개발자 페이지에 등록하기
 //        var keyHash = Utility.getKeyHash(this)
 //        Log.d(TAG, "onCreate: $keyHash")
@@ -51,6 +59,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavHost() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+    }
+
+    private fun connectSocket() {
+        stompClient.connectStomp("9")
     }
 
     private fun removeAnimation() {
@@ -167,5 +179,9 @@ class MainActivity : AppCompatActivity() {
     fun callTransition() {
         binding.transitionAnim.visibility = View.VISIBLE
         bubbleTransition.start()
+    }
+
+    fun sendSocketMessage(url: String) {
+        stompClient.sendStomp(url, "9")
     }
 }
