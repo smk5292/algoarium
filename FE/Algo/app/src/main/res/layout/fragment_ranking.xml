@@ -21,6 +21,7 @@
             android:id="@+id/fragment_ranking_top_bg"
             android:alpha="0.7"
             android:elevation="8dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="@dimen/_400sdp"
             android:layout_height="@dimen/_250sdp"
             android:layout_marginBottom="@dimen/_25sdp"
@@ -34,14 +35,11 @@
             android:elevation="10dp"
             android:id="@+id/fragment_ranking_top"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginVertical="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_200sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fragment_ranking_recyclerView">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/fragment_ranking_wanted_outer"
@@ -78,6 +76,7 @@
             android:id="@+id/fragment_ranking_recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
