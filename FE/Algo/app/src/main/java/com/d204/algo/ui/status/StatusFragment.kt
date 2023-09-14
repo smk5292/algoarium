@@ -65,7 +65,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     }
 
     private fun initViewPager() = with(binding) {
-        statusViewPager.adapter = statusAdapter.apply {
+        statusRecyclerView.adapter = statusAdapter.apply {
             list = listOf(Status(1), Status(2), Status(3), Status(4), Status(5))
         }
     }

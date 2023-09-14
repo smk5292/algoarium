@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/_20sdp"
+    android:layout_marginVertical="@dimen/_16sdp"
     >
 
     <TextView
-        android:id="@+id/item_status_text_view"
+        android:id="@+id/item_status_number_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="텟트스"
+        tools:text="1234"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <TextView
+        android:id="@+id/item_status_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="eeee"
+        tools:text="박현토에버"
+        app:layout_constraintStart_toEndOf="@+id/item_status_number_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/item_status_level_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        tools:src="@drawable/tier5_transparent"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toEndOf="@+id/item_status_name_text_view"
+        app:layout_constraintTop_toTopOf="@+id/item_status_name_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/item_status_name_text_view"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/item_status_memo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메모"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintEnd_toStartOf="@+id/item_status_cancel_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/item_status_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="북마크 취소"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

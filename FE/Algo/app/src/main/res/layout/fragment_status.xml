@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.status.StatusFragment">
+    tools:context=".ui.status.StatusFragment"
+    >
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/status_bg"
@@ -15,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/status_profile_layout"
@@ -25,7 +27,8 @@
         android:layout_marginTop="@dimen/_60sdp"
         android:paddingHorizontal="@dimen/_12sdp"
         android:paddingVertical="@dimen/_8sdp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/status_profile_img"
@@ -34,7 +37,8 @@
             android:src="@drawable/ranking_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/status_profile_username"
@@ -46,7 +50,8 @@
             android:layout_marginStart="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/status_profile_img"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
@@ -71,7 +76,8 @@
         app:layout_constraintEnd_toEndOf="@+id/status_profile_layout"
         app:layout_constraintStart_toStartOf="@+id/status_profile_layout"
         app:layout_constraintTop_toBottomOf="@+id/status_profile_layout"
-        app:singleLine="false" />
+        app:singleLine="false"
+        />
 
     <com.d204.algo.ui.status.RadarChartView
         android:id="@+id/status_radar_chart_view"
@@ -79,7 +85,8 @@
         android:layout_height="@dimen/_300sdp"
         android:layout_marginHorizontal="@dimen/_32sdp"
         android:layout_marginTop="@dimen/_40sdp"
-        app:layout_constraintTop_toBottomOf="@+id/status_chip_group" />
+        app:layout_constraintTop_toBottomOf="@+id/status_chip_group"
+        />
 
     <CheckBox
         android:id="@+id/status_chart_checkbox"
@@ -90,13 +97,15 @@
         android:textColor="@color/black"
         android:layout_marginEnd="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="@+id/status_radar_chart_view"
-        app:layout_constraintTop_toTopOf="@+id/status_radar_chart_view" />
+        app:layout_constraintTop_toTopOf="@+id/status_radar_chart_view"
+        />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/status_view_pager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/status_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/_20sdp"
+        tools:listitem="@layout/item_status_list"
         app:layout_constraintTop_toBottomOf="@+id/status_radar_chart_view"
         app:layout_constraintBottom_toBottomOf="parent"
         />
