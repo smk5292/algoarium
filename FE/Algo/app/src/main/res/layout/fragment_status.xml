@@ -1,14 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.status.StatusFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <VideoView
+        android:id="@+id/status_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/status_profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:alpha="0.7"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/status_profile_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/status_profile_username"
+            style="@style/regularKorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홍길동"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/status_profile_img"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/status_chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        app:chipSpacing="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="2dp"
+        app:layout_constraintEnd_toEndOf="@+id/status_profile_layout"
+        app:layout_constraintStart_toStartOf="@+id/status_profile_layout"
+        app:layout_constraintTop_toBottomOf="@+id/status_profile_layout"
+        app:singleLine="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:alpha="0.7"
+        app:layout_constraintStart_toStartOf="@+id/status_radar_chart_view"
+        app:layout_constraintEnd_toEndOf="@+id/status_radar_chart_view"
+        app:layout_constraintTop_toTopOf="@+id/status_radar_chart_view"
+        app:layout_constraintBottom_toBottomOf="@+id/status_radar_chart_view"
+        />
+
+    <com.d204.algo.ui.status.RadarChartView
+        android:id="@+id/status_radar_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_240sdp"
+        android:layout_marginHorizontal="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/_140sdp"
+        app:layout_constraintTop_toBottomOf="@+id/status_chip_group" />
+
+    <CheckBox
+        android:id="@+id/status_chart_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_checkbox_text"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/white"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintEnd_toEndOf="@+id/status_radar_chart_view"
+        app:layout_constraintTop_toTopOf="@+id/status_radar_chart_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

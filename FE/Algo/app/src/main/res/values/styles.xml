@@ -20,6 +20,14 @@
         <item name="textStrokeColor">@color/deepBlue</item>
     </style>
 
+    <style name="rankKorFillText">
+        <item name="android:fontFamily">@font/typo_deco_fill</item>
+        <item name="android:textSize">@dimen/_36sdp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textStrokeWidth">10</item>
+        <item name="textStrokeColor">@color/rankText</item>
+    </style>
+
     <style name="medalStyle">
         <item name="android:fontFamily">@font/typo_deco_fill</item>
         <item name="android:textSize">@dimen/_10sdp</item>
