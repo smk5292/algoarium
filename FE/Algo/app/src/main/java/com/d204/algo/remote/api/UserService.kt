@@ -6,9 +6,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface UserService {
-    @GET("user")
+    @GET("api/user")
     suspend fun getUsers(): Response<List<UserModel>>
 
-    @GET("user/{id}")
+    @GET("api/user/{tier}")
+    suspend fun getUsersByTier(@Path("tier") tier: Int): Response<List<UserModel>>
+
+    @GET("api/user/{id}")
     suspend fun getUser(@Path("id") id: Int): Response<UserModel>
 }

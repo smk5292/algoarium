@@ -1,6 +1,5 @@
 package com.d204.algo.ui.oauth
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.ImageButton
@@ -13,9 +12,12 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 
+private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity) {
+    var skinOn = false
+
     private fun skipLogin() {
-        if(AuthApiClient.instance.hasToken()) {
+        if (AuthApiClient.instance.hasToken()) {
             try {
                 UserApiClient.instance.accessTokenInfo { token, _ ->
                     val intent = Intent(act, MainActivity::class.java)
@@ -29,12 +31,14 @@ class KaKaoApi(private val act: AppCompatActivity) {
         }
     }
 
-    fun setLoginBtn(loginBtn : ImageButton) {
+    fun setLoginBtn(loginBtn: ImageButton) {
         skipLogin()
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Toast.makeText(act, "카카오 계정으로 로그인 실패", Toast.LENGTH_SHORT).show()
-            } else if (token != null) {
+            }
+            if (token != null) {
+                // 액티비티 이동
                 val intent = Intent(act, MainActivity::class.java)
                 act.startActivity(intent)
                 act.finish()
@@ -55,20 +59,21 @@ class KaKaoApi(private val act: AppCompatActivity) {
                         if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                             return@loginWithKakaoTalk
                         }
-
-
                     } else if (token != null) {
+                        // 서버에 카카오 토큰을 넘겨주는 과정
+
+                        // 가져온 JWT 토큰을 DataStore에 저장하는 과정
+
                         Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "카카오톡 로그인: $token")
                         Log.d("test", "카카오톡으로 로그인 성공" + token.accessToken)
 
                         val intent = Intent(act, MainActivity::class.java)
-                        intent.putExtra("kakaoToken",token)
+                        intent.putExtra("kakaoToken", token)
+                        intent.putExtra("skin", skinOn)
                         act.startActivity(intent)
                         act.finish()
                     }
-
-                    // kakao로 로그인 하지 못 할 경우 계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
