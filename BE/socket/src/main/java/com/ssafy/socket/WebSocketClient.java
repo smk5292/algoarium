@@ -92,6 +92,11 @@ public class WebSocketClient {
                 disconnectButton.setPreferredSize(channelIdField.getPreferredSize());
                 disconnectButton.setVisible(false);
 
+                // Algoarium 레이블 생성
+                JLabel titleLabel = new JLabel("Algoarium");
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 80)); // 폰트 설정
+                titleLabel.setForeground(Color.WHITE); // 글자색 설정
+
                 // 채팅 연결 버튼 이전에 채널 ID 입력 필드 추가
                 JPanel panel = new JPanel(); // 패널 생성
                 panel.setOpaque(false); // 패널을 투명하게 설정
@@ -104,7 +109,8 @@ public class WebSocketClient {
 
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(starLabel)  // 불가사리 이미지
+//                                .addComponent(starLabel)  // 불가사리 이미지
+                                .addComponent(titleLabel) // Algoarium 레이블 추가
                                 .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)  // 채널 ID 입력 필드
                                 .addComponent(connectButton)  // Connect 버튼
                                 .addComponent(disconnectButton)  // disConnect 버튼
@@ -114,7 +120,8 @@ public class WebSocketClient {
                 layout.setVerticalGroup(
                         layout.createSequentialGroup()
                                 .addGap(100)
-                                .addComponent(starLabel)  // 불가사리 이미지
+//                                .addComponent(starLabel)  // 불가사리 이미지
+                                .addComponent(titleLabel) // Algoarium 레이블 추가
                                 .addGap(40)
                                 .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)  // 채널 ID 입력 필드
                                 .addGap(10)
@@ -251,7 +258,7 @@ public class WebSocketClient {
 
                                 channelId = channelIdField.getText();
                                 if (channelId.equals("")){
-                                    JOptionPane.showMessageDialog(null, "인증번호를 입력해주세요", "알림", JOptionPane.WARNING_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "Let's Login!", "Algoarium", JOptionPane.WARNING_MESSAGE);
                                     return null;
                                 }
                                 sessionHandler = new MySessionHandler(channelId);  // 여기서 세션 핸들러 초기화
