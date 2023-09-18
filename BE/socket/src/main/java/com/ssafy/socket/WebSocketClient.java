@@ -1,8 +1,6 @@
 package com.ssafy.socket;
 
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -20,6 +18,10 @@ import java.nio.file.StandardOpenOption;
 public class WebSocketClient {
 
     private WebSocketStompClient stompClient; // WebSocket 클라이언트
+
+    private MySessionHandler sessionHandler;  // 세션 핸들러
+
+    String channelId = "";
 
     // 락 파일 경로 및 객체
     private static final String LOCK_FILE = "websocket.lock";  // 상수 LOCK_FILE에 "websocket.lock" 파일명을 저장합니다.
@@ -50,12 +52,13 @@ public class WebSocketClient {
             return;
         }
 
+
         // UI 생성을 별도의 스레드에서 처리
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 // 불가사리 이미지 추가
-                ImageIcon starIcon = new ImageIcon(getClass().getResource("/star.png"));
+                ImageIcon starIcon = new ImageIcon(getClass().getResource("/squid.png"));
                 Image starImage = starIcon.getImage().getScaledInstance(starIcon.getIconWidth() / 2, starIcon.getIconHeight() / 2, Image.SCALE_SMOOTH);
                 ImageIcon smallStarIcon = new ImageIcon(starImage);
                 JLabel starLabel = new JLabel(smallStarIcon);
@@ -82,6 +85,18 @@ public class WebSocketClient {
                 exitButton.setMinimumSize(channelIdField.getPreferredSize());
                 exitButton.setPreferredSize(channelIdField.getPreferredSize());
 
+                JButton disconnectButton = new JButton("disconnect"); // 프로세스 종료 버튼
+                disconnectButton.setFont(new Font("Arial", Font.BOLD, 18)); // disconnect 버튼 폰트 설정
+                disconnectButton.setMaximumSize(channelIdField.getPreferredSize());
+                disconnectButton.setMinimumSize(channelIdField.getPreferredSize());
+                disconnectButton.setPreferredSize(channelIdField.getPreferredSize());
+                disconnectButton.setVisible(false);
+
+                // Algoarium 레이블 생성
+                JLabel titleLabel = new JLabel("Algoarium");
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 80)); // 폰트 설정
+                titleLabel.setForeground(Color.WHITE); // 글자색 설정
+
                 // 채팅 연결 버튼 이전에 채널 ID 입력 필드 추가
                 JPanel panel = new JPanel(); // 패널 생성
                 panel.setOpaque(false); // 패널을 투명하게 설정
@@ -94,21 +109,26 @@ public class WebSocketClient {
 
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(starLabel)  // 불가사리 이미지
+//                                .addComponent(starLabel)  // 불가사리 이미지
+                                .addComponent(titleLabel) // Algoarium 레이블 추가
                                 .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)  // 채널 ID 입력 필드
                                 .addComponent(connectButton)  // Connect 버튼
-                                .addComponent(exitButton)  // Exit 버튼
+                                .addComponent(disconnectButton)  // disConnect 버튼
+//                                .addComponent(exitButton)  // Exit 버튼
                 );
 
                 layout.setVerticalGroup(
                         layout.createSequentialGroup()
-                                .addGap(50)
-                                .addComponent(starLabel)  // 불가사리 이미지
-                                .addGap(20)
-                                .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)  // 채널 ID 입력 필드
-                                .addComponent(connectButton)  // Connect 버튼
+                                .addGap(100)
+//                                .addComponent(starLabel)  // 불가사리 이미지
+                                .addComponent(titleLabel) // Algoarium 레이블 추가
                                 .addGap(40)
-                                .addComponent(exitButton)  // Exit 버튼
+                                .addComponent(channelIdField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)  // 채널 ID 입력 필드
+                                .addGap(10)
+                                .addComponent(connectButton)  // Connect 버튼
+                                .addComponent(disconnectButton)  // disConnect 버튼
+                                .addGap(40)
+//                                .addComponent(exitButton)  // Exit 버튼
                 );
 
                 JFrame frame = new JFrame("Algoarium"); // 프레임 생성
@@ -145,7 +165,7 @@ public class WebSocketClient {
 
                     popup.add(exitItem);
 
-                    ImageIcon icon = new ImageIcon(getClass().getResource("/star2.png"));
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/squid.png"));
                     Image image = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
                     TrayIcon trayIcon = new TrayIcon(image, "Algoarium", popup);
 
@@ -194,12 +214,39 @@ public class WebSocketClient {
                     });
                 }
 
+                // Disconnect 버튼 ActionListener
+                disconnectButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+
+                                if (sessionHandler != null) {
+                                    sessionHandler.disconnect();  // 만약 이전에 생성한 MySessioinHandler가 있다면 disconnect 호출.
+                                }
+
+                                channelIdField.setVisible(true);
+                                channelIdField.setText("");
+                                connectButton.setEnabled(true);
+                                connectButton.setText("Connect");
+                                disconnectButton.setVisible(false);
+
+                                return null;
+                            }
+                        };
+
+                        worker.execute();
+                    }
+                });
+
+
                 // Connect 버튼 ActionListener
                 connectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // 실행 창 숨기기
-                        frame.setVisible(false);
+//                        // 실행 창 숨기기
+//                        frame.setVisible(false);
 
                         // 백그라운드 스레드에서 작업 수행
                         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -210,24 +257,19 @@ public class WebSocketClient {
                                 stompClient = new WebSocketStompClient(new StandardWebSocketClient());
                                 stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-                                String channelId = channelIdField.getText();
-                                MySessionHandler sessionHandler = new MySessionHandler(channelId);
+                                channelId = channelIdField.getText();
+                                if (channelId.equals("")){
+                                    JOptionPane.showMessageDialog(null, "Let's Login!", "Algoarium", JOptionPane.WARNING_MESSAGE);
+                                    return null;
+                                }
+                                sessionHandler = new MySessionHandler(channelId);  // 여기서 세션 핸들러 초기화
 
                                 channelIdField.setVisible(false);
                                 connectButton.setEnabled(false);
+                                disconnectButton.setVisible((true));
                                 connectButton.setText("Connected!");
 
                                 stompClient.connect(url, sessionHandler, new StompSessionHandlerAdapter() {
-                                    @Override
-                                    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-                                        SwingUtilities.invokeLater(() -> {
-                                            connectButton.setEnabled(true);
-                                            connectButton.setText("Connect");
-                                        });
-
-                                        // 연결 완료 후 필요한 작업 수행
-                                        // ...
-                                    }
                                 });
                                 return null;
                             }
