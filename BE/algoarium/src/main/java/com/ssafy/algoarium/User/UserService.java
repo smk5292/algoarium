@@ -1,6 +1,7 @@
 package com.ssafy.algoarium.User;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.algoarium.Redis.RedisRepository;
 
@@ -13,6 +14,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final RedisRepository redisRepository;
 
+	@Transactional
 	public Long saveUser(UserDto userDto){
 		return (userRepository.save(UserEntity.builder()
 			.kakaoId(userDto.getKakaoId())
@@ -22,6 +24,22 @@ public class UserService {
 			.build()).getUserId());
 	}
 
+	@Transactional
+	public UserEntity updateUser(UserDto userDto){
+		UserEntity userEntity = userRepository.findByKakaoId(userDto.getKakaoId());
+
+		UserEntity updateUserEntity = UserEntity.builder()
+			.userId(userEntity.getUserId())
+			.kakaoId(userEntity.getKakaoId())
+			.kakaoNickname(userDto.getKakaoNickname())
+			.preTier(userEntity.getPreTier())
+			.profileImage(userDto.getProfileImage())
+			.refreshToken(userDto.getRefreshToken())
+			.build();
+
+		userRepository.save(updateUserEntity);
+		return updateUserEntity;
+	}
 
 
 

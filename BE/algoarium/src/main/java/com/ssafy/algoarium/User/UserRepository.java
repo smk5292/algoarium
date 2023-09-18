@@ -7,4 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+	UserEntity findByKakaoId(String kakaoId);
 }

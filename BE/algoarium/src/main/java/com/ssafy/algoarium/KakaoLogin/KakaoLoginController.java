@@ -56,7 +56,7 @@ public class KakaoLoginController {
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(kakaoOauthToken.getAccessToken());
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
 
-		return profileDto.toString();
+		return profileDto.toString() + kakaoOauthToken.toString();
 	}
 
 
