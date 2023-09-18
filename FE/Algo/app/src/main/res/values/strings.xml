@@ -4,6 +4,7 @@
     <string name="title_recommend">Recommend</string>
     <string name="title_stat">Stat</string>
     <string name="title_rank">Rank</string>
+    <string name="title_promote">Promote</string>
     <string name="kakao_key">9a8d411dc13896f2f547959ce7b402f0</string>
     <string name="kakao_key_sheme">kakao9a8d411dc13896f2f547959ce7b402f0</string>
     <string name="app_exit_label">한번 더 뒤로가기를 누르면 종료됩니다.</string>

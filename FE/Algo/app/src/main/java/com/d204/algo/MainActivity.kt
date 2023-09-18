@@ -32,8 +32,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bubbleTransition: GifDrawable
     private lateinit var rankUpEffect: GifDrawable
-    // 로그인 activity에서 토큰을 넘겨줄 필요가 있으면 사용하세요.
+    // 로그인 activity에서 토큰을 받을 필요가 있으면 사용하세요.
     // private val kakaoToken = intent.extras?.getString("kakaoToken")
+    // 로그인 activity에서 시즌정보(프리시즌, 시즌시작) 정보를 받을 필요가 있으면 사용하세요
+    // private val season = intent.extras?.getString("season")
 
     // 웹소켓
     @Inject
@@ -75,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation?) {
                 binding.activityMainUpperBg.visibility = View.GONE // 뷰를 숨기기
+                // 프리시즌인지 체크하여 승급문제 fragment로 이동하기
             }
 
             override fun onAnimationRepeat(animation: Animation?) {}

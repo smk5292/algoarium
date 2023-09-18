@@ -1,6 +1,7 @@
 package com.d204.algo.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupInitSettings()
         binding.socket.setOnClickListener {
+            Log.d(TAG, "onViewCreated: 클릭됨")
             (requireActivity() as MainActivity).sendSocketMessage("www.naver.com")
         }
     }
