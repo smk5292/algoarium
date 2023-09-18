@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.algoarium.Redis.RedisRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,6 +40,12 @@ public class UserService {
 
 		userRepository.save(updateUserEntity);
 		return updateUserEntity;
+	}
+	@Transactional
+	public UserEntity getUserById(int userId){
+		return userRepository.findById(userId).orElseThrow(()
+			-> new EntityNotFoundException("not found"));
+
 	}
 
 
