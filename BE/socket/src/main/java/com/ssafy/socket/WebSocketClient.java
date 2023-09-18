@@ -227,6 +227,7 @@ public class WebSocketClient {
                                 }
 
                                 channelIdField.setVisible(true);
+                                channelIdField.setText("");
                                 connectButton.setEnabled(true);
                                 connectButton.setText("Connect");
                                 disconnectButton.setVisible(false);
