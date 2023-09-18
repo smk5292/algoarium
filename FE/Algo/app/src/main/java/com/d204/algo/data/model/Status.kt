@@ -7,4 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Status(
     override val id: Int,
+    var userId: Int,
 ) : Parcelable, Identifiable

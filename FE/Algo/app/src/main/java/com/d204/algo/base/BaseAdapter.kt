@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.d204.algo.ui.adapter.Identifiable
 
-abstract class BaseAdapter<T: Identifiable> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseAdapter<T : Identifiable> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected abstract val differ: AsyncListDiffer<T>
 

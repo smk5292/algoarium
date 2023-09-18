@@ -16,8 +16,8 @@ class UserRemoteDataSource @Inject constructor(
         return userRemote.getUsersByTier(tier)
     }
 
-    override suspend fun getUser(userId: Int): User {
-        return userRemote.getUser(userId)
+    override suspend fun getUser(accessToken:String, refreshToken: String): User {
+        return userRemote.getUser(accessToken, refreshToken)
     }
 
     override suspend fun isRemote(): Boolean {

@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import com.d204.algo.R
 import com.google.android.material.card.MaterialCardView
 
-class RecommendProblem (context: Context, attrs: AttributeSet? = null) : MaterialCardView(context, attrs) {
+class RecommendProblemView(context: Context, attrs: AttributeSet? = null) : MaterialCardView(context, attrs) {
     private val frameImageView: AppCompatImageView
     private val recommendProblemLayout: LinearLayoutCompat
     private val recommendProblemDifficulty: AppCompatImageView
@@ -24,11 +24,11 @@ class RecommendProblem (context: Context, attrs: AttributeSet? = null) : Materia
         recommendProblemDifficulty = findViewById(R.id.recommend_problem_difficulty)
         recommendProblemNumber = findViewById(R.id.recommend_problem_number)
         recommendProblemTitle = findViewById(R.id.recommend_problem_title)
-        
+
         // xml에서 android: 패키지명을 가진 속성은 커스텀뷰 init에서 초기화해야 적용됨
         // app: 패키지명을 가진 속성은 xml에 속성을 넣어도 적용됨, 라이프사이클이 다른 걸로 보임
         this.elevation = 0f
-        this.backgroundTintList = ContextCompat.getColorStateList(context,R.color.real_transparent)
+        this.backgroundTintList = ContextCompat.getColorStateList(context, R.color.real_transparent)
     }
 
     fun setDifficultyImage(drawableResId: Int) {

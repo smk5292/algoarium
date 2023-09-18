@@ -7,11 +7,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class User(
     override val id: Int,
-    val activityId: Int,
-    val loginId: String,
-    var loginPassword: String,
-    var phoneNumber: String,
-    var email: String,
-    var account: String,
-    var isGhost: Boolean,
+    val kakaoId: String,
+    val kakaoNickname: String,
+    var profileImage: String,
+    var preTier: Int,
 ) : Parcelable, Identifiable
