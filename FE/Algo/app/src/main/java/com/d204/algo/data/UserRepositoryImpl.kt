@@ -28,7 +28,7 @@ class UserRepositoryImpl @Inject constructor(
         emit(handleApi { dataSourceFactory.getDataStore(isRemote).getUsersByTier(tier) })
     }
 
-    override suspend fun getUser(userId: Int): Flow<NetworkResult<User>> = flow {
-        emit(handleApi { dataSourceFactory.getRemoteDataSource().getUser(userId) })
+    override suspend fun getUser(accessToken: String, refreshToken: String): Flow<NetworkResult<User>> = flow {
+        emit(handleApi { dataSourceFactory.getRemoteDataSource().getUser(accessToken, refreshToken) })
     }
 }

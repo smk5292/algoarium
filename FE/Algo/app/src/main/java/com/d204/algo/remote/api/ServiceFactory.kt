@@ -22,6 +22,11 @@ object ServiceFactory {
         return retrofit.create(RankingService::class.java)
     }
 
+    fun createStatusService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): StatusService {
+        val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
+        return retrofit.create(StatusService::class.java)
+    }
+
     private fun createRetrofit(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)

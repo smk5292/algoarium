@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
-import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.presentation.viewmodel.HomeFragmentViewModel
 import com.d204.algo.ui.adapter.StatusAdapter
@@ -66,7 +65,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
     private fun initViewPager() = with(binding) {
         statusRecyclerView.adapter = statusAdapter.apply {
-            list = listOf(Status(1), Status(2), Status(3), Status(4), Status(5))
+            // list = listOf(Status(1), Status(2), Status(3), Status(4), Status(5))
         }
     }
 }

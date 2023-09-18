@@ -1,8 +1,10 @@
 package com.d204.algo.di
 
 import com.d204.algo.cache.RankingCacheImpl
+import com.d204.algo.cache.StatusCacheImpl
 import com.d204.algo.cache.UserCacheImpl
 import com.d204.algo.data.repository.cache.RankingCache
+import com.d204.algo.data.repository.cache.StatusCache
 import com.d204.algo.data.repository.cache.UserCache
 import dagger.Module
 import dagger.Provides
@@ -23,6 +25,12 @@ object CacheModule {
     @Singleton
     fun provideRankingCache(rankingCache: RankingCacheImpl): RankingCache {
         return rankingCache
+    }
+
+    @Provides
+    @Singleton
+    fun provideStatusCache(statusCache: StatusCacheImpl): StatusCache {
+        return statusCache
     }
 //
 //    @Provides

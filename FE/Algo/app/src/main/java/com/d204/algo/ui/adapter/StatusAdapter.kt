@@ -27,7 +27,6 @@ class StatusAdapter @Inject constructor(
     inner class StatusViewHolder(private val binding: ItemStatusListBinding) :
         RecyclerView.ViewHolder(binding.root), Binder<Status> {
         override fun bind(item: Status) = with(binding) {
-            itemStatusTextView.text = item.id.toString()
         }
     }
 }
