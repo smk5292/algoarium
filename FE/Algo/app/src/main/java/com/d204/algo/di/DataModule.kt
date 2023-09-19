@@ -1,15 +1,12 @@
 package com.d204.algo.di
 
 import com.d204.algo.data.ProblemRepositoryImpl
-import com.d204.algo.data.UserRepositoryImpl
-import com.d204.algo.data.repository.RankingRepository
 import com.d204.algo.data.RankingRepositoryImpl
-<<<<<<< HEAD
-import com.d204.algo.data.repository.ProblemRepository
-=======
 import com.d204.algo.data.StatusRepositoryImpl
+import com.d204.algo.data.UserRepositoryImpl
+import com.d204.algo.data.repository.ProblemRepository
+import com.d204.algo.data.repository.RankingRepository
 import com.d204.algo.data.repository.StatusRepository
->>>>>>> makedto
 import com.d204.algo.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
