@@ -17,20 +17,25 @@ public class ProblemLikeService {
         this.problemLikeRepository = problemLikeRepository;
     }
 
-    public ProblemLikeEntity likeProblem(ProblemEntity problemEntity, UserEntity userEntity, Boolean likeType, String memo) {
+    public ProblemLikeEntity likeProblem(ProblemEntity problemEntity, UserEntity userEntity, Boolean likeType) {
         ProblemLikeEntity problemLikeEntity = new ProblemLikeEntity(problemEntity, userEntity);
         problemLikeEntity.setLikeType(likeType);
-        problemLikeEntity.setMemo(memo);
 
         return problemLikeRepository.save(problemLikeEntity);
     }
 
-    public ProblemLikeEntity updateMemo(Integer problemLikeId, String memo) {
-        ProblemLikeEntity problemLikeEntity = problemLikeRepository.findById(problemLikeId).orElse(null);
-        if (problemLikeEntity != null) {
-            problemLikeEntity.setMemo(memo);
-            return problemLikeRepository.save(problemLikeEntity);
-        }
-        return null;
+    public ProblemLikeEntity getProblemLikeByProblemAndUser(ProblemEntity problemEntity, UserEntity userEntity) {
+        return problemLikeRepository.findByProblemEntityAndUserEntity(problemEntity, userEntity);
+    }
+
+    public ProblemLikeEntity updateProblemLike(ProblemLikeEntity problemLikeEntity) {
+        return problemLikeRepository.save(problemLikeEntity);
+    }
+
+    public ProblemLikeEntity createMemo(ProblemEntity problemEntity, UserEntity userEntity, String memo) {
+        ProblemLikeEntity problemLikeEntity = new ProblemLikeEntity(problemEntity, userEntity);
+        problemLikeEntity.setMemo(memo);
+
+        return problemLikeRepository.save(problemLikeEntity);
     }
 }
