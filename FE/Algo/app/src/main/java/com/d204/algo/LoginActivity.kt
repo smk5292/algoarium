@@ -19,6 +19,7 @@ import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.data.source.datasource.UserDataSourceFactory
 import com.d204.algo.data.source.datasource.UserDataSourceFactory_Factory
 import com.d204.algo.databinding.ActivityLoginBinding
+import com.d204.algo.remote.api.UserService
 import com.d204.algo.remote.mapper.UserMapper
 import com.d204.algo.ui.oauth.KaKaoApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,9 +28,11 @@ import javax.inject.Inject
 private const val TAG = "LoginActivity"
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity @Inject constructor(
+    private val userRepository: UserRepository
+) : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val kakaoApi = KaKaoApi(this)
+    private val kakaoApi = KaKaoApi(this, userRepository)
     private lateinit var clickRipple: GifDrawable
 
     @Inject

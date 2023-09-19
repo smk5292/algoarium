@@ -16,7 +16,10 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
@@ -68,8 +71,9 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                         }
                     } else if (token != null) {
                         // 서버에 카카오 토큰을 넘겨주는 과정
-                        loadCharacters(token)
-
+                        CoroutineScope(Dispatchers.IO).launch {
+                            loadCharacters(token)
+                        }
                         // 가져온 JWT 토큰을 DataStore에 저장하는 과정
 
                         Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
@@ -91,13 +95,11 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
 
     private suspend fun loadCharacters(kakaoToken: OAuthToken) {
         userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
-            it.onSuccess { user ->
                 espHelper.prefAccessToken = kakaoToken.accessToken
                 espHelper.prefRefreshToken =  kakaoToken.refreshToken
-                espHelper.prefUserEmail = user.kakaoId
-                espHelper.prefUserProfile = user.profileImage
-                espHelper.prefUserTier = user.preTier
-            }
+                espHelper.prefUserEmail = it.kakaoId
+                espHelper.prefUserProfile = it.profileImage
+                espHelper.prefUserTier = it.preTier
         }
     }
 }
