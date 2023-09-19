@@ -15,7 +15,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.d204.algo.data.repository.UserRepository
+import com.d204.algo.data.source.datasource.UserDataSourceFactory
+import com.d204.algo.data.source.datasource.UserDataSourceFactory_Factory
 import com.d204.algo.databinding.ActivityLoginBinding
+import com.d204.algo.remote.mapper.UserMapper
 import com.d204.algo.ui.oauth.KaKaoApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,11 +28,9 @@ private const val TAG = "LoginActivity"
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityLoginBinding
     private val kakaoApi = KaKaoApi(this)
     private lateinit var clickRipple: GifDrawable
-    private var esp: EncryptedSharedPreferences? = null
 
     @Inject
     lateinit var glide: RequestManager
@@ -112,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // 이동 시에 마지막 물결이 보이는 문제가 있음. 별 짓을 다 해봐도 안고쳐진다.
+    // 이동 시에 마지막 물결이 보이는 문제가 있음. 별 짓을 다 해봐도 안고쳐진다. -> adb 에서 성능이 낮아서 생기는 문제(실물에서는 없는 현상)
     private fun showGifAtPosition(x: Float, y: Float) {
         clickRipple.startFromFirstFrame()
 

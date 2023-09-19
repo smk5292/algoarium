@@ -1,4 +1,3 @@
 package com.d204.algo.data.repository.cache
 
-interface StatusCache {
-}
+interface StatusCache

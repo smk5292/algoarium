@@ -5,16 +5,23 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
+import com.d204.algo.data.api.onSuccess
+import com.d204.algo.data.model.User
+import com.d204.algo.data.repository.UserRepository
+import com.d204.algo.data.source.datasource.UserDataSourceFactory
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.flow.collect
 
 private const val TAG = "KaKaoApi"
-class KaKaoApi(private val act: AppCompatActivity) {
+class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     var skinOn = false
+    private val espHelper = ApplicationClass.preferencesHelper
 
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
@@ -61,6 +68,7 @@ class KaKaoApi(private val act: AppCompatActivity) {
                         }
                     } else if (token != null) {
                         // 서버에 카카오 토큰을 넘겨주는 과정
+                        loadCharacters(token)
 
                         // 가져온 JWT 토큰을 DataStore에 저장하는 과정
 
@@ -77,6 +85,18 @@ class KaKaoApi(private val act: AppCompatActivity) {
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
+            }
+        }
+    }
+
+    private suspend fun loadCharacters(kakaoToken: OAuthToken) {
+        userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
+            it.onSuccess { user ->
+                espHelper.prefAccessToken = kakaoToken.accessToken
+                espHelper.prefRefreshToken =  kakaoToken.refreshToken
+                espHelper.prefUserEmail = user.kakaoId
+                espHelper.prefUserProfile = user.profileImage
+                espHelper.prefUserTier = user.preTier
             }
         }
     }
