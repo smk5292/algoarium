@@ -54,6 +54,7 @@
             />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/status_rank_image"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:adjustViewBounds="true"

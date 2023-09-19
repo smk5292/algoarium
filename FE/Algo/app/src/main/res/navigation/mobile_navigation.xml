@@ -21,7 +21,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_status"
             app:destination="@id/navigation_status"
-            app:enterAnim="@anim/fade_out"/>
+            app:enterAnim="@anim/fade_out"
+            app:exitAnim="@anim/fade_in"
+            />
         <action
             android:id="@+id/action_navigation_home_to_navigation_promote"
             app:destination="@id/navigation_promote"
@@ -47,6 +49,11 @@
         android:name="com.d204.algo.ui.status.StatusFragment"
         android:label="@string/title_stat"
         tools:layout="@layout/fragment_status" >
+
+        <action
+            android:id="@+id/action_navigation_status_to_navigation_memo"
+            app:destination="@+id/navigation_memo"
+            />
     </fragment>
 
     <fragment
@@ -54,6 +61,13 @@
         android:name="com.d204.algo.ui.promote.PromoteFragment"
         android:label="@string/title_promote"
         tools:layout="@layout/fragment_promote" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_memo"
+        android:name="com.d204.algo.ui.status.MemoFragment"
+        android:label="@string/title_memo"
+        tools:layout="@layout/fragment_memo" >
     </fragment>
 
 </navigation>

@@ -1,14 +1,20 @@
 package com.d204.algo.ui.status
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.presentation.viewmodel.HomeFragmentViewModel
 import com.d204.algo.ui.adapter.StatusAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,6 +35,9 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     // 테스트용 함수, 데이터 연결 후 제거
     private fun test() = with(binding) {
         statusProfileUsername.text = "홍길동"
+        statusRankImage.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_status_to_navigation_memo)
+        }
 
         statusRadarChartView
             .setDataList(
@@ -59,6 +68,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun init() {
         initViewPager()
     }
