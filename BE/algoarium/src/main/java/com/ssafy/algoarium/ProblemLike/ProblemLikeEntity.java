@@ -24,10 +24,10 @@ public class ProblemLikeEntity {
     @JoinColumn(name = "problem_id", referencedColumnName = "problemId")
     private ProblemEntity problemEntity;
 
-    @Column(name = "like_type", nullable = false, length = 10)
-    private Boolean likeType;
+    @Column(name = "like_type", length = 10)
+    private Boolean likeType = false;
 
-    @Column(name = "memo", nullable = false, length = 100000)
+    @Column(name = "memo", length = 100000)
     private String memo;
 
     public ProblemLikeEntity() {}

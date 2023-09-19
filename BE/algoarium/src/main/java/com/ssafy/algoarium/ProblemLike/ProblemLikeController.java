@@ -29,21 +29,40 @@ public class ProblemLikeController {
         Integer problemId = problemLikeDTO.getProblemId();
         Integer userId = problemLikeDTO.getUserId();
         Boolean likeType = problemLikeDTO.getLikeType();
+
+        ProblemEntity problemEntity = problemService.getProblemById(problemId);
+        UserEntity userEntity = userService.getUserById(userId);
+
+        ProblemLikeEntity existingLike = problemLikeService.getProblemLikeByProblemAndUser(problemEntity, userEntity);
+
+        if (existingLike != null) {
+            existingLike.setLikeType(likeType);
+
+            return problemLikeService.updateProblemLike(existingLike);
+        } else {
+            return problemLikeService.likeProblem(problemEntity, userEntity, likeType);
+        }
+    }
+
+    @PostMapping("/updateMemo")
+    public ProblemLikeEntity set_update_Memo(@RequestBody ProblemLikeDTO problemLikeDTO) {
+        Integer problemId = problemLikeDTO.getProblemId();
+        Integer userId = problemLikeDTO.getUserId();
         String memo = problemLikeDTO.getMemo();
 
         ProblemEntity problemEntity = problemService.getProblemById(problemId);
         UserEntity userEntity = userService.getUserById(userId);
 
-        return problemLikeService.likeProblem(problemEntity, userEntity, likeType, memo);
+        ProblemLikeEntity existingLike = problemLikeService.getProblemLikeByProblemAndUser(problemEntity, userEntity);
+
+        if (existingLike != null) {
+            existingLike.setMemo(memo);
+
+            return problemLikeService.updateProblemLike(existingLike);
+        }
+
+        return problemLikeService.createMemo(problemEntity, userEntity, memo);
     }
 
-
-    @PostMapping("/updateMemo/{problemLikeId}")
-    public ProblemLikeEntity updateMemo(
-            @PathVariable Integer problemLikeId,
-            @RequestBody ProblemLikeDTO updatedProblemLike // @RequestParam 대신 @RequestBody를 사용합니다.
-    ) {
-        return problemLikeService.updateMemo(problemLikeId, updatedProblemLike.getMemo());
-    }
 
 }
