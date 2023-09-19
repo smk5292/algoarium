@@ -6,18 +6,21 @@ import com.d204.algo.data.repository.remote.UserRemote
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
-    private val userRemote: UserRemote
+    private val userRemote: UserRemote,
 ) : UserDataSource {
     override suspend fun getUsers(): List<User> {
         return userRemote.getUsers()
     }
 
-    override suspend fun getUser(userId: Int): User {
-        return userRemote.getUser(userId)
+    override suspend fun getUsersByTier(tier: Int): List<User> {
+        return userRemote.getUsersByTier(tier)
+    }
+
+    override suspend fun getUser(accessToken:String, refreshToken: String): User {
+        return userRemote.getUser(accessToken, refreshToken)
     }
 
     override suspend fun isRemote(): Boolean {
-       return userRemote.isRemote()
+        return userRemote.isRemote()
     }
-
 }

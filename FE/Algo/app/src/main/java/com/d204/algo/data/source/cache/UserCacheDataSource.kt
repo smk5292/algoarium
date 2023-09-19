@@ -12,12 +12,15 @@ class UserCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getUsers is not supported for UserCacheDataSource.")
     }
 
-    override suspend fun getUser(userId: Int): User {
+    override suspend fun getUsersByTier(tier: Int): List<User> {
+        throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
+    }
+
+    override suspend fun getUser(accessToken: String, refreshToken: String): User {
         throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
     }
 
     override suspend fun isRemote(): Boolean {
         throw UnsupportedOperationException("isRemote is not supported for UserCacheDataSource.")
     }
-
 }
