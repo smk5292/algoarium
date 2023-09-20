@@ -1,8 +1,8 @@
 package com.d204.algo.ui.status
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +17,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "Algo_StatusFragment"
+private const val ACTION_ANIM_TIME = 2_000L
+
 @AndroidEntryPoint
 class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun getViewBinding(): FragmentStatusBinding = FragmentStatusBinding.inflate(layoutInflater)
@@ -24,6 +27,13 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
     @Inject
     lateinit var statusAdapter: StatusAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 홈 화면에서 왔을 때 애니메이션동안 클릭 방지
+        delayClickWhileAnimation()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,14 +78,23 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         }
     }
 
-    @SuppressLint("ResourceType")
     private fun init() {
         initViewPager()
     }
 
+    // 찜한 문제 리스트 초기화
     private fun initViewPager() = with(binding) {
         statusRecyclerView.adapter = statusAdapter.apply {
             // list = listOf(Status(1), Status(2), Status(3), Status(4), Status(5))
+        }
+    }
+
+    // ACTION_ANIM_TIME 동안 화면 클릭 방지
+    private fun delayClickWhileAnimation() {
+        lifecycleScope.launch {
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            delay(ACTION_ANIM_TIME)
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 }
