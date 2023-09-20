@@ -6,7 +6,7 @@ interface RankingDataSource {
     // remote
     suspend fun getRankings(): List<Ranking>
     suspend fun getRankingsByTier(tier: Int): List<Ranking>
-    suspend fun getRanking(userId: Int): Ranking
+    suspend fun getRanking(userId: Long): Ranking
 
     // cache
 

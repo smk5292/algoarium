@@ -5,7 +5,7 @@ import com.d204.algo.data.model.Problem
 interface ProblemDataSource {
     // remote
     suspend fun getProblems(): List<Problem>
-    suspend fun getProblem(problemId: Int): Problem
+    suspend fun getProblem(problemId: Long): Problem
 
     // cache
 

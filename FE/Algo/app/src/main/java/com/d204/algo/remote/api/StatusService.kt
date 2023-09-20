@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface StatusService {
     @GET("api/status/{userId}")
-    suspend fun getStatus(@Path("userId") userId: Int): Response<StatusModel>
+    suspend fun getStatus(@Path("userId") userId: Long): Response<StatusModel>
 }

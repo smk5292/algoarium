@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProblemRepository {
     suspend fun getProblems(): Flow<NetworkResult<List<Problem>>>
-    suspend fun getProblem(problemId: Int): Flow<NetworkResult<Problem>>
+    suspend fun getProblem(problemId: Long): Flow<NetworkResult<Problem>>
 }

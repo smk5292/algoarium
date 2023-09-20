@@ -9,6 +9,7 @@ import dagger.hilt.android.HiltAndroidApp
 class ApplicationClass : Application() {
     companion object {
         lateinit var preferencesHelper: PresentationPreferencesHelper
+        var skinOn = false
     }
 
     override fun onCreate() {

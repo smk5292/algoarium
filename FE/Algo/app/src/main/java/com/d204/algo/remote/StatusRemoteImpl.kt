@@ -10,7 +10,7 @@ class StatusRemoteImpl @Inject constructor(
     private val StatusService: StatusService,
     private val StatusMapper: StatusMapper,
 ) : StatusRemote {
-    override suspend fun getStatus(userId: Int): Status {
+    override suspend fun getStatus(userId: Long): Status {
         return StatusMapper.mapFromModel(StatusService.getStatus(userId).body()!!)
     }
 

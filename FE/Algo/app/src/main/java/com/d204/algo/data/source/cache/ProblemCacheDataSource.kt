@@ -12,7 +12,7 @@ class ProblemCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getProblems is not supported for ProblemCacheDataSource.")
     }
 
-    override suspend fun getProblem(problemId: Int): Problem {
+    override suspend fun getProblem(problemId: Long): Problem {
         throw UnsupportedOperationException("getProblem is not supported for ProblemCacheDataSource.")
     }
 

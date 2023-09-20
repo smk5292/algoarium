@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class User(
-    override val id: Int,
+    override val id: Long,
     val kakaoId: String,
     val kakaoNickname: String,
     var profileImage: String,

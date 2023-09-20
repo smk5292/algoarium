@@ -19,7 +19,7 @@ class ProblemRepositoryImpl @Inject constructor(
         emit(handleApi { dataSourceFactory.getDataSource(isRemote).getProblems() })
     }
 
-    override suspend fun getProblem(problemId: Int): Flow<NetworkResult<Problem>> = flow {
+    override suspend fun getProblem(problemId: Long): Flow<NetworkResult<Problem>> = flow {
         emit(handleApi { dataSourceFactory.getRemoteDataSource().getProblem(problemId) })
     }
 }

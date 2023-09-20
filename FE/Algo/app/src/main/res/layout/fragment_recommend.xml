@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -46,6 +47,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/recommend_strong"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
@@ -58,7 +60,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center|left"
-                    android:background="@color/deepBlue"
+                    android:background="@color/deepBlueTrans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -68,10 +70,19 @@
                         android:src="@drawable/strong_icon"/>
 
                     <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_strong_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_strong_refresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/regularKorFillText"
-                        tools:text="강점 추천"/>
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -93,6 +104,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/recommend_weak"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
@@ -105,7 +117,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center|left"
-                    android:background="@color/deepBlue"
+                    android:background="@color/deepBlueTrans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -116,10 +128,19 @@
                         android:src="@drawable/weak_icon"/>
 
                     <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_weak_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_weak_refresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/regularKorFillText"
-                        tools:text="약점 추천"/>
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -141,6 +162,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/recommend_like"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
@@ -153,7 +175,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:gravity="center|left"
-                    android:background="@color/deepBlue"
+                    android:background="@color/deepBlueTrans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -164,10 +186,19 @@
                         android:src="@drawable/like_icon"/>
 
                     <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_similar_text"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_like_refresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/regularKorFillText"
-                        tools:text="사용자 유형 추천"/>
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
-import com.d204.algo.data.api.onSuccess
-import com.d204.algo.data.model.User
 import com.d204.algo.data.repository.UserRepository
-import com.d204.algo.data.source.datasource.UserDataSourceFactory
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -23,7 +20,6 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
-    var skinOn = false
     private val espHelper = ApplicationClass.preferencesHelper
 
     private fun skipLogin() {
@@ -72,7 +68,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                     } else if (token != null) {
                         // 서버에 카카오 토큰을 넘겨주는 과정
                         CoroutineScope(Dispatchers.IO).launch {
-                            loadCharacters(token)
+                            loadUser(token)
                         }
                         // 가져온 JWT 토큰을 DataStore에 저장하는 과정
 
@@ -82,7 +78,6 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
 
                         val intent = Intent(act, MainActivity::class.java)
                         intent.putExtra("kakaoToken", token)
-                        intent.putExtra("skin", skinOn)
                         act.startActivity(intent)
                         act.finish()
                     }
@@ -93,13 +88,14 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
         }
     }
 
-    private suspend fun loadCharacters(kakaoToken: OAuthToken) {
+    private suspend fun loadUser(kakaoToken: OAuthToken) {
         userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
-                espHelper.prefAccessToken = kakaoToken.accessToken
-                espHelper.prefRefreshToken =  kakaoToken.refreshToken
-                espHelper.prefUserEmail = it.kakaoId
-                espHelper.prefUserProfile = it.profileImage
-                espHelper.prefUserTier = it.preTier
+            Log.d(TAG, "loadUser: $it")
+            espHelper.prefAccessToken = kakaoToken.accessToken
+            espHelper.prefRefreshToken = kakaoToken.refreshToken
+            espHelper.prefUserEmail = it.kakaoId
+            espHelper.prefUserProfile = it.profileImage
+            espHelper.prefUserTier = it.preTier
         }
     }
 }

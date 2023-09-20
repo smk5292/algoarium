@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Problem(
-    override val id: Int,
+    override val id: Long,
     val problemNumber: Int,
     val title: String,
     val problemTag: String,

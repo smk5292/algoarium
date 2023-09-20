@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
@@ -16,11 +15,7 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.data.repository.UserRepository
-import com.d204.algo.data.source.datasource.UserDataSourceFactory
-import com.d204.algo.data.source.datasource.UserDataSourceFactory_Factory
 import com.d204.algo.databinding.ActivityLoginBinding
-import com.d204.algo.remote.api.UserService
-import com.d204.algo.remote.mapper.UserMapper
 import com.d204.algo.ui.oauth.KaKaoApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,12 +23,13 @@ import javax.inject.Inject
 private const val TAG = "LoginActivity"
 
 @AndroidEntryPoint
-class LoginActivity @Inject constructor(
-    private val userRepository: UserRepository
-) : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val kakaoApi = KaKaoApi(this, userRepository)
+    private lateinit var kakaoApi: KaKaoApi
     private lateinit var clickRipple: GifDrawable
+
+    @Inject
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var glide: RequestManager
@@ -41,6 +37,7 @@ class LoginActivity @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        kakaoApi = KaKaoApi(this, userRepository)
         kakaoApi.setLoginBtn(binding.btnKakao)
         setVideo()
         setClickEvent()
@@ -61,7 +58,7 @@ class LoginActivity @Inject constructor(
 
     private fun setClickEvent() {
         binding.activityLoginIsCopyright.setOnCheckedChangeListener { checked ->
-            kakaoApi.skinOn = checked
+            ApplicationClass.skinOn = checked
         }
     }
 

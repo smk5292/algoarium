@@ -14,7 +14,7 @@ class StatusRepositoryImpl @Inject constructor(
     private val dataSourceFactory: StatusDataSourceFactory,
     private val statusMapper: StatusMapper,
 ) : StatusRepository {
-    override suspend fun getStatus(userId: Int): Flow<NetworkResult<Status>> = flow {
+    override suspend fun getStatus(userId: Long): Flow<NetworkResult<Status>> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 StatusRemoteImpl에 구현돼있음
         emit(handleApi { dataSourceFactory.getDataStore(isRemote).getStatus(userId) })
     }

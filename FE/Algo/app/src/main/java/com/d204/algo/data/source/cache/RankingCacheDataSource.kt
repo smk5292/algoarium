@@ -16,7 +16,7 @@ class RankingCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getRankings is not supported for UserCacheDataSource.")
     }
 
-    override suspend fun getRanking(userId: Int): Ranking {
+    override suspend fun getRanking(userId: Long): Ranking {
         throw UnsupportedOperationException("getRankings is not supported for UserCacheDataSource.")
     }
 
