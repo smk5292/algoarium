@@ -14,7 +14,7 @@ class UserRemoteImpl @Inject constructor(
 ) : UserRemote {
     override suspend fun getUsers(): NetworkResult<List<User>> {
         return handleApi {
-            userService.getUsers().body()!!.map { userModel ->
+            userService.getUsers().map { userModel ->
                 userMapper.mapFromModel(userModel)
             }
         }
@@ -22,7 +22,7 @@ class UserRemoteImpl @Inject constructor(
 
     override suspend fun getUsersByTier(tier: Int): NetworkResult<List<User>> {
         return handleApi {
-            userService.getUsersByTier(tier).body()!!.map { userModel ->
+            userService.getUsersByTier(tier).map { userModel ->
                 userMapper.mapFromModel(userModel)
             }
         }
@@ -31,7 +31,7 @@ class UserRemoteImpl @Inject constructor(
     override suspend fun getUser(accessToken: String, refreshToken: String): NetworkResult<User> {
         return handleApi {
             userMapper.mapFromModel(
-                userService.getUser(accessToken, refreshToken).body()!!,
+                userService.getUser(accessToken, refreshToken),
             )
         }
     }

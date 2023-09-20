@@ -20,7 +20,7 @@ class UserRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getUser(accessToken: String, refreshToken: String): User {
-        return userRemote.getUser(accessToken, refreshToken).successOr(User(-1, "", "", "", -1))
+        return userRemote.getUser(accessToken, refreshToken).successOr(User())
     }
 
     override suspend fun isRemote(): Boolean {

@@ -11,4 +11,6 @@ data class User(
     val kakaoNickname: String,
     var profileImage: String,
     var preTier: Int,
-) : Parcelable, Identifiable
+) : Parcelable, Identifiable {
+    constructor() : this(-1, "", "", "", -1)
+}

@@ -7,11 +7,11 @@ import retrofit2.http.Path
 
 interface UserService {
     @GET("api/user")
-    suspend fun getUsers(): Response<List<UserModel>>
+    suspend fun getUsers(): List<UserModel>
 
     @GET("api/user/{tier}")
-    suspend fun getUsersByTier(@Path("tier") tier: Int): Response<List<UserModel>>
+    suspend fun getUsersByTier(@Path("tier") tier: Int): List<UserModel>
 
     @GET("api/user/login/{accessToken}/{refreshToken}")
-    suspend fun getUser(@Path("accessToken") accessToken: String, @Path("refreshToken") refreshToken: String): Response<UserModel>
+    suspend fun getUser(@Path("accessToken") accessToken: String, @Path("refreshToken") refreshToken: String): UserModel
 }

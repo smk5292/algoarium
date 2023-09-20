@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val dataSourceFactory: UserDataSourceFactory,
-    private val userMapper: UserMapper,
+    private val userMapper: UserMapper, // DomainLayer가 있으면 사용한다 (Entity <-> DTO)
 ) : UserRepository {
     // local , remote 모두에서 가져올 수 있는 경우 isRemote를 이용해서 어디서 가져올 것인지 사용자에게 입력받는다.
     // remote return 타입 Response 이므로 body() 붙여야함

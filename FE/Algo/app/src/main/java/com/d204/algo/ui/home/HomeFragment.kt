@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
 import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
@@ -39,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupInitSettings()
+        setSkin()
         binding.socket.setOnClickListener {
             Log.d(TAG, "onViewCreated: 클릭됨")
             (requireActivity() as MainActivity).sendSocketMessage("www.naver.com")
@@ -54,6 +57,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     override fun onPause() {
         super.onPause()
         coralGenerator.isRunning = false
+    }
+
+    private fun setSkin() {
+        if(ApplicationClass.skinOn == false) {
+            binding.homeRecommend.setImageResource(R.drawable.starhouse_copyrighted)
+            binding.homeRanking.setImageResource(R.drawable.squidhouse_copyrighted)
+            binding.homeMypage.setImageResource(R.drawable.pineapplehouse_copyrighted)
+
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(binding.fragmentHomeConstraintLayout)
+            constraintSet.connect(binding.homeRecommend.id, ConstraintSet.BOTTOM, binding.guidelineHorizontal4.id, ConstraintSet.TOP, 0)
+            constraintSet.applyTo(binding.fragmentHomeConstraintLayout)
+        }
     }
 
     private fun setupInitSettings() {
