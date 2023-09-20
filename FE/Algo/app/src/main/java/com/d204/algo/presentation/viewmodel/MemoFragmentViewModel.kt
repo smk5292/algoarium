@@ -19,13 +19,10 @@ class MemoFragmentViewModel @Inject constructor(
         // _character.postValue(CharacterDetailUIModel.Error(exception.message ?: "Error"))
     }
 
-    var isEditing = false
-
-    private val _memoContent = MutableLiveData<String>()
-    val memoContent: LiveData<String>
-        get() = _memoContent
+    var memoContent: String = ""
+    var registeredMemoContent: String = ""
 
     fun setMemo(content: String) {
-        _memoContent.value = content
+        memoContent = content
     }
 }

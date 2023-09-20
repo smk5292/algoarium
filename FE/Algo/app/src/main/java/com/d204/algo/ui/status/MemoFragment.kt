@@ -12,6 +12,7 @@ import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentMemoBinding
 import com.d204.algo.presentation.viewmodel.MemoFragmentViewModel
+import com.d204.algo.ui.extension.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "Algo_MemoFragment"
@@ -35,6 +36,7 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
     }
 
     private fun init() = with(binding) {
+        // MemoFragment로 들어왔을 때 입력란 focus 및 키보드 띄우기
         memoEditText.requestFocus()
         (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             .showSoftInput(memoEditText, 0)
@@ -46,15 +48,32 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
                 override fun handleOnBackPressed() {
                     if (memoEditText.hasFocus()) {
                         memoEditText.clearFocus()
-                        viewModel.setMemo(memoEditText.text.toString())
                     } else {
-                        findNavController().navigateUp()
+                        if (memoEditText.text.toString() != viewModel.registeredMemoContent) {
+                            // 작성한 메모를 등록하지 않고 나갈때
+                            showDialog(
+                                title = "타이틀",
+                                message = "메시지",
+                                textPositive = "긍정",
+                                positiveListener = {  },
+                                textNegative = "부정",
+                                negativeListener = {  },
+                            )
+                        } else {
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             },
         )
 
-        viewModel.memoContent.observe(viewLifecycleOwner) {
+        // 등록 버튼
+        memoRegisterButton.setOnClickListener {
+            registerButtonClick()
         }
+    }
+
+    // 메모 등록 버튼 클릭
+    private fun registerButtonClick() {
     }
 }
