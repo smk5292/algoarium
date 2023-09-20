@@ -8,7 +8,7 @@ import javax.inject.Inject
 class StatusRemoteDataSource @Inject constructor(
     private val StatusRemote: StatusRemote,
 ) : StatusDataSource {
-    override suspend fun getStatus(userId: Int): Status {
+    override suspend fun getStatus(userId: Long): Status {
         return StatusRemote.getStatus(userId)
     }
 

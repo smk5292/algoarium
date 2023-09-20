@@ -1,117 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
     android:layout_height="match_parent"
-    tools:context=".ui.recommend.RecommendFragment">
+    android:layout_width="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.recommend.RecommendFragment">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragment_recommend_wide_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="2.0" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/transition_anim"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/fragment_recommend_wide_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loopCount="1"
-            app:lottie_rawRes="@drawable/bubble_transition" />
-
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/recommend_bg"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/recommend_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/recommend_strong"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/recommend_weak">
+            android:layout_height="match_parent">
 
-            <com.d204.algo.ui.custom.RecommendProblemView
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/fragment_recommend_wide_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="2.0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/transition_anim"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/fragment_recommend_wide_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:loopCount="1"
+                app:lottie_rawRes="@drawable/bubble_transition" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/recommend_bg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/recommend_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/recommend_strong"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:background="@color/recommend_bg_color"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/recommend_weak"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.d204.algo.ui.custom.RecommendProblemView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center|left"
+                    android:background="@color/deepBlueTrans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
+                        android:src="@drawable/strong_icon"/>
+
+                    <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_strong_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_strong_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_strong1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_strong2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_strong3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/recommend_weak"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:background="@color/recommend_bg_color"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/recommend_like"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommend_strong">
 
-            <com.d204.algo.ui.custom.RecommendProblemView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center|left"
+                    android:background="@color/deepBlueTrans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/weak_icon"/>
+
+                    <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_weak_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_weak_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_weak1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_weak2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_weak3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/recommend_like"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:background="@color/recommend_bg_color"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommend_weak">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/recommend_weak"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recommend_like"
-            app:layout_constraintTop_toBottomOf="@id/recommend_strong">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center|left"
+                    android:background="@color/deepBlueTrans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/like_icon"/>
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                    <com.blueiobase.api.android.strokedtextview.StrokedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/regularKorFillText"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="@string/recommend_similar_text"/>
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recommend_like_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/refresh_icon"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/recommend_like"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommend_weak">
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_like1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_like2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <com.d204.algo.ui.custom.RecommendProblemView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.d204.algo.ui.custom.RecommendProblemView
+                    android:id="@+id/recommend_like3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+    </FrameLayout>
+</ScrollView>

@@ -12,7 +12,7 @@ class ProblemRemoteDataSource @Inject constructor(
         return problemRemote.getProblems()
     }
 
-    override suspend fun getProblem(problemId: Int): Problem {
+    override suspend fun getProblem(problemId: Long): Problem {
         return problemRemote.getProblem(problemId)
     }
 

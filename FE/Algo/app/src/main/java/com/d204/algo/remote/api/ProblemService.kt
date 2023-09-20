@@ -10,5 +10,5 @@ interface ProblemService {
     suspend fun getProblems(): Response<List<ProblemModel>>
 
     @GET("api/problem/{id}")
-    suspend fun getProblem(@Path("id") id: Int): Response<ProblemModel>
+    suspend fun getProblem(@Path("id") id: Long): Response<ProblemModel>
 }

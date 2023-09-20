@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ProblemLike(
-    override val id: Int,
-    val userId: Int,
-    val problemId: Int,
+    override val id: Long,
+    val userId: Long,
+    val problemId: Long,
     val likeType: Boolean,
     val memo: String,
 ) : Parcelable, Identifiable

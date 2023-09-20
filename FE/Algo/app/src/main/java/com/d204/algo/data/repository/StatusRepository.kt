@@ -5,5 +5,5 @@ import com.d204.algo.data.model.Status
 import kotlinx.coroutines.flow.Flow
 
 interface StatusRepository {
-    suspend fun getStatus(userId: Int): Flow<NetworkResult<Status>>
+    suspend fun getStatus(userId: Long): Flow<NetworkResult<Status>>
 }

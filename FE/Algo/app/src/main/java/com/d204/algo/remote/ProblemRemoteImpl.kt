@@ -16,7 +16,7 @@ class ProblemRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getProblem(problemId: Int): Problem {
+    override suspend fun getProblem(problemId: Long): Problem {
         return problemMapper.mapFromModel(problemService.getProblem(problemId).body()!!)
     }
 

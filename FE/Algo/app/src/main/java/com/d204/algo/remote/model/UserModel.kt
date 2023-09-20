@@ -3,9 +3,9 @@ package com.d204.algo.remote.model
 import com.squareup.moshi.Json
 
 data class UserModel(
-    @field:Json(name = "user_id") val id: Int,
-    @field:Json(name = "kakao_id") val kakaoId: String,
-    @field:Json(name = "kakao_nickname") val kakaoNickname: String,
-    @field:Json(name = "profile_image") val profileImage: String,
-    @field:Json(name = "pre_tier") val preTier: Int,
+    @Json(name = "userId") val id: Long,
+    @Json(name = "kakaoId") val kakaoId: String,
+    @Json(name = "kakaoNickname") val kakaoNickname: String,
+    @Json(name = "profileImage") val profileImage: String,
+    @Json(name = "preTier") val preTier: Int,
 )

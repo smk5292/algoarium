@@ -5,16 +5,22 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
+import com.d204.algo.data.repository.UserRepository
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 private const val TAG = "KaKaoApi"
-class KaKaoApi(private val act: AppCompatActivity) {
-    var skinOn = false
+class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
+    private val espHelper = ApplicationClass.preferencesHelper
 
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
@@ -61,7 +67,9 @@ class KaKaoApi(private val act: AppCompatActivity) {
                         }
                     } else if (token != null) {
                         // 서버에 카카오 토큰을 넘겨주는 과정
-
+                        CoroutineScope(Dispatchers.IO).launch {
+                            loadUser(token)
+                        }
                         // 가져온 JWT 토큰을 DataStore에 저장하는 과정
 
                         Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
@@ -70,7 +78,6 @@ class KaKaoApi(private val act: AppCompatActivity) {
 
                         val intent = Intent(act, MainActivity::class.java)
                         intent.putExtra("kakaoToken", token)
-                        intent.putExtra("skin", skinOn)
                         act.startActivity(intent)
                         act.finish()
                     }
@@ -78,6 +85,17 @@ class KaKaoApi(private val act: AppCompatActivity) {
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
             }
+        }
+    }
+
+    private suspend fun loadUser(kakaoToken: OAuthToken) {
+        userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
+            Log.d(TAG, "loadUser: $it")
+            espHelper.prefAccessToken = kakaoToken.accessToken
+            espHelper.prefRefreshToken = kakaoToken.refreshToken
+            espHelper.prefUserEmail = it.kakaoId
+            espHelper.prefUserProfile = it.profileImage
+            espHelper.prefUserTier = it.preTier
         }
     }
 }

@@ -8,8 +8,9 @@
     <string name="title_rank">Rank</string>
     <string name="title_promote">Promote</string>
     <string name="title_memo">Memo</string>
-
-    <!-- Kakao Login -->
+    <string name="recommend_strong_text">강점 문제 추천</string>
+    <string name="recommend_weak_text">약점 문제 추천</string>
+    <string name="recommend_similar_text">비슷한 사용자 문제 추천</string>
     <string name="kakao_key">9a8d411dc13896f2f547959ce7b402f0</string>
     <string name="kakao_key_sheme">kakao9a8d411dc13896f2f547959ce7b402f0</string>
 

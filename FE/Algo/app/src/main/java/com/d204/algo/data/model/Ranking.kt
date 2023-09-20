@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Ranking(
-    override val id: Int,
-    var userId: Int,
+    override val id: Long,
+    var userId: Long,
     var score: Int,
     var tier: Int,
     var ranking: Int,
