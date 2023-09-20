@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -17,6 +16,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "kakao_id", nullable = false, length = 100)
@@ -43,5 +43,16 @@ public class UserEntity {
         this.profileImage = profileImage;
         this.preTier = preTier;
         this.refreshToken = refreshToken;
+    }
+
+    public UserDto toUserDto(){
+        return UserDto.builder()
+            .userId(this.getUserId())
+            .kakaoId(this.getKakaoId())
+            .kakaoNickname(this.getKakaoNickname())
+            .preTier(this.getPreTier())
+            .profileImage(this.getProfileImage())
+            .refreshToken(this.getRefreshToken())
+            .build();
     }
 }

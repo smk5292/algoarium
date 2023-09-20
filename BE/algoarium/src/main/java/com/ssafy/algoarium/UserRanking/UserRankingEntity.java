@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -34,5 +35,6 @@ public class UserRankingEntity {
 
 	//보강 필요
 	@OneToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id") // 연관되는 컬럼 지정
 	private UserEntity user;
 }

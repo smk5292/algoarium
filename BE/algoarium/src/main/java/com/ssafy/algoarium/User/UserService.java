@@ -1,5 +1,7 @@
 package com.ssafy.algoarium.User;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +17,13 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final RedisRepository redisRepository;
 
-	@Transactional
 	public Long saveUser(UserDto userDto){
 		return (userRepository.save(UserEntity.builder()
 			.kakaoId(userDto.getKakaoId())
 			.kakaoNickname(userDto.getKakaoNickname())
 			.refreshToken(userDto.getRefreshToken())
 			.profileImage(userDto.getProfileImage())
+			.preTier(1)
 			.build()).getUserId());
 	}
 
@@ -42,12 +44,25 @@ public class UserService {
 		return updateUserEntity;
 	}
 	@Transactional
-	public UserEntity getUserById(int userId){
+	public UserEntity getUserById(long userId){
 		return userRepository.findById(userId).orElseThrow(()
 			-> new EntityNotFoundException("not found"));
 
 	}
 
+	@Transactional
+	public UserEntity getUserByEmail(String email){
+		return userRepository.findByKakaoId(email);
+	}
 
+	@Transactional
+	public List<UserEntity> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@Transactional
+	public void deleteUser(long userId) {
+		userRepository.deleteById(userId);
+	}
 
 }

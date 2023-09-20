@@ -12,11 +12,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-    private Integer userId;
+    private long userId;
     private String kakaoId;
     private String kakaoNickname;
     private String profileImage;
-    private String preTier;
+    private int preTier;
     private String refreshToken;
 
     public static UserEntity toUserEntity(UserEntity userDTO) {

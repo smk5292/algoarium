@@ -1,4 +1,8 @@
 package com.ssafy.algoarium.UserRanking;
 
-public class UserRankingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRankingRepository extends JpaRepository<UserRankingEntity, Long> {
 }
