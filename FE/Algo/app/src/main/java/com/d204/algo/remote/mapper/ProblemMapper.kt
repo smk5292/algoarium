@@ -13,6 +13,8 @@ class ProblemMapper @Inject constructor() : Mapper<ProblemModel, Problem> {
             problemTag = model.problemTag,
             problemLevel = model.problemLevel,
             solvedUserCount = model.solvedUserCount,
+            problemLike = model.problemLike,
+            problemMemo = model.problemMemo,
         )
     }
 
@@ -24,6 +26,8 @@ class ProblemMapper @Inject constructor() : Mapper<ProblemModel, Problem> {
             problemTag = type.problemTag,
             problemLevel = type.problemLevel,
             solvedUserCount = type.solvedUserCount,
+            problemLike = type.problemLike,
+            problemMemo = type.problemMemo,
         )
     }
 }
