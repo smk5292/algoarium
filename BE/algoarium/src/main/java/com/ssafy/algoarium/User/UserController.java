@@ -1,7 +1,24 @@
 package com.ssafy.algoarium.User;
 
+import org.apache.catalina.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.algoarium.KakaoLogin.KakaoDto;
+import com.ssafy.algoarium.KakaoLogin.KakaoInfo;
+import com.ssafy.algoarium.KakaoLogin.KakaoLoginService;
+import com.ssafy.algoarium.Redis.RedisDto;
+import com.ssafy.algoarium.Redis.RedisService;
 
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/user")
 public class UserController {
 
 	//accessToken, refreshToken, 만료시간 2개를 준다 ->
@@ -11,5 +28,36 @@ public class UserController {
 	// 로그인
 	// 이 유저에 맞는 AccessToken을 key로 하여, 만료시간을 설정 한 후 Redis에 저장
 	// 요청이 있을 때
+
+	private final UserService userService;
+	private final KakaoLoginService kakaoLoginService;
+	private final RedisService redisService;
+
+
+	@GetMapping("/login/{accessToken}/{refreshToken}")
+	public UserDto loginUser(@PathVariable String accessToken, @PathVariable String refreshToken){
+
+		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
+		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
+		UserDto answerDto;
+		if(userService.getUserByEmail(profileDto.getEmail()) == null){
+		answerDto  = UserDto.builder()
+			.kakaoId(profileDto.getEmail())
+			.kakaoNickname(profileDto.getName())
+			.profileImage(profileDto.getProfileUrl())
+			.refreshToken(refreshToken)
+			.preTier(1)
+			.build();
+		userService.saveUser(answerDto);
+		}
+
+		redisService.saveByRedisDto(RedisDto.builder()
+			.accessToken(accessToken)
+			.refreshToken(refreshToken).build());
+
+		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+		System.out.println(answerDto.getUserId());
+		return answerDto;
+	}
 
 }
