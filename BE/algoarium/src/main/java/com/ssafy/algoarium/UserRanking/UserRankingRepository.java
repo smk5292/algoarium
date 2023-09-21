@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRankingRepository extends JpaRepository<UserRankingEntity, Long> {
-	@Query("SELECT AVG(u.wis), AVG(u.con), AVG(u.str), AVG(u.luk), AVG(u.sma) FROM UserRankinEntity u where tier = :tier")
-	List<Long> findAvgStatueByTier(Integer tier);
+
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,5 +46,17 @@ public class UserStatusEntity {
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id") // 연관되는 컬럼 지정
 	private UserEntity user;
+
+	@Builder
+	public UserStatusEntity(long user_status_id, int userStatus1, int userStatus2
+		, int userStatus3, int userStatus4, int userStatus5 , UserEntity user){
+		this.user = user;
+		this.user_status_id = user_status_id;
+		this.userStatus1 = userStatus1;
+		this.userStatus2 = userStatus2;
+		this.userStatus3 = userStatus3;
+		this.userStatus4 = userStatus4;
+		this.userStatus5 = userStatus5;
+	}
 
 }
