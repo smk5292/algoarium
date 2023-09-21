@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.algoarium.UserStatus.UserStatusDTO;
+import com.ssafy.algoarium.UserStatus.UserStatusEntity;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -12,17 +15,12 @@ public class UserRankingService {
 
 	private final UserRankingRepository userRankingRepository;
 
-	// public List<Long> getTierStatusAvg(int tier){
-	// 	return userRankingRepository.findAvgStatueByTier(tier);
-	// }
+	public List<UserRankingEntity> getListByTier(int tier){
+		return userRankingRepository.findByTier(tier);
+	}
 
-	// public UserRankingDTO getUserRankingStatus(long userId){
-	// 	UserRankingDTO userRankingDTO;
-	//
-	//
-	// }
-
-
-
+	public UserRankingEntity getTopUserRankingEntity(int tier){
+		return userRankingRepository.findTopByOrderByUserIdDesc(tier).get();
+	}
 
 }

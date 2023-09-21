@@ -15,7 +15,7 @@ public class UserStatusController {
 	private final UserStatusService userStatusService;
 
 
-	public UserStatusDTO toDto(UserStatusEntity userStatusEntity){
+	public static UserStatusDTO toDto(UserStatusEntity userStatusEntity){
 		return UserStatusDTO.builder()
 			.userId(userStatusEntity.getUser().getUserId())
 			.userStatus1(userStatusEntity.getUserStatus1())
