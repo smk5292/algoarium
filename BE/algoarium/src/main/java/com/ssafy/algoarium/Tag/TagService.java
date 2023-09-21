@@ -53,7 +53,7 @@ public class TagService {
         // 필요한 정보 추출
         JSONArray items = jsonObject.getJSONArray("items");
 
-        for (int i = 0; i < items.length(); i++) {
+        for (int i = 0; i < 100; i++) {
             JSONObject tag = items.getJSONObject(i);
             JSONArray displayNames = tag.getJSONArray("displayNames");
 
