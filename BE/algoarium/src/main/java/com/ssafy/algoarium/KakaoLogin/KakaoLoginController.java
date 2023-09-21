@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -56,21 +57,23 @@ public class KakaoLoginController {
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(kakaoOauthToken.getAccessToken());
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
 
-		return profileDto.toString();
+		return profileDto.toString() + kakaoOauthToken.toString();
 	}
 
 
 	@ResponseBody
-	@PostMapping("/auth/kakao/token")
-	public KakaoDto findKakaoInfo(@RequestBody KakaoOauthToken kakaoOauthToken){
+	@GetMapping("/auth/kakao/{accessToken}/{refreshToken}")
+	public KakaoDto findKakaoInfo(@RequestParam String accessToekn, @RequestParam String refreshToken){
 
-		String accessToken = kakaoOauthToken.getAccessToken();
+		String accessToken = accessToekn;
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
 
 		redisService.saveByRedisDto(RedisDto.builder()
-			.accessToken(kakaoOauthToken.getAccessToken())
-			.refreshToken(kakaoOauthToken.getRefreshToken())
+			.accessToken(accessToekn)
+
+
+			.refreshToken(refreshToken)
 			.build());
 
 		System.out.printf("token save !!!!\n");
