@@ -16,11 +16,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 enum class CharacteristicType(val value: String) {
-    AGILITY("민첩성"),
-    ENDURANCE("지구력"),
+    WISDOM("지혜"),
+    VITALITY("생명력"),
     STRENGTH("근력"),
-    LEXIBILITY("유연성"),
-    INTELLECT("지력"),
+    CHARISMA("카리스마"),
+    LUCK("운"),
 }
 
 data class RadarChartData(
@@ -65,11 +65,11 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
 
     // 5개의 특성을 갖도록 한다
     private var chartTypes = arrayListOf(
-        CharacteristicType.AGILITY,
-        CharacteristicType.ENDURANCE,
+        CharacteristicType.WISDOM,
+        CharacteristicType.VITALITY,
         CharacteristicType.STRENGTH,
-        CharacteristicType.LEXIBILITY,
-        CharacteristicType.INTELLECT,
+        CharacteristicType.CHARISMA,
+        CharacteristicType.LUCK,
     )
 
     private val paint = Paint().apply {

@@ -1,6 +1,7 @@
 package com.d204.algo.presentation.viewmodel
 
 import com.d204.algo.base.BaseViewModel
+import com.d204.algo.data.repository.StatusRepository
 import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.presentation.utils.CoroutineContextProvider
 import com.d204.algo.presentation.utils.ExceptionHandler

@@ -1,20 +1,45 @@
 package com.d204.algo.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.d204.algo.base.BaseViewModel
+import com.d204.algo.data.model.Status
+import com.d204.algo.data.repository.StatusRepository
 import com.d204.algo.presentation.utils.CoroutineContextProvider
 import com.d204.algo.presentation.utils.ExceptionHandler
+import com.d204.algo.presentation.utils.UiAwareLiveData
+import com.d204.algo.presentation.utils.UiAwareModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+sealed class StatusUIModel : UiAwareModel() {
+    object Loading : StatusUIModel()
+    data class Error(var error: String = "") : StatusUIModel()
+    data class Success(val data: Status) : StatusUIModel()
+}
 
 @HiltViewModel
 class StatusFragmentViewModel @Inject constructor(
     contextProvider: CoroutineContextProvider,
     // private val userRepository: UserRepository // -> Module에 @provide로 impl return 하는 함수 있어야함
+    private val statusRepository: StatusRepository,
 ) : BaseViewModel(contextProvider) {
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
         // _character.postValue(CharacterDetailUIModel.Error(exception.message ?: "Error"))
+    }
+
+    private val _statusData = UiAwareLiveData<StatusUIModel>()
+    var statusData: LiveData<StatusUIModel> = _statusData
+
+    fun setUserStatus() {
+        viewModelScope.launch {
+            statusRepository.getStatus(1).collect {
+                _statusData.postValue(StatusUIModel.Success(it))
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.d204.algo.MainActivity
 import com.d204.algo.R
@@ -14,6 +16,8 @@ import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentHomeBinding
 import com.d204.algo.presentation.viewmodel.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val TAG = "HomeFragment"
 
@@ -62,17 +66,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         binding.apply {
             fragmentHomeScrollView.post { fragmentHomeScrollView.scrollTo(fragmentHomeScrollView.getChildAt(0).width / 3, 0) }
             homeRecommend.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_recommend)
             }
 
             homeRanking.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_ranking)
             }
 
             homeMypage.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_status)
             }
         }

@@ -13,4 +13,14 @@ data class Status(
     var strength: Int,
     var charisma: Int,
     var luck: Int
-) : Parcelable, Identifiable
+) : Parcelable, Identifiable {
+    constructor() : this(
+        -1L,
+        -1L,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+    )
+}
