@@ -1,6 +1,7 @@
 package com.d204.algo.data.repository.datasource
 
 import com.d204.algo.data.model.Status
+import com.d204.algo.data.model.User
 
 interface StatusDataSource {
     // remote

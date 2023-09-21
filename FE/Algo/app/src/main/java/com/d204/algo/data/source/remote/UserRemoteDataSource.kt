@@ -1,7 +1,5 @@
 package com.d204.algo.data.source.remote
 
-import android.util.Log
-import com.d204.algo.data.api.onError
 import com.d204.algo.data.api.successOr
 import com.d204.algo.data.model.User
 import com.d204.algo.data.repository.datasource.UserDataSource
@@ -20,7 +18,7 @@ class UserRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getUser(accessToken: String, refreshToken: String): User {
-        return userRemote.getUser(accessToken, refreshToken).successOr(User(-1, "", "", "", -1))
+        return userRemote.getUser(accessToken, refreshToken).successOr(User())
     }
 
     override suspend fun isRemote(): Boolean {

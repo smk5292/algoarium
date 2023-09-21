@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.d204.algo.base.BaseAdapter
-import com.d204.algo.data.model.ProblemLike
+import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.ItemStatusListBinding
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,8 +43,8 @@ class StatusAdapter @Inject constructor(
 
     // 이벤트 처리 listener
     interface StatusClickListener {
-        fun bookmarkClick(binding: ItemStatusListBinding, problemLike: ProblemLike, position: Int)
-        fun memoClick(binding: ItemStatusListBinding, problemLike: ProblemLike, position: Int)
+        fun bookmarkClick(binding: ItemStatusListBinding, problem: Problem, position: Int)
+        fun memoClick(binding: ItemStatusListBinding, problem: Problem, position: Int)
     }
     private lateinit var statusClickListener: StatusClickListener
     fun setStatusClickListener(statusClickListener: StatusClickListener) {
