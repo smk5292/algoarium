@@ -6,6 +6,7 @@ import com.d204.algo.data.model.Status
 import com.d204.algo.data.repository.remote.StatusRemote
 import com.d204.algo.remote.api.StatusService
 import com.d204.algo.remote.mapper.StatusMapper
+import com.d204.algo.remote.model.ProblemModel
 import javax.inject.Inject
 
 class StatusRemoteImpl @Inject constructor(
@@ -15,6 +16,12 @@ class StatusRemoteImpl @Inject constructor(
     override suspend fun getStatus(userId: Long): NetworkResult<Status> {
         return handleApi {
             statusMapper.mapFromModel(statusService.getStatus(userId))
+        }
+    }
+
+    override suspend fun updateMemo(problemModel: ProblemModel): NetworkResult<Unit> {
+        return handleApi {
+            statusService.updateMemo(problemModel)
         }
     }
 

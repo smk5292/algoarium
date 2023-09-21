@@ -1,11 +1,13 @@
 package com.d204.algo.data.repository.datasource
 
+import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.data.model.User
 
 interface StatusDataSource {
     // remote
     suspend fun getStatus(userId: Long): Status
+    suspend fun updateMemo(problem: Problem)
 
     // cache
 
