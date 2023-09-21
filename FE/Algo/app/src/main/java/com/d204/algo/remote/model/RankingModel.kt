@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 data class RankingModel(
     @Json(name = "id") val id: Long,
-    @Json(name = "user_id") val userId: Long,
+    @Json(name = "userId") val userId: Long,
     @Json(name = "score") val score: Int,
     @Json(name = "tier") val tier: Int,
     @Json(name = "ranking") val ranking: Int,

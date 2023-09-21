@@ -15,6 +15,7 @@ class ProblemMapper @Inject constructor() : Mapper<ProblemModel, Problem> {
             solvedUserCount = model.solvedUserCount,
             problemLike = model.problemLike,
             problemMemo = model.problemMemo,
+            userId = model.userId,
         )
     }
 
@@ -28,6 +29,7 @@ class ProblemMapper @Inject constructor() : Mapper<ProblemModel, Problem> {
             solvedUserCount = type.solvedUserCount,
             problemLike = type.problemLike,
             problemMemo = type.problemMemo,
+            userId = type.userId,
         )
     }
 }

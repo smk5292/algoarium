@@ -1,6 +1,7 @@
 package com.d204.algo.data.source.remote
 
 import com.d204.algo.data.api.successOr
+import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.data.repository.datasource.StatusDataSource
 import com.d204.algo.data.repository.remote.StatusRemote
@@ -11,6 +12,10 @@ class StatusRemoteDataSource @Inject constructor(
 ) : StatusDataSource {
     override suspend fun getStatus(userId: Long): Status {
         return statusRemote.getStatus(userId).successOr(Status())
+    }
+
+    override suspend fun updateMemo(problem: Problem) {
+//        return statusRemote.getStatus(problem).successOr(Problem())
     }
 
     override suspend fun isRemote(): Boolean {
