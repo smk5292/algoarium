@@ -12,15 +12,15 @@ public class UserRankingService {
 
 	private final UserRankingRepository userRankingRepository;
 
-	public List<Long> getTierStatusAvg(int tier){
-		return userRankingRepository.findAvgStatueByTier(tier);
-	}
+	// public List<Long> getTierStatusAvg(int tier){
+	// 	return userRankingRepository.findAvgStatueByTier(tier);
+	// }
 
-	public UserRankingDTO getUserRankingStatus(long userId){
-		UserRankingDTO userRankingDTO;
-
-
-	}
+	// public UserRankingDTO getUserRankingStatus(long userId){
+	// 	UserRankingDTO userRankingDTO;
+	//
+	//
+	// }
 
 
 
