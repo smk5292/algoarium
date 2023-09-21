@@ -76,6 +76,7 @@ public class WebSocketClient {
                 connectButton.setMinimumSize(channelIdField.getPreferredSize());
                 connectButton.setPreferredSize(channelIdField.getPreferredSize());
 
+
                 Dimension buttonPreferredSize = connectButton.getPreferredSize();
                 buttonPreferredSize.height *= 1.1; // 버튼의 크기를 1.1배로 늘리기
                 connectButton.setPreferredSize(buttonPreferredSize);
@@ -228,15 +229,34 @@ public class WebSocketClient {
 
                                 channelIdField.setVisible(true);
                                 channelIdField.setText("");
-                                connectButton.setEnabled(true);
-                                connectButton.setText("Connect");
+                                connectButton.setVisible(true);
+//                                connectButton.setEnabled(true);
+//                                connectButton.setText("Connect");
                                 disconnectButton.setVisible(false);
+                                titleLabel.setText("Algoarium");
 
                                 return null;
                             }
                         };
 
                         worker.execute();
+                    }
+                });
+
+                // Disconnect 버튼에 대한 MouseListener (hover 효과 추가)
+                disconnectButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        // 버튼에 커서가 들어왔을 때의 동작: 버튼 배경색 변경
+                        disconnectButton.setBackground(Color.DARK_GRAY);
+                        disconnectButton.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        // 버튼에서 커서가 나갔을 때의 동작: 버튼 배경색 원래대로
+                        disconnectButton.setBackground(UIManager.getColor("Button.background"));
+                        disconnectButton.setForeground(UIManager.getColor("Button.foreground"));
                     }
                 });
 
@@ -266,9 +286,11 @@ public class WebSocketClient {
                                 sessionHandler = new MySessionHandler(channelId);  // 여기서 세션 핸들러 초기화
 
                                 channelIdField.setVisible(false);
-                                connectButton.setEnabled(false);
                                 disconnectButton.setVisible((true));
-                                connectButton.setText("Connected!");
+                                connectButton.setVisible(false);
+//                                connectButton.setEnabled(false);
+//                                connectButton.setText("Connected!");
+                                titleLabel.setText("Connected!");
 
                                 stompClient.connect(url, sessionHandler, new StompSessionHandlerAdapter() {
                                 });
@@ -277,6 +299,23 @@ public class WebSocketClient {
                         };
 
                         worker.execute();
+                    }
+                });
+
+                // Connect 버튼에 대한 MouseListener (hover 효과 추가)
+                connectButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        // 버튼에 커서가 들어왔을 때의 동작: 버튼 배경색 변경
+                        connectButton.setBackground(Color.DARK_GRAY);
+                        connectButton.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        // 버튼에서 커서가 나갔을 때의 동작: 버튼 배경색 원래대로
+                        connectButton.setBackground(UIManager.getColor("Button.background"));
+                        connectButton.setForeground(UIManager.getColor("Button.foreground"));
                     }
                 });
 
