@@ -32,8 +32,9 @@ public class ProblemLikeService {
         return problemLikeRepository.save(problemLikeEntity);
     }
 
-    public ProblemLikeEntity createMemo(ProblemEntity problemEntity, UserEntity userEntity, String memo) {
+    public ProblemLikeEntity createMemo(ProblemEntity problemEntity, UserEntity userEntity, Boolean likeType, String memo) {
         ProblemLikeEntity problemLikeEntity = new ProblemLikeEntity(problemEntity, userEntity);
+        problemLikeEntity.setLikeType(likeType);
         problemLikeEntity.setMemo(memo);
 
         return problemLikeRepository.save(problemLikeEntity);
