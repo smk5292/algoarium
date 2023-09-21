@@ -9,6 +9,7 @@ open class PresentationPreferencesHelper @Inject constructor(context: Context) {
     companion object {
         private const val PREF_PACKAGE_NAME = "com.d204.algo.presentation.preferences" // string
         private const val PREF_KEY_USER_EMAIL = "user_email" // String // email
+        private const val PREF_KEY_USER_ID = "user_id" // Long
         private const val PREF_KEY_USER_PROFILE = "user_profile" // string
         private const val PREF_KEY_USER_NICKNAME = "user_nickname" // string
         private const val PREF_KEY_USER_TIER = "user_tier" // int
@@ -31,6 +32,11 @@ open class PresentationPreferencesHelper @Inject constructor(context: Context) {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, // AES256_SIV으로 key를 암호화
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM, // AES256_GCM으로 value를 암호화
         )
+
+    // 저장할 내용
+    var prefUserId: Long
+        get() = preferences.getLong(PREF_KEY_USER_ID, 0)
+        set(userId) = preferences.edit().putLong(PREF_KEY_USER_ID, userId).apply()
 
     // 저장할 내용
     var prefUserEmail: String?

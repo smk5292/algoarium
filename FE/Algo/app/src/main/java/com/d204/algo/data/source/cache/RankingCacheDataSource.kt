@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RankingCacheDataSource @Inject constructor(
     private val userCache: RankingCache
 ) : RankingDataSource {
-    override suspend fun getRankings(): List<Ranking> {
+    override suspend fun getRankingTop(tier: Int): Ranking {
         throw UnsupportedOperationException("getRankings is not supported for UserCacheDataSource.")
     }
 

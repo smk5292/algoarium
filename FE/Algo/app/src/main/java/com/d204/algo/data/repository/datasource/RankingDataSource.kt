@@ -4,7 +4,7 @@ import com.d204.algo.data.model.Ranking
 
 interface RankingDataSource {
     // remote
-    suspend fun getRankings(): List<Ranking>
+    suspend fun getRankingTop(tier: Int): Ranking
     suspend fun getRankingsByTier(tier: Int): List<Ranking>
     suspend fun getRanking(userId: Long): Ranking
 

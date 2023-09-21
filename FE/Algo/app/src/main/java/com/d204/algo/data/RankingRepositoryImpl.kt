@@ -1,7 +1,5 @@
 package com.d204.algo.data
 
-import com.d204.algo.data.api.NetworkResult
-import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Ranking
 import com.d204.algo.data.repository.RankingRepository
 import com.d204.algo.data.source.datasource.RankingDataSourceFactory
@@ -14,17 +12,17 @@ class RankingRepositoryImpl @Inject constructor(
     private val dataSourceFactory: RankingDataSourceFactory,
     private val rankingMapper: RankingMapper,
 ) : RankingRepository {
-    override suspend fun getRankings(): Flow<NetworkResult<List<Ranking>>> = flow {
+    override suspend fun getRankingTop(tier: Int): Flow<Ranking> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 UserRemoteImpl에 구현돼있음
-        emit(handleApi { dataSourceFactory.getDataStore(isRemote).getRankings() })
+        emit(dataSourceFactory.getDataStore(isRemote).getRankingTop(tier))
     }
 
-    override suspend fun getRankingsByTier(tier: Int): Flow<NetworkResult<List<Ranking>>> = flow {
+    override suspend fun getRankingsByTier(tier: Int): Flow<List<Ranking>> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 UserRemoteImpl에 구현돼있음
-        emit(handleApi { dataSourceFactory.getDataStore(isRemote).getRankingsByTier(tier) })
+        emit(dataSourceFactory.getDataStore(isRemote).getRankingsByTier(tier))
     }
 
-    override suspend fun getRanking(userId: Long): Flow<NetworkResult<Ranking>> = flow {
-        emit(handleApi { dataSourceFactory.getRemoteDataSource().getRanking(userId) })
+    override suspend fun getRanking(userId: Long): Flow<Ranking> = flow {
+        emit(dataSourceFactory.getRemoteDataSource().getRanking(userId))
     }
 }

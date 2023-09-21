@@ -12,5 +12,5 @@ data class User(
     var profileImage: String,
     var preTier: Int,
 ) : Parcelable, Identifiable {
-    constructor() : this(-1, "", "", "", -1)
+    constructor() : this(0, "", "", "", 0)
 }

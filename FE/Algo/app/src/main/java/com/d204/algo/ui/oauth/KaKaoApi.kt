@@ -93,6 +93,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             Log.d(TAG, "loadUser: $it")
             espHelper.prefAccessToken = kakaoToken.accessToken
             espHelper.prefRefreshToken = kakaoToken.refreshToken
+            espHelper.prefUserId = it.id
             espHelper.prefUserEmail = it.kakaoId
             espHelper.prefUserProfile = it.profileImage
             espHelper.prefUserTier = it.preTier

@@ -12,6 +12,8 @@ class RankingMapper @Inject constructor() : Mapper<RankingModel, Ranking> {
             score = model.score,
             ranking = model.ranking,
             tier = model.tier,
+            kakaoNickname = model.kakaoNickname,
+            profileImage = model.profileImage,
         )
     }
 
@@ -22,6 +24,8 @@ class RankingMapper @Inject constructor() : Mapper<RankingModel, Ranking> {
             score = type.score,
             ranking = type.ranking,
             tier = type.tier,
+            kakaoNickname = type.kakaoNickname,
+            profileImage = type.profileImage,
         )
     }
 }
