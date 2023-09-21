@@ -24,7 +24,8 @@ public class UserStatusEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long user_status_id;
+	@Column(name = "user_status_id",nullable = false)
+	private long userStatusId;
 
 	//enum class 만들어서 처리
 	@Column(name =  "wis" , length = 50, nullable = false)
@@ -48,10 +49,10 @@ public class UserStatusEntity {
 	private UserEntity user;
 
 	@Builder
-	public UserStatusEntity(long user_status_id, int userStatus1, int userStatus2
+	public UserStatusEntity(long userStatusId, int userStatus1, int userStatus2
 		, int userStatus3, int userStatus4, int userStatus5 , UserEntity user){
 		this.user = user;
-		this.user_status_id = user_status_id;
+		this.userStatusId = userStatusId;
 		this.userStatus1 = userStatus1;
 		this.userStatus2 = userStatus2;
 		this.userStatus3 = userStatus3;

@@ -1,10 +1,15 @@
 package com.ssafy.algoarium.User;
 
+import com.ssafy.algoarium.UserRanking.UserRankingEntity;
+import com.ssafy.algoarium.UserStatus.UserStatusEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -33,6 +38,14 @@ public class UserEntity {
 
     @Column(name = "refresh_token", nullable = false, length = 100)
     private String refreshToken;
+
+    @OneToOne
+    @JoinColumn(name = "user_ranking_id",referencedColumnName = "user_ranking_id")
+    private UserRankingEntity userRanking;
+
+    @OneToOne
+    @JoinColumn(name = "user_status_id" , referencedColumnName = "user_status_id")
+    private UserStatusEntity userStatusEntity;
 
     @Builder
     public UserEntity(Long userId , String kakaoId, String kakaoNickname, String profileImage,
