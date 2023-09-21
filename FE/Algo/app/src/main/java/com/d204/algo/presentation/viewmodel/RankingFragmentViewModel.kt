@@ -3,6 +3,7 @@ package com.d204.algo.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Ranking
+import com.d204.algo.data.repository.RankingRepository
 import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.presentation.utils.CoroutineContextProvider
 import com.d204.algo.presentation.utils.ExceptionHandler
@@ -21,7 +22,7 @@ sealed class RankingUIModel : UiAwareModel() {
 @HiltViewModel
 class RankingFragmentViewModel @Inject constructor(
     contextProvider: CoroutineContextProvider,
-    private val userRepository: UserRepository, // -> Module에 @provide로 impl return 하는 함수 있어야함
+    private val rankingRepository: RankingRepository, // -> Module에 @provide로 impl return 하는 함수 있어야함
 ) : BaseViewModel(contextProvider) {
 
     private val _rankingList = UiAwareLiveData<RankingUIModel>()
@@ -29,6 +30,10 @@ class RankingFragmentViewModel @Inject constructor(
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
-        // _character.postValue(CharacterDetailUIModel.Error(exception.message ?: "Error"))
+        _rankingList.postValue(RankingUIModel.Error(exception.message ?: "Error"))
+    }
+
+    fun getRankingList(): LiveData<RankingUIModel> {
+        return rankingList
     }
 }

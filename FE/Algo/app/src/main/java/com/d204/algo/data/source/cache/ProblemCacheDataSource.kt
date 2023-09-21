@@ -16,6 +16,22 @@ class ProblemCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getProblem is not supported for ProblemCacheDataSource.")
     }
 
+    override suspend fun getStrongProblems(userId: Long): List<Problem> {
+        throw UnsupportedOperationException("getStrongProblems is not supported for ProblemCacheDataSource.")
+    }
+
+    override suspend fun getWeakProblems(userId: Long): List<Problem> {
+        throw UnsupportedOperationException("getWeakProblems is not supported for ProblemCacheDataSource.")
+    }
+
+    override suspend fun getSimilarProblems(userId: Long): List<Problem> {
+        throw UnsupportedOperationException("getSimilarProblems is not supported for ProblemCacheDataSource.")
+    }
+
+    override suspend fun postLikeProblems(problem: Problem) {
+        throw UnsupportedOperationException("postLikeProblems is not supported for ProblemCacheDataSource.")
+    }
+
     override suspend fun isRemote(): Boolean {
         throw UnsupportedOperationException("isRemote is not supported for ProblemCacheDataSource.")
     }

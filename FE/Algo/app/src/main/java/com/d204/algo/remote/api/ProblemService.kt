@@ -1,7 +1,9 @@
 package com.d204.algo.remote.api
 
 import com.d204.algo.remote.model.ProblemModel
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ProblemService {
@@ -19,4 +21,7 @@ interface ProblemService {
 
     @GET("recommend/similar/{userId}")
     suspend fun getSimilarProblems(@Path("userId") userId: Long): List<ProblemModel>
+
+    @POST("/recommend/like")
+    suspend fun postLikeProblems(@Body problem: ProblemModel): Unit
 }

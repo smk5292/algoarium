@@ -22,9 +22,12 @@ private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     private val espHelper = ApplicationClass.preferencesHelper
 
-    private fun skipLogin() {
+    private fun skipLogin(token: OAuthToken) {
         if (AuthApiClient.instance.hasToken()) {
             try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    loadUser(token)
+                }
                 UserApiClient.instance.accessTokenInfo { token, _ ->
                     val intent = Intent(act, MainActivity::class.java)
                     intent.putExtra("kakaoToken", token)
@@ -38,12 +41,12 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
     }
 
     fun setLoginBtn(loginBtn: ImageButton) {
-        skipLogin()
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Toast.makeText(act, "카카오 계정으로 로그인 실패", Toast.LENGTH_SHORT).show()
             }
             if (token != null) {
+                skipLogin(token)
                 // 액티비티 이동
                 val intent = Intent(act, MainActivity::class.java)
                 act.startActivity(intent)
@@ -94,6 +97,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             espHelper.prefAccessToken = kakaoToken.accessToken
             espHelper.prefRefreshToken = kakaoToken.refreshToken
             espHelper.prefUserId = it.id
+            espHelper.prefUserNickname = it.nickname
             espHelper.prefUserEmail = it.kakaoId
             espHelper.prefUserProfile = it.profileImage
             espHelper.prefUserTier = it.preTier
