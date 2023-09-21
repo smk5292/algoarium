@@ -135,6 +135,10 @@ public class WebSocketClient {
                 JFrame frame = new JFrame("Algoarium"); // 프레임 생성
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // 프레임 닫기 버튼 동작 설정
 
+                // 창 크기 조절 비활성화
+                frame.setResizable(false); // 창 크기 조절 비활성화
+
+
                 // 시스템 트레이 설정
                 if (SystemTray.isSupported()) {
                     SystemTray tray = SystemTray.getSystemTray();
