@@ -17,7 +17,7 @@ public class ProblemLikeEntity {
     private Integer problemLikeId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity userEntity;
 
     @ManyToOne
