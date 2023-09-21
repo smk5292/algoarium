@@ -16,7 +16,7 @@ class RankingRemoteDataSource @Inject constructor(
         return rankingRemote.getRankingsByTier(tier)
     }
 
-    override suspend fun getRanking(userId: Int): Ranking {
+    override suspend fun getRanking(userId: Long): Ranking {
         return rankingRemote.getRanking(userId)
     }
 

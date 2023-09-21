@@ -1,13 +1,16 @@
 package com.d204.algo.di
 
 import com.d204.algo.data.repository.remote.RankingRemote
+import com.d204.algo.data.repository.remote.StatusRemote
 import com.d204.algo.data.repository.remote.UserRemote
 import com.d204.algo.presentation.utils.Constants
 import com.d204.algo.presentation.utils.TokenManager
 import com.d204.algo.remote.RankingRemoteImpl
+import com.d204.algo.remote.StatusRemoteImpl
 import com.d204.algo.remote.UserRemoteImpl
 import com.d204.algo.remote.api.RankingService
 import com.d204.algo.remote.api.ServiceFactory
+import com.d204.algo.remote.api.StatusService
 import com.d204.algo.remote.api.UserService
 import dagger.Module
 import dagger.Provides
@@ -32,13 +35,25 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideUserRemote(characterRemote: UserRemoteImpl): UserRemote {
-        return characterRemote
+    fun provideStatusService(tokenManager: TokenManager): StatusService {
+        return ServiceFactory.createStatusService(Constants.DEBUG, Constants.BASE_URL, tokenManager)
     }
 
     @Provides
     @Singleton
-    fun provideRankingRemote(characterRemote: RankingRemoteImpl): RankingRemote {
-        return characterRemote
+    fun provideUserRemote(userRemote: UserRemoteImpl): UserRemote {
+        return userRemote
+    }
+
+    @Provides
+    @Singleton
+    fun provideRankingRemote(rankingRemote: RankingRemoteImpl): RankingRemote {
+        return rankingRemote
+    }
+
+    @Provides
+    @Singleton
+    fun provideStatusRemote(statusRemote: StatusRemoteImpl): StatusRemote {
+        return statusRemote
     }
 }

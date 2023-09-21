@@ -24,7 +24,7 @@ class RankingRepositoryImpl @Inject constructor(
         emit(handleApi { dataSourceFactory.getDataStore(isRemote).getRankingsByTier(tier) })
     }
 
-    override suspend fun getRanking(userId: Int): Flow<NetworkResult<Ranking>> = flow {
+    override suspend fun getRanking(userId: Long): Flow<NetworkResult<Ranking>> = flow {
         emit(handleApi { dataSourceFactory.getRemoteDataSource().getRanking(userId) })
     }
 }

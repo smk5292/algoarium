@@ -12,6 +12,6 @@ interface UserService {
     @GET("api/user/{tier}")
     suspend fun getUsersByTier(@Path("tier") tier: Int): Response<List<UserModel>>
 
-    @GET("api/user/{id}")
-    suspend fun getUser(@Path("id") id: Int): Response<UserModel>
+    @GET("api/user/login/{accessToken}/{refreshToken}")
+    suspend fun getUser(@Path("accessToken") accessToken: String, @Path("refreshToken") refreshToken: String): Response<UserModel>
 }

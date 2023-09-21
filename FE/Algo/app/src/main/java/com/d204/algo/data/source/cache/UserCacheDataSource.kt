@@ -16,7 +16,7 @@ class UserCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
     }
 
-    override suspend fun getUser(userId: Int): User {
+    override suspend fun getUser(accessToken: String, refreshToken: String): User {
         throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
     }
 

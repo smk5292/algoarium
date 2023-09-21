@@ -11,7 +11,7 @@ class UiAwareLiveData<T : UiAwareModel> : MutableLiveData<T>() {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         super.observe(
-            owner
+            owner,
         ) { value: T? ->
             value?.isRedelivered = false
             val inProperState =

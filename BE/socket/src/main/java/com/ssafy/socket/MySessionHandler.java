@@ -5,6 +5,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
+
 import java.awt.*;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.net.URI;
 class MySessionHandler extends StompSessionHandlerAdapter {
 
     private final String channelId;
+    private StompSession currentSession; // 현재 연결된 세션
 
     public MySessionHandler(String channelId) {
         this.channelId = channelId;
@@ -21,6 +23,9 @@ class MySessionHandler extends StompSessionHandlerAdapter {
     // 웹소켓 연결이 성공하면 호출되는 메서드
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+
+        this.currentSession = session; // 연결 후 현재 세션 저장
+
         // "/topic/url" 주제를 구독하고 메시지가 도착하면 처리할 핸들러를 등록합니다.
         session.subscribe("/topic/url/" + channelId, new StompFrameHandler() {
             // 수신된 메시지의 payload 타입을 반환합니다. 여기서는 Url 클래스로 지정되어 있습니다.
@@ -45,5 +50,11 @@ class MySessionHandler extends StompSessionHandlerAdapter {
                 }
             }
         });
+    }
+
+    public void disconnect() {
+        if (this.currentSession != null) {
+            this.currentSession.disconnect(); // 연결된 세션이 있다면 끊기
+        }
     }
 }

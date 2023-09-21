@@ -3,6 +3,8 @@ package com.d204.algo.remote.api
 import com.d204.algo.presentation.utils.AuthAuthenticator
 import com.d204.algo.presentation.utils.AuthInterceptor
 import com.d204.algo.presentation.utils.TokenManager
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,11 +24,20 @@ object ServiceFactory {
         return retrofit.create(RankingService::class.java)
     }
 
+    fun createStatusService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): StatusService {
+        val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
+        return retrofit.create(StatusService::class.java)
+    }
+
+    private val moshi = Moshi.Builder() // adapter
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
     private fun createRetrofit(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createOkHttpClient(createLoggingInterceptor(isDebug), tokenManager))
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
 
@@ -36,7 +47,7 @@ object ServiceFactory {
             .connectTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .authenticator(createAuthAuthenticator(tokenManager))
-            .addNetworkInterceptor(createAuthInterceptor(tokenManager))
+            .addInterceptor(createAuthInterceptor(tokenManager))
             .build()
     }
 

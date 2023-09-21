@@ -1,4 +1,3 @@
 package com.d204.algo.cache.dao
 
-interface RankingDao {
-}
+interface RankingDao

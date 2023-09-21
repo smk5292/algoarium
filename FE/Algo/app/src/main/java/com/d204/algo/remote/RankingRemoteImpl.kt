@@ -22,7 +22,7 @@ class RankingRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRanking(userId: Int): Ranking {
+    override suspend fun getRanking(userId: Long): Ranking {
         return rankingMapper.mapFromModel(rankingService.getRanking(userId).body()!!)
     }
 

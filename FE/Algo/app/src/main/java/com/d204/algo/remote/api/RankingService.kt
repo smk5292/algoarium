@@ -13,5 +13,5 @@ interface RankingService {
     suspend fun getRankingsByTier(@Path("tier") tier: Int): Response<List<RankingModel>>
 
     @GET("api/user_ranking/{id}")
-    suspend fun getRanking(@Path("id") id: Int): Response<RankingModel>
+    suspend fun getRanking(@Path("id") id: Long): Response<RankingModel>
 }
