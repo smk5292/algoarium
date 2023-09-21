@@ -60,7 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     }
 
     private fun setSkin() {
-        if(ApplicationClass.skinOn == false) {
+        if (ApplicationClass.skinOn == false) {
             binding.homeRecommend.setImageResource(R.drawable.starhouse_copyrighted)
             binding.homeRanking.setImageResource(R.drawable.squidhouse_copyrighted)
             binding.homeMypage.setImageResource(R.drawable.pineapplehouse_copyrighted)
@@ -78,17 +78,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         binding.apply {
             fragmentHomeScrollView.post { fragmentHomeScrollView.scrollTo(fragmentHomeScrollView.getChildAt(0).width / 3, 0) }
             homeRecommend.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_recommend)
             }
 
             homeRanking.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_ranking)
             }
 
             homeMypage.setOnClickListener {
-                (requireActivity() as MainActivity).callTransition()
+                with(requireActivity() as MainActivity) {
+                    callTransition()
+                    delayClickWhileAnimation()
+                }
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_status)
             }
         }

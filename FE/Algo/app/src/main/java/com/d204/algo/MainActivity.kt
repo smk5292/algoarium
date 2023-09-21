@@ -6,10 +6,13 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import com.bumptech.glide.RequestManager
@@ -22,9 +25,12 @@ import com.d204.algo.databinding.ActivityMainBinding
 import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "MainActivity"
+private const val ACTION_ANIM_TIME = 2_000L
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var glide: RequestManager
 
+    // fragment 이동 화면 애니메이션 종료 여부
+    var isAnimationFinished = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -57,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 //        var keyHash = Utility.getKeyHash(this)
 //        Log.d(TAG, "onCreate: $keyHash")
 //        showSnackBar(binding.root, "ㅎㅇ")
+        initBackPress()
     }
 
     private fun setupNavHost() {
@@ -186,5 +196,30 @@ class MainActivity : AppCompatActivity() {
 
     fun sendSocketMessage(url: String) {
         stompClient.sendStomp(url, "9")
+    }
+
+    // 뒤로가기
+    private fun initBackPress() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (isAnimationFinished) {
+                        findNavController(R.id.nav_host_fragment_activity_main).navigateUp()
+                    }
+                }
+            },
+        )
+    }
+
+    // ACTION_ANIM_TIME 동안 화면 클릭 방지
+    fun delayClickWhileAnimation() {
+        lifecycleScope.launch {
+            isAnimationFinished = false
+            window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            delay(ACTION_ANIM_TIME)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            isAnimationFinished = true
+        }
     }
 }

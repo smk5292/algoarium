@@ -13,7 +13,7 @@ class StatusMapper @Inject constructor() : Mapper<StatusModel, Status> {
             strength = model.strength,
             charisma = model.charisma,
             vitality = model.vitality,
-            luck = model.luck
+            luck = model.luck,
         )
     }
 
@@ -25,7 +25,7 @@ class StatusMapper @Inject constructor() : Mapper<StatusModel, Status> {
             strength = type.strength,
             charisma = type.charisma,
             vitality = type.vitality,
-            luck = type.luck
+            luck = type.luck,
         )
     }
 }
