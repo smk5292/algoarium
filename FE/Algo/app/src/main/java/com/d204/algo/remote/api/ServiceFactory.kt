@@ -46,8 +46,8 @@ object ServiceFactory {
             .addInterceptor(httpLoggingInterceptor)
             .connectTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
-            .authenticator(createAuthAuthenticator(tokenManager))
-            .addInterceptor(createAuthInterceptor(tokenManager))
+//            .authenticator(createAuthAuthenticator(tokenManager))
+//            .addInterceptor(createAuthInterceptor(tokenManager))
             .build()
     }
 

@@ -2,16 +2,18 @@ package com.d204.algo.remote
 
 import com.d204.algo.data.api.NetworkResult
 import com.d204.algo.data.api.handleApi
+import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.data.repository.remote.StatusRemote
 import com.d204.algo.remote.api.StatusService
+import com.d204.algo.remote.mapper.ProblemMapper
 import com.d204.algo.remote.mapper.StatusMapper
-import com.d204.algo.remote.model.ProblemModel
 import javax.inject.Inject
 
 class StatusRemoteImpl @Inject constructor(
     private val statusService: StatusService,
     private val statusMapper: StatusMapper,
+    private val problemMapper: ProblemMapper,
 ) : StatusRemote {
     override suspend fun getStatus(userId: Long): NetworkResult<Status> {
         return handleApi {
@@ -19,9 +21,9 @@ class StatusRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateMemo(problemModel: ProblemModel): NetworkResult<Unit> {
+    override suspend fun updateMemo(problem: Problem): NetworkResult<Unit> {
         return handleApi {
-            statusService.updateMemo(problemModel)
+            statusService.updateMemo(problemMapper.mapToModel(problem))
         }
     }
 

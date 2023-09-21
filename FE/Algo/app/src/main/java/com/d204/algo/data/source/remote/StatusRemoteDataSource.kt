@@ -15,7 +15,7 @@ class StatusRemoteDataSource @Inject constructor(
     }
 
     override suspend fun updateMemo(problem: Problem) {
-//        return statusRemote.getStatus(problem).successOr(Problem())
+        statusRemote.updateMemo(problem)
     }
 
     override suspend fun isRemote(): Boolean {

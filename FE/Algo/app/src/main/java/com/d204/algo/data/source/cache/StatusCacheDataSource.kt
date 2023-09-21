@@ -1,5 +1,6 @@
 package com.d204.algo.data.source.cache
 
+import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.data.repository.cache.StatusCache
 import com.d204.algo.data.repository.datasource.StatusDataSource
@@ -10,6 +11,10 @@ class StatusCacheDataSource @Inject constructor(
 ) : StatusDataSource {
     override suspend fun getStatus(userId: Long): Status {
         throw UnsupportedOperationException("getStatuss is not supported for StatusCacheDataSource.")
+    }
+
+    override suspend fun updateMemo(problem: Problem) {
+        throw UnsupportedOperationException("updateMemo is not supported for StatusCacheDataSource.")
     }
 
     override suspend fun isRemote(): Boolean {
