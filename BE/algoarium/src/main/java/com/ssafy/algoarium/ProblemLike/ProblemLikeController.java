@@ -49,6 +49,7 @@ public class ProblemLikeController {
         Integer problemId = problemLikeDTO.getProblemId();
         Integer userId = problemLikeDTO.getUserId();
         String memo = problemLikeDTO.getMemo();
+        Boolean likeType = problemLikeDTO.getLikeType();
 
         ProblemEntity problemEntity = problemService.getProblemById(problemId);
         UserEntity userEntity = userService.getUserById(userId);
@@ -56,12 +57,13 @@ public class ProblemLikeController {
         ProblemLikeEntity existingLike = problemLikeService.getProblemLikeByProblemAndUser(problemEntity, userEntity);
 
         if (existingLike != null) {
+            existingLike.setLikeType(likeType);
             existingLike.setMemo(memo);
 
             return problemLikeService.updateProblemLike(existingLike);
         }
 
-        return problemLikeService.createMemo(problemEntity, userEntity, memo);
+        return problemLikeService.createMemo(problemEntity, userEntity, likeType, memo);
     }
 
 

@@ -13,7 +13,12 @@ public class ProblemLikeDTO {
     private Boolean likeType;
     private String memo;
     private Integer problemId;
-    private Integer userId; // 이 부분을 추가합니다.
+    private Integer userId;
+    private Integer problemNumber; // problemNumber 필드 추가
+    private String title; // title 필드 추가
+    private String problemTag; // problemTag 필드 추가
+    private Integer problemLevel; // problemLevel 필드 추가
+    private Integer solvedUserCount; // solvedUserCount 필드 추가
 
     public Integer getProblemId() {
         return this.problemId;
