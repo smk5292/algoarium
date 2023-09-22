@@ -97,7 +97,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             espHelper.prefAccessToken = kakaoToken.accessToken
             espHelper.prefRefreshToken = kakaoToken.refreshToken
             espHelper.prefUserId = it.id
-            espHelper.prefUserNickname = it.nickname
+            espHelper.prefUserNickname = it.kakaoNickname
             espHelper.prefUserEmail = it.kakaoId
             espHelper.prefUserProfile = it.profileImage
             espHelper.prefUserTier = it.preTier
