@@ -29,18 +29,32 @@ class RecommendFragmentViewModel @Inject constructor(
     // 어떤 UIModel에서 에러가 났는지 표시하기 위해 사용
     private var errorSite = 0
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
+    private val _selectedStrongList = UiAwareLiveData<RecommendUIModel>()
+    var selectedStrongList: LiveData<RecommendUIModel> = _selectedStrongList
+
+    private val _selectedWeakList = UiAwareLiveData<RecommendUIModel>()
+    var selectedWeakList: LiveData<RecommendUIModel> = _selectedWeakList
+
+    private val _selectedSimilarList = UiAwareLiveData<RecommendUIModel>()
+    var selectedSimilarList: LiveData<RecommendUIModel> = _selectedSimilarList
+
+    // <!------------------------------------------------------->
     private val _strongList = UiAwareLiveData<RecommendUIModel>()
     var strongList: LiveData<RecommendUIModel> = _strongList
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
+    private var constStrongList: List<Problem> = listOf()
+
     private val _weakList = UiAwareLiveData<RecommendUIModel>()
     var weakList: LiveData<RecommendUIModel> = _weakList
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
+    private var constWeakList: List<Problem> = listOf()
+
     private val _similarList = UiAwareLiveData<RecommendUIModel>()
     var similarList: LiveData<RecommendUIModel> = _similarList
 
+    private var constSimilarList: List<Problem> = listOf()
+
+    // <!------------------------------------------------------->
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
         when (errorSite) {
@@ -69,6 +83,33 @@ class RecommendFragmentViewModel @Inject constructor(
         return similarList
     }
 
+    // <!------------------------------------------------------->
+    fun setConstStrongs(list: List<Problem>) {
+        constStrongList = list
+    }
+
+    fun setConstWeaks(list: List<Problem>) {
+        constWeakList = list
+    }
+
+    fun setConstSimilars(list: List<Problem>) {
+        constSimilarList = list
+    }
+
+    // <!------------------------------------------------------->
+    fun getSelectedStrongs(): LiveData<RecommendUIModel> {
+        return selectedStrongList
+    }
+
+    fun getSelectedWeaks(): LiveData<RecommendUIModel> {
+        return selectedWeakList
+    }
+
+    fun getSelectedSimilars(): LiveData<RecommendUIModel> {
+        return selectedSimilarList
+    }
+
+    // <!------------------------------------------------------->
     fun getStrongList(userId: Long): LiveData<RecommendUIModel> {
         errorSite = 1
         _strongList.postValue(RecommendUIModel.Loading)
@@ -84,11 +125,15 @@ class RecommendFragmentViewModel @Inject constructor(
         }
     }
 
+    fun loadConstStrongList() {
+        _selectedStrongList.postValue(RecommendUIModel.Success(constStrongList.shuffled().take(3)))
+    }
+
     fun getWeakList(userId: Long): LiveData<RecommendUIModel> {
         errorSite = 2
         _weakList.postValue(RecommendUIModel.Loading)
         launchCoroutineIO {
-            loadStrongList(userId)
+            loadWeakList(userId)
         }
         return weakList
     }
@@ -99,11 +144,15 @@ class RecommendFragmentViewModel @Inject constructor(
         }
     }
 
+    fun loadConstWeakList() {
+        _selectedWeakList.postValue(RecommendUIModel.Success(constWeakList.shuffled().take(3)))
+    }
+
     fun getSimilarList(userId: Long): LiveData<RecommendUIModel> {
         errorSite = 3
         _similarList.postValue(RecommendUIModel.Loading)
         launchCoroutineIO {
-            loadStrongList(userId)
+            loadSimilarList(userId)
         }
         return similarList
     }
@@ -112,5 +161,9 @@ class RecommendFragmentViewModel @Inject constructor(
         problemRepository.getStrongProblems(userId).collect {
             _similarList.postValue(RecommendUIModel.Success(it))
         }
+    }
+
+    fun loadConstSimilarList() {
+        _selectedSimilarList.postValue(RecommendUIModel.Success(constSimilarList.shuffled().take(3)))
     }
 }
