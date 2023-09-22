@@ -42,7 +42,7 @@
             android:id="@+id/memo_title_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            tools:text="아니 세상에 현우형만 합격할 줄이야"
+            tools:text="아기상어 뚜루루뚜루 귀여운 뚜루루뚜루"
             style="@style/promoteStyle"
             android:singleLine="true"
             android:ellipsize="marquee"

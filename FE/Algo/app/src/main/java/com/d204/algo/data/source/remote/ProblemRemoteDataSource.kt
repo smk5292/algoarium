@@ -16,6 +16,10 @@ class ProblemRemoteDataSource @Inject constructor(
         return problemRemote.getProblem(problemId)
     }
 
+    override suspend fun getLikeProblems(userId: Long): List<Problem> {
+        return problemRemote.getLikeProblems(userId)
+    }
+
     override suspend fun isRemote(): Boolean {
         return problemRemote.isRemote()
     }

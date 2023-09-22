@@ -6,6 +6,7 @@ interface ProblemDataSource {
     // remote
     suspend fun getProblems(): List<Problem>
     suspend fun getProblem(problemId: Long): Problem
+    suspend fun getLikeProblems(userId: Long): List<Problem>
 
     // cache
 

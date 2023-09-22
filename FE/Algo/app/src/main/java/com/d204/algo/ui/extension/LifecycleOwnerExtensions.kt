@@ -9,7 +9,7 @@ fun <T> LifecycleOwner.observe(liveData: LiveData<T>, observer: (T) -> Unit) {
         this,
         {
             it?.let { t -> observer(t) }
-        }
+        },
     )
 }
 
@@ -18,6 +18,6 @@ fun <T> LifecycleOwner.observe(liveData: MutableLiveData<T>, observer: (T) -> Un
         this,
         {
             it?.let { t -> observer(t) }
-        }
+        },
     )
 }

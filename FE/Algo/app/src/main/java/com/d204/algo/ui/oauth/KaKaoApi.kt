@@ -22,11 +22,11 @@ private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     private val espHelper = ApplicationClass.preferencesHelper
 
-    private fun skipLogin(token: OAuthToken) {
+    private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
             try {
                 CoroutineScope(Dispatchers.IO).launch {
-                    loadUser(token)
+                    loadUser(AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!)
                 }
                 UserApiClient.instance.accessTokenInfo { token, _ ->
                     val intent = Intent(act, MainActivity::class.java)
@@ -41,12 +41,14 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
     }
 
     fun setLoginBtn(loginBtn: ImageButton) {
+        // 자동 로그인
+        skipLogin()
+
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Toast.makeText(act, "카카오 계정으로 로그인 실패", Toast.LENGTH_SHORT).show()
             }
             if (token != null) {
-                skipLogin(token)
                 // 액티비티 이동
                 val intent = Intent(act, MainActivity::class.java)
                 act.startActivity(intent)
