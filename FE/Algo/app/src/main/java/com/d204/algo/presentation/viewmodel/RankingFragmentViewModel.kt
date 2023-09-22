@@ -19,7 +19,7 @@ sealed class RankingUIModel : UiAwareModel() {
 }
 
 sealed class SingleRankingUIModel : UiAwareModel() {
-    object Loading : RankingUIModel()
+    object Loading : SingleRankingUIModel()
     data class Error(var error: String = "") : SingleRankingUIModel()
     data class Success(val data: Ranking) : SingleRankingUIModel()
 }
@@ -59,30 +59,30 @@ class RankingFragmentViewModel @Inject constructor(
     }
 
     fun getTopRanking(tier: Int): LiveData<SingleRankingUIModel> {
-        _rankingList.postValue(SingleRankingUIModel.Loading)
+        _topRanking.postValue(SingleRankingUIModel.Loading)
         launchCoroutineIO {
             loadTopRanking(tier)
         }
-        return rankingList
+        return topRanking
     }
 
     private suspend fun loadTopRanking(tier: Int) {
-        rankingRepository.getRankingsByTier(tier).collect {
-            _rankingList.postValue(SingleRankingUIModel.Success(it))
+        rankingRepository.getRankingTop(tier).collect {
+            _topRanking.postValue(SingleRankingUIModel.Success(it))
         }
     }
 
     fun getMyRanking(userId: Long): LiveData<SingleRankingUIModel> {
-        _rankingList.postValue(SingleRankingUIModel.Loading)
+        _myRanking.postValue(SingleRankingUIModel.Loading)
         launchCoroutineIO {
             loadMyRanking(userId)
         }
-        return rankingList
+        return myRanking
     }
 
     private suspend fun loadMyRanking(userId: Long) {
         rankingRepository.getRanking(userId).collect {
-            _rankingList.postValue(SingleRankingUIModel.Success(it))
+            _myRanking.postValue(SingleRankingUIModel.Success(it))
         }
     }
 }
