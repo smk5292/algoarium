@@ -53,12 +53,11 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
                         if (memoEditText.text.toString() != viewModel.registeredMemoContent) {
                             // 작성한 메모를 등록하지 않고 나갈때
                             showDialog(
-                                title = "타이틀",
-                                message = "메시지",
-                                textPositive = "긍정",
-                                positiveListener = { },
-                                textNegative = "부정",
-                                negativeListener = { },
+                                title = "저장하시겠습니까?",
+                                textPositive = "저장",
+                                positiveListener = { registerMemo() },
+                                textNegative = "저장하지 않고 나가기",
+                                negativeListener = { findNavController().navigateUp() },
                             )
                         } else {
                             findNavController().navigateUp()
@@ -70,12 +69,12 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
 
         // 등록 버튼
         memoRegisterButton.setOnClickListener {
-            registerButtonClick()
+            registerMemo()
         }
     }
 
     // 메모 등록 버튼 클릭
-    private fun registerButtonClick() {
+    private fun registerMemo() {
         viewModel.updateMemo(
             1L,
             ApplicationClass.preferencesHelper.prefUserId,
