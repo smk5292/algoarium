@@ -53,7 +53,7 @@ public class RedisService {
 		else{
 			System.out.printf("%s is not exist!!",redisDto.getRefreshToken());
 		}
-		System.out.println("Update DB Process is complete!!");
+		System.out.println("Upd ate DB Process is complete!!");
 	}
 
 }
