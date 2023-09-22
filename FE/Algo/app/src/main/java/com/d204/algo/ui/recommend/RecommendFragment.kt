@@ -52,10 +52,20 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         observe(viewModel.getSelectedWeaks(), ::onViewWeakChange)
         observe(viewModel.getSelectedSimilars(), ::onViewSimilarChange)
 
-        // 각 30개의 추천 문제 리스트를 서버에서 가져온다 -> 변경되면 observe에서 인지하고 binding ui를 갱신
+        // 억지로 주입
+        viewModel.setConstStrongs(listOf(Problem()))
+
+        // 각 30개의 추천 문제 리스트를 서버에서 가져온다 -> postValue -> 변경되면 observe에서 인지하고 binding ui를 갱신
         viewModel.getStrongList(espHelper.prefUserId)
         viewModel.getWeakList(espHelper.prefUserId)
         viewModel.getSimilarList(espHelper.prefUserId)
+
+        // 리프레쉬 등록
+        with(binding) {
+            recommendStrongRefresh.setOnClickListener { viewModel.loadConstStrongList() }
+            recommendWeakRefresh.setOnClickListener { viewModel.loadConstWeakList() }
+            recommendLikeRefresh.setOnClickListener { viewModel.loadConstSimilarList() }
+        }
     }
 
     private fun setProblem(v: RecommendProblemView, problem: Problem) {
@@ -96,7 +106,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-
+                viewModel.setConstStrongs(result.data) // 정적리스트에 담아주고
+                viewModel.loadConstStrongList() // 정적리스트 가져오면  3개만 담는 추천 리스트에 postValue
             }
         }
     }
@@ -108,7 +119,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                result.data.subList(0, 3)
+                viewModel.setConstWeaks(result.data) // 정적리스트에 담아주고
+                viewModel.loadConstWeakList()  // 최초 갱신
             }
         }
     }
@@ -120,7 +132,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                result.data.subList(0, 3)
+                viewModel.setConstSimilars(result.data) // 정적리스트에 담아주고
+                viewModel.loadConstSimilarList()  // 최초 갱신
             }
         }
     }
