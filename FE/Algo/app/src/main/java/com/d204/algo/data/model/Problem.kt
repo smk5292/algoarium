@@ -27,5 +27,16 @@ data class Problem(
         problemMemo = problemMemo,
         userId = userId,
     )
+    constructor(problemId: Long, userId: Long, problemLike: Boolean) : this(
+        id = problemId,
+        problemNumber = -1,
+        title = "",
+        problemTag = "",
+        problemLevel = -1,
+        solvedUserCount = -1,
+        problemLike = problemLike,
+        problemMemo = "",
+        userId = userId,
+    )
     constructor() : this(0, 0, "", "", 0, 0, false, "", 0)
 }

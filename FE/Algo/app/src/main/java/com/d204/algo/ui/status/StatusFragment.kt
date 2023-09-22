@@ -17,6 +17,7 @@ import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
 import com.d204.algo.ui.adapter.StatusAdapter
 import com.d204.algo.ui.extension.observe
+import com.d204.algo.ui.recommend.RecommendFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,6 +25,24 @@ private const val TAG = "Algo_StatusFragment"
 
 @AndroidEntryPoint
 class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
+    companion object {
+        const val PROBLEM_ID = "problemId"
+        const val PROBLEM_TITLE = "problemTitle"
+        const val PROBLEM_NUMBER = "problemNumber"
+        const val PROBLEM_LEVEL = "problemLevel"
+
+        @JvmStatic
+        fun newInstance(problemId: Long, problemTitle: String, problemNumber: Int, problemLevel: Int) =
+            RecommendFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(PROBLEM_ID, problemId)
+                    putString(PROBLEM_TITLE, problemTitle)
+                    putInt(PROBLEM_NUMBER, problemNumber)
+                    putInt(PROBLEM_LEVEL, problemLevel)
+                }
+            }
+    }
+
     override fun getViewBinding(): FragmentStatusBinding = FragmentStatusBinding.inflate(layoutInflater)
     override val viewModel: StatusFragmentViewModel by viewModels()
 
@@ -98,21 +117,21 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                     isChecked: Boolean,
                     position: Int,
                 ) {
-                    if (isChecked) {
-                        // 북마크 등록
-                        // TODO: 북마크 등록 API
-                    } else {
-                        // 북마크 취소
-                        // TODO: 북마크 취소 API
-                    }
+                    viewModel.postProblemLike(
+                        Problem(
+                            problemId = problem.id,
+                            userId = ApplicationClass.preferencesHelper.prefUserId,
+                            problemLike = isChecked,
+                        ),
+                    )
                 }
                 override fun memoClick(
                     binding: ItemStatusListBinding,
                     problem: Problem,
                     position: Int,
                 ) {
-                    // TODO: 문제 정보 이동
-                    findNavController().navigate(R.id.action_navigation_status_to_navigation_memo)
+                    val fragment = newInstance(problem.id, problem.title, problem.problemNumber, problem.problemLevel)
+                    findNavController().navigate(R.id.action_navigation_status_to_navigation_memo, fragment.arguments)
                 }
             })
         }

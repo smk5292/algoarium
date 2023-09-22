@@ -86,20 +86,81 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_strong1"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_strong2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_strong1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_strong3"
+                    <ToggleButton
+                        android:id="@+id/recommend_strong_bookmark_button1"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_strong2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_strong_bookmark_button2"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_strong3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_strong_bookmark_button3"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -144,20 +205,81 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_weak1"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_weak2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_weak1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_weak3"
+                    <ToggleButton
+                        android:id="@+id/recommend_weak_bookmark_button1"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_weak2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_weak_bookmark_button2"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_weak3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_weak_bookmark_button3"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -202,20 +324,81 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_like1"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_like2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_like1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
 
-                <com.d204.algo.ui.custom.RecommendProblemView
-                    android:id="@+id/recommend_like3"
+                    <ToggleButton
+                        android:id="@+id/recommend_like_bookmark_button1"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_like2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_like_bookmark_button2"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.d204.algo.ui.custom.RecommendProblemView
+                        android:id="@+id/recommend_like3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/recommend_like_bookmark_button3"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/bookmark_toggle_button_resource"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

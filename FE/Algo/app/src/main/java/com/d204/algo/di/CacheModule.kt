@@ -1,8 +1,10 @@
 package com.d204.algo.di
 
+import com.d204.algo.cache.ProblemCacheImpl
 import com.d204.algo.cache.RankingCacheImpl
 import com.d204.algo.cache.StatusCacheImpl
 import com.d204.algo.cache.UserCacheImpl
+import com.d204.algo.data.repository.cache.ProblemCache
 import com.d204.algo.data.repository.cache.RankingCache
 import com.d204.algo.data.repository.cache.StatusCache
 import com.d204.algo.data.repository.cache.UserCache
@@ -31,6 +33,12 @@ object CacheModule {
     @Singleton
     fun provideStatusCache(statusCache: StatusCacheImpl): StatusCache {
         return statusCache
+    }
+
+    @Provides
+    @Singleton
+    fun provideProblemCache(problemCache: ProblemCacheImpl): ProblemCache {
+        return problemCache
     }
 //
 //    @Provides

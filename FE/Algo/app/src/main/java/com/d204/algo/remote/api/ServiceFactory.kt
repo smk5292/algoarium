@@ -23,10 +23,15 @@ object ServiceFactory {
         val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
         return retrofit.create(RankingService::class.java)
     }
-
+    
     fun createStatusService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): StatusService {
         val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
         return retrofit.create(StatusService::class.java)
+    }
+
+    fun createProblemService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): ProblemService {
+        val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
+        return retrofit.create(ProblemService::class.java)
     }
 
     private val moshi = Moshi.Builder() // adapter

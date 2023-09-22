@@ -32,13 +32,6 @@ class MemoFragmentViewModel @Inject constructor(
     private val _updateMemoResult = UiAwareLiveData<MemoUIModel>()
     var updateMemoResult: LiveData<MemoUIModel> = _updateMemoResult
 
-    var memoContent: String = ""
-    var registeredMemoContent: String = ""
-
-    fun setMemo(content: String) {
-        memoContent = content
-    }
-
     fun updateMemo(problemId: Long, userId: Long, problemMemo: String) {
         launchCoroutineIO {
             statusRepository.updateMemo(Problem(problemId, userId, problemMemo)).collect {

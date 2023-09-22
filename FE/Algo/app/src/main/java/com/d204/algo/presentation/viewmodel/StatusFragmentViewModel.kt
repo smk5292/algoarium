@@ -60,4 +60,10 @@ class StatusFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    fun postProblemLike(problem: Problem) {
+        launchCoroutineIO {
+            problemRepository.postLikeProblems(problem)
+        }
+    }
 }
