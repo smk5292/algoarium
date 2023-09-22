@@ -11,13 +11,13 @@ class ProblemRemoteImpl @Inject constructor(
     private val problemMapper: ProblemMapper,
 ) : ProblemRemote {
     override suspend fun getProblems(): List<Problem> {
-        return problemService.getProblems().body()!!.map { problemModel ->
+        return problemService.getProblems().map { problemModel ->
             problemMapper.mapFromModel(problemModel)
         }
     }
 
     override suspend fun getProblem(problemId: Long): Problem {
-        return problemMapper.mapFromModel(problemService.getProblem(problemId).body()!!)
+        return problemMapper.mapFromModel(problemService.getProblem(problemId))
     }
 
     override suspend fun isRemote(): Boolean {
