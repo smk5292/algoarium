@@ -15,4 +15,6 @@ data class Problem(
     val problemLike: Boolean,
     val problemMemo: String,
     val userId: Long,
-) : Parcelable, Identifiable
+) : Parcelable, Identifiable {
+    constructor() : this(0, 0, "", "", 0, 0, false, "", 0)
+}
