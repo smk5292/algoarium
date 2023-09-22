@@ -1,5 +1,6 @@
 package com.d204.algo.data
 
+import android.util.Log
 import com.d204.algo.data.model.Problem
 import com.d204.algo.data.repository.ProblemRepository
 import com.d204.algo.data.source.datasource.ProblemDataSourceFactory
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+private const val TAG = "Algo_ProblemRepositoryImpl"
 class ProblemRepositoryImpl @Inject constructor(
     private val dataSourceFactory: ProblemDataSourceFactory,
     private val problemMapper: ProblemMapper,
@@ -39,7 +41,8 @@ class ProblemRepositoryImpl @Inject constructor(
 
     override suspend fun postLikeProblems(problem: Problem): Flow<Unit> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
-        emit(dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem))
+        dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem)
+        Log.d(TAG, "postLikeProblems: $problem")
     }
 
     override suspend fun getLikeProblems(userId: Long): Flow<List<Problem>> = flow {

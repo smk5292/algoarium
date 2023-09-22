@@ -1,5 +1,6 @@
 package com.d204.algo.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Problem
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 
+private const val TAG = "Algo_StatusFragmentViewModel"
 sealed class StatusUIModel : UiAwareModel() {
     object Loading : StatusUIModel()
     data class Error(var error: String = "") : StatusUIModel()
@@ -63,7 +65,9 @@ class StatusFragmentViewModel @Inject constructor(
 
     fun postProblemLike(problem: Problem) {
         launchCoroutineIO {
-            problemRepository.postLikeProblems(problem)
+            Log.d(TAG, "postProblemLike: $problem")
+            problemRepository.postLikeProblems(problem).collect {
+            }
         }
     }
 }

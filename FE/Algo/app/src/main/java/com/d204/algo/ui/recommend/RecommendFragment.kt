@@ -75,6 +75,18 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
     private fun refreshSimilar() {
 
     }
+    
+    private fun initBookmarkClick() = with(binding) {
+        recommendStrongBookmarkButton1.setOnCheckedChangeListener { compoundButton, isChecked ->
+            viewModel.postProblemLike(
+                Problem(
+                    problemId = -1L,
+                    userId = ApplicationClass.preferencesHelper.prefUserId,
+                    problemLike = isChecked,
+                ),
+            )
+        }
+    }
 
     private fun onViewStateChange(result: RecommendUIModel) {
         if (result.isRedelivered) return

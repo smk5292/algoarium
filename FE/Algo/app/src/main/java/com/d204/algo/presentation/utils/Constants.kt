@@ -39,4 +39,26 @@ object Constants {
         R.drawable.tier29,
         R.drawable.tier30,
     )
+
+    val TIER_TRANSPARENT = listOf(
+        R.drawable.tier1_transparent,
+        R.drawable.tier2_transparent,
+        R.drawable.tier3_transparent,
+        R.drawable.tier4_transparent,
+        R.drawable.tier5_transparent,
+        R.drawable.tier6_transparent,
+        R.drawable.tier7_transparent,
+        R.drawable.tier8_transparent,
+    )
+
+    val TIER_COPYRIGHT_TRANSPARENT = listOf(
+        R.drawable.tier1_copyright_transparent,
+        R.drawable.tier2_copyright_transparent,
+        R.drawable.tier3_copyright_transparent,
+        R.drawable.tier4_copyright_transparent,
+        R.drawable.tier5_copyright_transparent,
+        R.drawable.tier6_copyright_transparent,
+        R.drawable.tier7_copyright_transparent,
+        R.drawable.tier8_copyright_transparent,
+    )
 }

@@ -1,6 +1,7 @@
 package com.d204.algo.ui.status
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,8 @@ import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Problem
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.databinding.ItemStatusListBinding
+import com.d204.algo.presentation.utils.Constants.TIER_COPYRIGHT_TRANSPARENT
+import com.d204.algo.presentation.utils.Constants.TIER_TRANSPARENT
 import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
 import com.d204.algo.ui.adapter.StatusAdapter
@@ -58,6 +61,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
     // 테스트용 함수, 데이터 연결 후 제거
     private fun test() = with(binding) {
+        statusAdapter.list = listOf(Problem(), Problem(), Problem(), Problem(), Problem())
         statusRadarChartView
             .setDataList(
                 arrayListOf(
@@ -89,51 +93,58 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
     private fun init() {
         initData()
-        initViewPager()
+        initAdapter()
     }
 
     private fun initData() = with(binding) {
+        // 상단 사용자 정보
         statusProfileUsername.text = ApplicationClass.preferencesHelper.prefUserNickname
         Glide.with(requireContext())
             .load(ApplicationClass.preferencesHelper.prefUserProfile)
             .into(statusProfileImg)
+        statusRankImage.setImageResource(
+            if (ApplicationClass.skinOn) {
+                TIER_TRANSPARENT[ApplicationClass.preferencesHelper.prefUserTier]
+            } else {
+                TIER_COPYRIGHT_TRANSPARENT[ApplicationClass.preferencesHelper.prefUserTier]
+            },
+        )
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
         viewModel.getLikeProblems(ApplicationClass.preferencesHelper.prefUserId)
     }
 
-    // 찜한 문제 리스트 초기화
-    private fun initViewPager() = with(binding) {
+    private fun initAdapter() = with(binding) {
+        statusAdapter.setStatusClickListener(object : StatusAdapter.StatusClickListener {
+            override fun bookmarkClick(
+                binding: ItemStatusListBinding,
+                problem: Problem,
+                isChecked: Boolean,
+                position: Int,
+            ) {
+                Log.d(TAG, "bookmarkClick: $isChecked")
+                viewModel.postProblemLike(
+                    Problem(
+                        problemId = problem.id,
+                        userId = ApplicationClass.preferencesHelper.prefUserId,
+                        problemLike = isChecked,
+                    ),
+                )
+            }
+            override fun memoClick(
+                binding: ItemStatusListBinding,
+                problem: Problem,
+                position: Int,
+            ) {
+                val fragment = newInstance(problem.id, problem.title, problem.problemNumber, problem.problemLevel)
+                findNavController().navigate(R.id.action_navigation_status_to_navigation_memo, fragment.arguments)
+            }
+        })
+
         statusRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-        statusRecyclerView.adapter = statusAdapter.apply {
-            list = listOf(Problem(), Problem(), Problem(), Problem(), Problem())
-            setStatusClickListener(object : StatusAdapter.StatusClickListener {
-                override fun bookmarkClick(
-                    binding: ItemStatusListBinding,
-                    problem: Problem,
-                    isChecked: Boolean,
-                    position: Int,
-                ) {
-                    viewModel.postProblemLike(
-                        Problem(
-                            problemId = problem.id,
-                            userId = ApplicationClass.preferencesHelper.prefUserId,
-                            problemLike = isChecked,
-                        ),
-                    )
-                }
-                override fun memoClick(
-                    binding: ItemStatusListBinding,
-                    problem: Problem,
-                    position: Int,
-                ) {
-                    val fragment = newInstance(problem.id, problem.title, problem.problemNumber, problem.problemLevel)
-                    findNavController().navigate(R.id.action_navigation_status_to_navigation_memo, fragment.arguments)
-                }
-            })
+            adapter = statusAdapter
         }
     }
 
