@@ -1,7 +1,5 @@
 package com.d204.algo.data
 
-import com.d204.algo.data.api.NetworkResult
-import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Problem
 import com.d204.algo.data.repository.ProblemRepository
 import com.d204.algo.data.source.datasource.ProblemDataSourceFactory
@@ -14,12 +12,33 @@ class ProblemRepositoryImpl @Inject constructor(
     private val dataSourceFactory: ProblemDataSourceFactory,
     private val problemMapper: ProblemMapper,
 ) : ProblemRepository {
-    override suspend fun getProblems(): Flow<NetworkResult<List<Problem>>> = flow {
+    override suspend fun getProblems(): Flow<List<Problem>> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
-        emit(handleApi { dataSourceFactory.getDataSource(isRemote).getProblems() })
+        emit(dataSourceFactory.getDataSource(isRemote).getProblems())
     }
 
-    override suspend fun getProblem(problemId: Long): Flow<NetworkResult<Problem>> = flow {
-        emit(handleApi { dataSourceFactory.getRemoteDataSource().getProblem(problemId) })
+    override suspend fun getProblem(problemId: Long): Flow<Problem> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).getProblem(problemId))
+    }
+
+    override suspend fun getStrongProblems(userId: Long): Flow<List<Problem>> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).getStrongProblems(userId))
+    }
+
+    override suspend fun getWeakProblems(userId: Long): Flow<List<Problem>> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).getWeakProblems(userId))
+    }
+
+    override suspend fun getSimilarProblems(userId: Long): Flow<List<Problem>> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).getSimilarProblems(userId))
+    }
+
+    override suspend fun postLikeProblems(problem: Problem): Flow<Unit> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem))
     }
 }

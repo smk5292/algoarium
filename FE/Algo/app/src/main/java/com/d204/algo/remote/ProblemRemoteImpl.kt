@@ -1,5 +1,7 @@
 package com.d204.algo.remote
 
+import com.d204.algo.data.api.NetworkResult
+import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Problem
 import com.d204.algo.data.repository.remote.ProblemRemote
 import com.d204.algo.remote.api.ProblemService
@@ -10,14 +12,46 @@ class ProblemRemoteImpl @Inject constructor(
     private val problemService: ProblemService,
     private val problemMapper: ProblemMapper,
 ) : ProblemRemote {
-    override suspend fun getProblems(): List<Problem> {
-        return problemService.getProblems().map { problemModel ->
-            problemMapper.mapFromModel(problemModel)
+    override suspend fun getProblems(): NetworkResult<List<Problem>> {
+        return handleApi {
+            problemService.getProblems().map { problemModel ->
+                problemMapper.mapFromModel(problemModel)
+            }
         }
     }
 
-    override suspend fun getProblem(problemId: Long): Problem {
-        return problemMapper.mapFromModel(problemService.getProblem(problemId))
+    override suspend fun getProblem(problemId: Long): NetworkResult<Problem> {
+        return handleApi {
+            problemMapper.mapFromModel(problemService.getProblem(problemId))
+        }
+    }
+
+    override suspend fun getStrongProblems(userId: Long): NetworkResult<List<Problem>> {
+        return handleApi {
+            problemService.getStrongProblems(userId).map { problemModel ->
+                problemMapper.mapFromModel(problemModel)
+            }
+        }
+    }
+
+    override suspend fun getWeakProblems(userId: Long): NetworkResult<List<Problem>> {
+        return handleApi {
+            problemService.getWeakProblems(userId).map { problemModel ->
+                problemMapper.mapFromModel(problemModel)
+            }
+        }
+    }
+
+    override suspend fun getSimilarProblems(userId: Long): NetworkResult<List<Problem>> {
+        return handleApi {
+            problemService.getSimilarProblems(userId).map { problemModel ->
+                problemMapper.mapFromModel(problemModel)
+            }
+        }
+    }
+
+    override suspend fun postLikeProblems(problem: Problem): NetworkResult<Unit> {
+        return handleApi { problemService.postLikeProblems(problemMapper.mapToModel(problem)) }
     }
 
     override suspend fun isRemote(): Boolean {

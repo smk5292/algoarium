@@ -7,7 +7,7 @@ import com.d204.algo.data.repository.datasource.StatusDataSource
 import javax.inject.Inject
 
 class StatusCacheDataSource @Inject constructor(
-    private val StatusCache: StatusCache
+    private val StatusCache: StatusCache,
 ) : StatusDataSource {
     override suspend fun getStatus(userId: Long): Status {
         throw UnsupportedOperationException("getStatuss is not supported for StatusCacheDataSource.")
