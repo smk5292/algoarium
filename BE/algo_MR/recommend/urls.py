@@ -7,4 +7,5 @@ from . import views #views.py import
 
 urlpatterns = [
     path('test_recommend_problem/', views.test_recommend_problem, name='test_recommend_problem'),
+    path('problem_correlation/', views.problem_correlation, name='problem_correlation'),
 ]

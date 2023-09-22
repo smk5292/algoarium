@@ -58,6 +58,7 @@ public class TagService {
             JSONArray displayNames = tag.getJSONArray("displayNames");
 
             JSONObject displayName = displayNames.getJSONObject(0);
+
             String name = displayName.getString("name");
             tagDTOList.add(TagDTO.builder().tagName(name).build());
         }

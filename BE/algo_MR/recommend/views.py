@@ -3,78 +3,83 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import BeakjoonUserSerializer
-from .models import BeakjoonUser, Problem
+from .models import Problem, ProblemTag, TagCorrelation
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+from .serializers import ProblemSerializer, ProblemTagSerializer
+from collections import defaultdict
+from django.db import transaction
+from itertools import combinations
+from scipy.stats import pearsonr
 
-
-@api_view(['GET'])
+@api_view(['POST'])
 def test_recommend_problem(request):
-    beakjoon_users = BeakjoonUser.objects.all() 
-    problems = Problem.objects.all()
-    
-    # 사용자가 푼 문제와 각 문제의 특징 데이터 준비
-    user_solved_problems = {}  # 사용자가 푼 문제 저장
-    problem_features = {}  # 문제 특징 데이터 저장
-
-    user1 = BeakjoonUser.objects.get(pk=1)  # 사용자 객체 가져오기
-    solved_problems = user1.problem_set.all()  # 사용자가 푼 모든 문제 가져오기
-    print("1: 사용자가 푼 문제")
-    print(solved_problems)
-    # for user in beakjoon_users:
-    #     solved_problems = user.problem_set.all()
-    #     user_solved_problems[user.pk] = [problem.title for problem in solved_problems]
-    user_solved_problems[user1.pk] = [problem.id for problem in solved_problems]
-    print("2. 사용자가 푼 문제번호만")
-    print(user_solved_problems[user1.pk])
-    for problem in problems:
-        tags = problem.tag_set.all()
-        problem_features[problem.id] = ' '.join([tag.tag_name for tag in tags])
-    # TF-IDF 벡터화
-    tfidf_vectorizer = TfidfVectorizer()
-    tfidf_matrix = tfidf_vectorizer.fit_transform(list(problem_features.values()))
-    print(tfidf_matrix)
-    # 추천할 사용자 선택 (예시: 첫 번째 사용자)
-    # target_user = beakjoon_users[0]
-
-    # 사용자가 푼 문제 제외하고 유사한 문제 찾기
-    user_solved_problem_titles = user_solved_problems[user1.pk]
-    candidate_problems = Problem.objects.exclude(title__in=user_solved_problem_titles)
-
-    # 사용자와 각 후보 문제의 유사도 계산
-    cosine_similarities = linear_kernel(tfidf_vectorizer.transform([problem_features[p.title] for p in candidate_problems]), tfidf_vectorizer.transform([problem_features[p] for p in user_solved_problem_titles]))
-
-    # 가장 유사한 문제 선택
-    # best_match_index = cosine_similarities.argmax()
-    # recommended_problem = candidate_problems[best_match_index]
-    best_match_index = int(cosine_similarities.argmax())
-    # recommended_problem = candidate_problems[best_match_index]
-    if best_match_index < len(candidate_problems):
-        recommended_problem = candidate_problems[best_match_index]
-    else:
-        # 후보 문제가 없을 경우에 대한 처리
-        recommended_problem = None  # 또는 다른 기본값을 설정할 수 있음
-
-    if recommended_problem:
-        response_data = {
-            'recommended_problem_title': recommended_problem.title,
-            'cosine_similarity': cosine_similarities[best_match_index][0]
-        }
-    else:
-        response_data = {
-            'recommended_problem_title': 'No recommendation available',
-            'cosine_similarity': 0  # 또는 다른 기본값을 설정할 수 있음
-        }
+    problemdata = Problem.objects.all()
+    # bj_user_data = 백준.objects.get(request.유저id)
+    # if bj_user_data == null:
+    #     # 쉬운문제 랜덤추천
+    #     return
+    # else:
+    #     bj_user_data.tier
 
 
 
-    # 추천 문제 반환
-    response_data = {
-        'recommended_problem_title': recommended_problem.title,
-        'cosine_similarity': cosine_similarities[best_match_index][0]
-    }
+@api_view(['POST'])
+def problem_correlation(request):
+    # 중계 테이블에서 데이터를 가져옵니다.
+    problem_tags = ProblemTag.objects.all()
 
-    return Response(response_data)
+    # Problem을 기준으로 Tag를 그룹화하기 위한 딕셔너리 생성
+    problem_tag_dict = defaultdict(set)
+
+    # 중계 테이블 데이터를 딕셔너리에 그룹화합니다.
+    for problem_tag in problem_tags:
+        problem_id = problem_tag.problem_id
+        tag_id = problem_tag.tag_id
+        problem_tag_dict[tag_id].add(problem_id)
+
+    tag_lists = list(problem_tag_dict.values())
+    # 각 태그 리스트 간의 상관 계수 계산
+      # 각 태그의 등장 횟수 계산
+    # problem_counts = defaultdict(int)
+    # for problems in problem_tag_dict.values():
+    #     for problem in problems:
+    #         problem_counts[problem] += 1
+
+    # print(problem_tag_dict[1])
+    tag_correlations = []
+    for key1, value1 in problem_tag_dict.items():
+        for key2, value2 in problem_tag_dict.items():
+            if key1 < key2:
+                jaccard = jaccard_similarity(value1, value2)
+                consine = cosine_similarity(value1, value2)
+                tag_correlations.append((key1,key2,jaccard))
+
+
+    # 계산된 상관 계수를 데이터베이스에 저장
+    for tag1, tag2, correlation_coefficient in tag_correlations:
+        tag_correlation = TagCorrelation(tag1_id=tag1, tag2_id=tag2, correlation_coefficient=correlation_coefficient)
+        tag_correlation.save()
+
+    # 처리 결과를 응답으로 반환
+    return Response({"message": "Tag correlations calculated and saved successfully."})
+
+
+# 두 집합의 자카드 유사도 계산
+def jaccard_similarity(set1, set2):
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    similarity = intersection / union
+    return similarity
+
+# 두 집합의 코사인 유사도 계산
+def cosine_similarity(set1, set2):
+    intersection = len(set1.intersection(set2))
+    norm1 = len(set1)
+    norm2 = len(set2)
+    similarity = intersection / (norm1 * norm2)
+    return similarity
+
+
