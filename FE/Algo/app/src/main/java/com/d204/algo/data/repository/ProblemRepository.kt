@@ -10,4 +10,5 @@ interface ProblemRepository {
     suspend fun getWeakProblems(userId: Long): Flow<List<Problem>>
     suspend fun getSimilarProblems(userId: Long): Flow<List<Problem>>
     suspend fun postLikeProblems(problem: Problem): Flow<Unit>
+    suspend fun getLikeProblems(userId: Long): Flow<List<Problem>>
 }

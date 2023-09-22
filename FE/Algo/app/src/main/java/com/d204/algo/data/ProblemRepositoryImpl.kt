@@ -41,4 +41,9 @@ class ProblemRepositoryImpl @Inject constructor(
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
         emit(dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem))
     }
+
+    override suspend fun getLikeProblems(userId: Long): Flow<List<Problem>> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        emit(dataSourceFactory.getDataSource(isRemote).getLikeProblems(userId))
+    }
 }

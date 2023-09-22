@@ -24,4 +24,7 @@ interface ProblemService {
 
     @POST("/recommend/like")
     suspend fun postLikeProblems(@Body problem: ProblemModel): Unit
+
+    @GET("my/like/{userId}")
+    suspend fun getLikeProblems(@Path("userId") userId: Long): List<ProblemModel>
 }

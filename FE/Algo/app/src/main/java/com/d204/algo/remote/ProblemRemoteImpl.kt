@@ -54,6 +54,12 @@ class ProblemRemoteImpl @Inject constructor(
         return handleApi { problemService.postLikeProblems(problemMapper.mapToModel(problem)) }
     }
 
+    override suspend fun getLikeProblems(userId: Long): List<Problem> {
+        return problemService.getLikeProblems(userId).map { problemModel ->
+            problemMapper.mapFromModel(problemModel)
+        }
+    }
+
     override suspend fun isRemote(): Boolean {
         return true
     }

@@ -10,6 +10,8 @@ interface ProblemDataSource {
     suspend fun getWeakProblems(userId: Long): List<Problem>
     suspend fun getSimilarProblems(userId: Long): List<Problem>
     suspend fun postLikeProblems(problem: Problem): Unit
+    suspend fun getLikeProblems(userId: Long): List<Problem>
+
     // cache
 
     // remote & cache (공통)

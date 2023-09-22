@@ -10,5 +10,6 @@ interface ProblemRemote {
     suspend fun getWeakProblems(userId: Long): NetworkResult<List<Problem>>
     suspend fun getSimilarProblems(userId: Long): NetworkResult<List<Problem>>
     suspend fun postLikeProblems(problem: Problem): NetworkResult<Unit>
+    suspend fun getLikeProblems(userId: Long): List<Problem>
     suspend fun isRemote(): Boolean
 }
