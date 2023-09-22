@@ -64,6 +64,7 @@ class StatusFragmentViewModel @Inject constructor(
     }
 
     fun postProblemLike(problem: Problem) {
+        // TODO: 아래 로그가 실행 안됨
         launchCoroutineIO {
             Log.d(TAG, "postProblemLike: $problem")
             problemRepository.postLikeProblems(problem).collect {
