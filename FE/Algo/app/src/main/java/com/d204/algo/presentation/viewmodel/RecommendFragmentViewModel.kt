@@ -29,15 +29,21 @@ class RecommendFragmentViewModel @Inject constructor(
     // 어떤 UIModel에서 에러가 났는지 표시하기 위해 사용
     private var errorSite = 0
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
+    private val _selectedStrongList = UiAwareLiveData<RecommendUIModel>()
+    var selectedStrongList: LiveData<RecommendUIModel> = _selectedStrongList
+
+    private val _selectedWeakList = UiAwareLiveData<RecommendUIModel>()
+    var selectedWeakList: LiveData<RecommendUIModel> = _selectedWeakList
+
+    private val _selectedSimilarList = UiAwareLiveData<RecommendUIModel>()
+    var selectedSimilarList: LiveData<RecommendUIModel> = _selectedSimilarList
+
     private val _strongList = UiAwareLiveData<RecommendUIModel>()
     var strongList: LiveData<RecommendUIModel> = _strongList
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
     private val _weakList = UiAwareLiveData<RecommendUIModel>()
     var weakList: LiveData<RecommendUIModel> = _weakList
 
-    // 30개를 가져오고 랜덤으로 돌려서 3개씩 보여주기
     private val _similarList = UiAwareLiveData<RecommendUIModel>()
     var similarList: LiveData<RecommendUIModel> = _similarList
 
@@ -69,6 +75,18 @@ class RecommendFragmentViewModel @Inject constructor(
         return similarList
     }
 
+    fun getSelectedStrongs(): LiveData<RecommendUIModel> {
+        return strongList
+    }
+
+    fun getSelectedWeaks(): LiveData<RecommendUIModel> {
+        return weakList
+    }
+
+    fun getSelectedSimilars(): LiveData<RecommendUIModel> {
+        return similarList
+    }
+
     fun getStrongList(userId: Long): LiveData<RecommendUIModel> {
         errorSite = 1
         _strongList.postValue(RecommendUIModel.Loading)
@@ -88,7 +106,7 @@ class RecommendFragmentViewModel @Inject constructor(
         errorSite = 2
         _weakList.postValue(RecommendUIModel.Loading)
         launchCoroutineIO {
-            loadStrongList(userId)
+            loadWeakList(userId)
         }
         return weakList
     }
@@ -103,7 +121,7 @@ class RecommendFragmentViewModel @Inject constructor(
         errorSite = 3
         _similarList.postValue(RecommendUIModel.Loading)
         launchCoroutineIO {
-            loadStrongList(userId)
+            loadSimilarList(userId)
         }
         return similarList
     }
