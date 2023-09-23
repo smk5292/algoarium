@@ -1,10 +1,12 @@
 package com.d204.algo
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
@@ -16,9 +18,14 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.databinding.ActivityLoginBinding
+import com.d204.algo.databinding.DialogSolvedacBinding
 import com.d204.algo.ui.oauth.KaKaoApi
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 private const val TAG = "LoginActivity"
 
@@ -104,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             })
             .into(binding.touchRipple)
 
-        binding.activityLogin.setOnTouchListener { v, event ->
+        binding.activityLogin.setOnTouchListener { _, event ->
             val x = event.x
             val y = event.y
             binding.touchRipple.visibility = View.INVISIBLE // 뷰안보이면 애니메이션도 종료됨

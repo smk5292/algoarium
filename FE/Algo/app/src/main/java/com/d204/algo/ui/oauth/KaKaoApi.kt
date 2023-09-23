@@ -1,13 +1,17 @@
 package com.d204.algo.ui.oauth
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.viewModelScope
 import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
 import com.d204.algo.data.repository.UserRepository
+import com.d204.algo.databinding.DialogSolvedacBinding
+import com.d204.algo.ui.extension.showDialog
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -15,24 +19,20 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     private val espHelper = ApplicationClass.preferencesHelper
-
+    private val solvedConnected = false
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
             try {
+                val tkn = AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
                 CoroutineScope(Dispatchers.IO).launch {
-                    loadUser(AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!)
-                }
-                UserApiClient.instance.accessTokenInfo { token, _ ->
-                    val intent = Intent(act, MainActivity::class.java)
-                    intent.putExtra("kakaoToken", token)
-                    act.startActivity(intent)
-                    act.finish()
+                    loadUser(tkn)
                 }
             } catch (e: Error) {
                 Toast.makeText(act, "카카오 토큰 발급 중 오류 발생", Toast.LENGTH_SHORT).show()
@@ -75,16 +75,10 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                         CoroutineScope(Dispatchers.IO).launch {
                             loadUser(token)
                         }
-                        // 가져온 JWT 토큰을 DataStore에 저장하는 과정
 
                         Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
                         Log.d(TAG, "카카오톡 로그인: $token")
                         Log.d("test", "카카오톡으로 로그인 성공" + token.accessToken)
-
-                        val intent = Intent(act, MainActivity::class.java)
-                        intent.putExtra("kakaoToken", token)
-                        act.startActivity(intent)
-                        act.finish()
                     }
                 }
             } else {
@@ -103,6 +97,51 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             espHelper.prefUserEmail = it.kakaoId
             espHelper.prefUserProfile = it.profileImage
             espHelper.prefUserTier = it.preTier
+            // solved ac 연동이 됐다면(DB에 ID가 있다면) 다음 화면으로
+            if(solvedConnected) toMainActivity(kakaoToken)
+            else connectSolvedAcDialog(kakaoToken)
         }
+    }
+
+    private fun toMainActivity(token: OAuthToken) {
+        val intent = Intent(act, MainActivity::class.java)
+        intent.putExtra("kakaoToken", token)
+        act.startActivity(intent)
+        act.finish()
+    }
+
+    fun connectSolvedAcDialog(kakaoToken: OAuthToken) {
+        val dialogBinding = DialogSolvedacBinding.inflate(act.layoutInflater)
+        val code = generateRandomSixDigitValue()
+        dialogBinding.solvedAcConnectCode.text = code
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.solvedAcConnectBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val isSuccess = checkValueWithServer(code)
+                if (isSuccess) {
+                    Toast.makeText(act, "연동이 성공했습니다.", Toast.LENGTH_SHORT).show()
+                    alertDialog.dismiss()
+                    toMainActivity(kakaoToken)
+                } else {
+                    Toast.makeText(act, "연동이 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        alertDialog.show()
+    }
+
+    private suspend fun checkValueWithServer(value: String): Boolean {
+        // 서버에 solved ac api를 넘겨서 bio에 해당 번호가 입력돼있는지 확인하는 코드를 작성한다.
+        val solvedCode = userRepository.getSolvedCode()
+        return value == solvedCode
+    }
+
+    private fun generateRandomSixDigitValue(): String {
+        return (100000..999999).random().toString()
     }
 }

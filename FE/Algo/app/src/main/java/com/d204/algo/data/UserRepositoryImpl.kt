@@ -28,4 +28,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUser(accessToken: String, refreshToken: String): Flow<User> = flow {
         emit(dataSourceFactory.getRemoteDataSource().getUser(accessToken, refreshToken))
     }
+
+    override suspend fun getSolvedCode(): String = dataSourceFactory.getRemoteDataSource().getSolvedCode()
 }
