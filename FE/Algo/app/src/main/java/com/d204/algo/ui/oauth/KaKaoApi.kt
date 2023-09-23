@@ -115,7 +115,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
         val code = generateRandomSixDigitValue()
         dialogBinding.solvedAcConnectCode.text = code
 
-        val alertDialog = AlertDialog.Builder(this)
+        val alertDialog = AlertDialog.Builder(act)
             .setView(dialogBinding.root)
             .create()
 
