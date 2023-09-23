@@ -68,7 +68,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
     }
 
     private fun setProblem(v: RecommendProblemView, problem: Problem) {
-        val curResource = Constants.TIER[problem.problemLevel - 1]
+        val curResource = Constants.TIER[problem.problemLevel - 1] // 여기에 잘못된 값이 들어가면 아래 부분도 실행안됨
         v.setDifficultyImage(curResource)
         v.setProblemNumber(problem.problemNumber.toString())
         v.setProblemTitle(problem.title)
