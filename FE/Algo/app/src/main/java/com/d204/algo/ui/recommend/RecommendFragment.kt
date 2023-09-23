@@ -1,6 +1,7 @@
 package com.d204.algo.ui.recommend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.d204.algo.presentation.viewmodel.RecommendFragmentViewModel
 import com.d204.algo.presentation.viewmodel.RecommendUIModel
 import com.d204.algo.ui.custom.RecommendProblemView
 import com.d204.algo.ui.extension.observe
+import com.d204.algo.ui.extension.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,9 +54,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         observe(viewModel.getSelectedWeaks(), ::onViewWeakChange)
         observe(viewModel.getSelectedSimilars(), ::onViewSimilarChange)
 
-        // 억지로 주입
-        viewModel.setConstStrongs(listOf(Problem()))
-
         // 각 30개의 추천 문제 리스트를 서버에서 가져온다 -> postValue -> 변경되면 observe에서 인지하고 binding ui를 갱신
         viewModel.getStrongList(espHelper.prefUserId)
         viewModel.getWeakList(espHelper.prefUserId)
@@ -76,26 +75,53 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
     }
 
     private fun refreshStrong(list: List<Problem>) {
-        with(binding) {
-            setProblem(recommendStrong1, list[0])
-            setProblem(recommendStrong2, list[1])
-            setProblem(recommendStrong3, list[2])
+        try {
+            with(binding) {
+                for (i in 0 until minOf(list.size, 3)) {
+                    setProblem(when(i) {
+                        0 -> recommendStrong1
+                        1 -> recommendStrong2
+                        2 -> recommendStrong3
+                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                    }, list[i])
+                }
+            }
+        } catch (e: Exception) {
+            showSnackBar(binding.root, "서버가 혼잡합니다. 나중에 다시 시도해주세요.")
         }
     }
 
     private fun refreshWeak(list: List<Problem>) {
-        with(binding) {
-            setProblem(recommendWeak1, list[0])
-            setProblem(recommendWeak2, list[1])
-            setProblem(recommendWeak3, list[2])
+        try {
+            with(binding) {
+                for (i in 0 until minOf(list.size, 3)) {
+                    setProblem(when(i) {
+                        0 -> recommendWeak1
+                        1 -> recommendWeak2
+                        2 -> recommendWeak3
+                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                    }, list[i])
+                }
+            }
+        } catch (e: Exception) {
+            showSnackBar(binding.root, "서버가 혼잡합니다. 나중에 다시 시도해주세요.")
         }
     }
 
     private fun refreshSimilar(list: List<Problem>) {
-        with(binding) {
-            setProblem(recommendLike1, list[0])
-            setProblem(recommendLike2, list[1])
-            setProblem(recommendLike3, list[2])
+        try {
+            with(binding) {
+                for (i in 0 until minOf(list.size, 3)) {
+                    setProblem(when(i) {
+                        0 -> recommendLike1
+                        1 -> recommendLike2
+                        2 -> recommendLike3
+                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                    }, list[i])
+                }
+            }
+        } catch (e: Exception) {
+            showSnackBar(binding.root, "서버가 혼잡합니다. 나중에 다시 시도해주세요.")
         }
     }
 
@@ -106,8 +132,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                viewModel.setConstStrongs(result.data) // 정적리스트에 담아주고
-                viewModel.loadConstStrongList() // 정적리스트 가져오면  3개만 담는 추천 리스트에 postValue
+                viewModel.setConstStrongs(result.data) // 정적리스트에 담아주고 // // setConstStrongs() 안에 loadConstStrongList() 정적리스트 가져오면  3개만 담는 추천 리스트에 postValue
             }
         }
     }
@@ -120,7 +145,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstWeaks(result.data) // 정적리스트에 담아주고
-                viewModel.loadConstWeakList()  // 최초 갱신
             }
         }
     }
@@ -133,7 +157,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstSimilars(result.data) // 정적리스트에 담아주고
-                viewModel.loadConstSimilarList()  // 최초 갱신
             }
         }
     }
@@ -145,7 +168,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                refreshStrong(result.data.subList(0, 3))
+                val subList = result.data.subList(0, minOf(result.data.size, 3))
+                refreshStrong(subList)
             }
         }
     }
@@ -157,7 +181,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                refreshWeak(result.data.subList(0, 3))
+                val subList = result.data.subList(0, minOf(result.data.size, 3))
+                refreshWeak(subList)
             }
         }
     }
@@ -169,7 +194,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
-                refreshSimilar(result.data.subList(0, 3))
+                val subList = result.data.subList(0, minOf(result.data.size, 3))
+                refreshSimilar(subList)
             }
         }
     }
