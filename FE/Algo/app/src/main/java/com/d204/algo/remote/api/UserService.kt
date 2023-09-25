@@ -14,4 +14,7 @@ interface UserService {
 
     @GET("api/user/login/{accessToken}/{refreshToken}")
     suspend fun getUser(@Path("accessToken") accessToken: String, @Path("refreshToken") refreshToken: String): UserModel
+
+    @GET("api/user/solvedac")
+    suspend fun getSolvedCode(): String
 }

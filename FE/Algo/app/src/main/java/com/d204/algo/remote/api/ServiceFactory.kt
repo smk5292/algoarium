@@ -74,5 +74,5 @@ object ServiceFactory {
         return AuthAuthenticator(tokenManager)
     }
 
-    private const val OK_HTTP_TIMEOUT = 30L
+    private const val OK_HTTP_TIMEOUT = 10L
 }

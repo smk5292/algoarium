@@ -1,20 +1,27 @@
 package com.d204.algo.presentation.utils
 
 import android.util.Log
+import com.d204.algo.ui.extension.showingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
+import java.lang.Exception
 
 private const val LOGIN = "login"
 private const val PASSCODE = "passcode"
 private const val TAG = "StompHandler"
 
 class StompHandler {
-    private val mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, Constants.SOCKET_URL)
+    private val mStompClient = try {
+        Stomp.over(Stomp.ConnectionProvider.OKHTTP, Constants.SOCKET_URL)
+    } catch (e: Exception) {
+        Log.d(TAG, "소켓 통신 에러 서버 주소를 확인하세요")
+    }
     private var compositeDisposable: CompositeDisposable? = null
     private val mRestPingDisposable: Disposable? = null
 
@@ -24,7 +31,7 @@ class StompHandler {
 
     fun connectStomp(currentChannelId: String) {
         // 소켓에 라이프 사이클 이벤트 등록, Stomp 소켓 연결 여부(클라이언트 단)를 확인하여 에러처리
-        val dispLifecycle = mStompClient.lifecycle().subscribe { lifeCycleEvent ->
+        val dispLifecycle = (mStompClient as StompClient).lifecycle().subscribe { lifeCycleEvent ->
             when (lifeCycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> {
                     Log.d(TAG, "Stomp connection opened")
@@ -77,7 +84,7 @@ class StompHandler {
 
         // 전송부
         compositeDisposable?.add(
-            mStompClient.send(messageSendEndpoint, data.toString()).subscribe(
+            (mStompClient as StompClient).send(messageSendEndpoint, data.toString()).subscribe(
                 {
                     // 성공시
                     Log.d("Message Sent", "Message sent successfully")
@@ -96,11 +103,11 @@ class StompHandler {
     }
 
     fun disconnectStomp() {
-        mStompClient.disconnect()
+        (mStompClient as StompClient).disconnect()
     }
 
     fun destroyStompHandler() {
-        mStompClient.disconnect()
+        (mStompClient as StompClient).disconnect()
         mRestPingDisposable?.dispose()
         if (compositeDisposable != null) compositeDisposable!!.dispose()
     }

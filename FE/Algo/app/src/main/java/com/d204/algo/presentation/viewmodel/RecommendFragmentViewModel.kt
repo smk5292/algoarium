@@ -86,14 +86,17 @@ class RecommendFragmentViewModel @Inject constructor(
     // <!------------------------------------------------------->
     fun setConstStrongs(list: List<Problem>) {
         constStrongList = list
+        loadConstStrongList()
     }
 
     fun setConstWeaks(list: List<Problem>) {
         constWeakList = list
+        loadConstWeakList()
     }
 
     fun setConstSimilars(list: List<Problem>) {
         constSimilarList = list
+        loadConstSimilarList()
     }
 
     // <!------------------------------------------------------->
@@ -127,6 +130,7 @@ class RecommendFragmentViewModel @Inject constructor(
 
     fun loadConstStrongList() {
         _selectedStrongList.postValue(RecommendUIModel.Success(constStrongList.shuffled().take(3)))
+        _selectedStrongList.postValue(RecommendUIModel.Success(listOf(Problem())))
     }
 
     fun getWeakList(userId: Long): LiveData<RecommendUIModel> {
@@ -139,7 +143,7 @@ class RecommendFragmentViewModel @Inject constructor(
     }
 
     private suspend fun loadWeakList(userId: Long) {
-        problemRepository.getStrongProblems(userId).collect {
+        problemRepository.getWeakProblems(userId).collect {
             _weakList.postValue(RecommendUIModel.Success(it))
         }
     }
@@ -158,7 +162,7 @@ class RecommendFragmentViewModel @Inject constructor(
     }
 
     private suspend fun loadSimilarList(userId: Long) {
-        problemRepository.getStrongProblems(userId).collect {
+        problemRepository.getSimilarProblems(userId).collect {
             _similarList.postValue(RecommendUIModel.Success(it))
         }
     }

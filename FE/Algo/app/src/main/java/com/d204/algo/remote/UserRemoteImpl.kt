@@ -36,6 +36,12 @@ class UserRemoteImpl @Inject constructor(
         }
     }
 
+    override suspend fun getSolvedCode(): NetworkResult<String> {
+        return handleApi {
+            userService.getSolvedCode()
+        }
+    }
+
     // 이 부분 원래는 로컬 DB에 저장된 값이 없으면 true를 호출하게 끔 userDao를 이용해야함. 현재는 DataSource에서 받아서 사용
     override suspend fun isRemote(): Boolean {
         return true

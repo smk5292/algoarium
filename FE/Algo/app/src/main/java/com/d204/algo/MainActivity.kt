@@ -25,9 +25,11 @@ import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
 import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
+import com.d204.algo.ui.extension.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 private const val TAG = "MainActivity"
@@ -75,7 +77,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun connectSocket() {
-        stompClient.connectStomp("9")
+        try {
+            stompClient.connectStomp("9")
+        } catch (e: Exception) {
+            showSnackBar(binding.root, "PC연결 오류 앱을 재시작해주세요")
+        }
     }
 
     private fun removeAnimation() {
