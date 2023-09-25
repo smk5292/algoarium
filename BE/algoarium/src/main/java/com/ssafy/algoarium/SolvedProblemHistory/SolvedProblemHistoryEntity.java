@@ -35,7 +35,7 @@ public class SolvedProblemHistoryEntity {
 	private UserEntity user;
 
 	@ManyToOne // 다대일 관계 설정
-	@JoinColumn(name = "problem_id", referencedColumnName = "problem_id") // 연관되는 컬럼 지정
+	@JoinColumn(name = "problem_id", referencedColumnName = "problemId") // 연관되는 컬럼 지정
 	private ProblemEntity problem;
 
 }
