@@ -61,7 +61,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     private fun setUpAnimation() {
         val viewToAnimate = binding.fragmentRankingWantedOuter // 애니메이션을 적용할 뷰
-        val targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._200sdp) // 200dp를 픽셀로 변환
+        val targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._150sdp) // 200dp를 픽셀로 변환
 
         val animation = ValueAnimator.ofInt(0, targetHeight)
         animation.addUpdateListener { valueAnimator ->
@@ -77,6 +77,8 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     private fun setupRecyclerView() {
         binding.fragmentRankingRecyclerView.apply {
+            // itemAnimator =
+            scheduleLayoutAnimation() // data 변경 시 취소되는 애니메이션을 다시 적용
             adapter = rankingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

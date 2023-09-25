@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/wanted_frame"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="@dimen/_150sdp"
         android:adjustViewBounds="true"
         android:src="@drawable/wanted_template_noimg"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,11 +31,10 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/wanted_name"
         android:gravity="center"
-        android:layout_marginTop="@dimen/_20sdp"
         style="@style/wantedKorText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_12sdp"
         app:layout_constraintEnd_toEndOf="@+id/wanted_frame"
         app:layout_constraintStart_toStartOf="@+id/wanted_frame"
         app:layout_constraintTop_toBottomOf="@+id/wanted_profile_img"
