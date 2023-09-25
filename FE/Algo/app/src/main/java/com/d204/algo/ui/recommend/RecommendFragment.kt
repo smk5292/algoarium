@@ -1,7 +1,6 @@
 package com.d204.algo.ui.recommend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,12 +77,15 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         try {
             with(binding) {
                 for (i in 0 until minOf(list.size, 3)) {
-                    setProblem(when(i) {
-                        0 -> recommendStrong1
-                        1 -> recommendStrong2
-                        2 -> recommendStrong3
-                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
-                    }, list[i])
+                    setProblem(
+                        when (i) {
+                            0 -> recommendStrong1
+                            1 -> recommendStrong2
+                            2 -> recommendStrong3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
+                        list[i],
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -95,12 +97,15 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         try {
             with(binding) {
                 for (i in 0 until minOf(list.size, 3)) {
-                    setProblem(when(i) {
-                        0 -> recommendWeak1
-                        1 -> recommendWeak2
-                        2 -> recommendWeak3
-                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
-                    }, list[i])
+                    setProblem(
+                        when (i) {
+                            0 -> recommendWeak1
+                            1 -> recommendWeak2
+                            2 -> recommendWeak3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
+                        list[i],
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -112,12 +117,15 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         try {
             with(binding) {
                 for (i in 0 until minOf(list.size, 3)) {
-                    setProblem(when(i) {
-                        0 -> recommendLike1
-                        1 -> recommendLike2
-                        2 -> recommendLike3
-                        else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
-                    }, list[i])
+                    setProblem(
+                        when (i) {
+                            0 -> recommendLike1
+                            1 -> recommendLike2
+                            2 -> recommendLike3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
+                        list[i],
+                    )
                 }
             }
         } catch (e: Exception) {

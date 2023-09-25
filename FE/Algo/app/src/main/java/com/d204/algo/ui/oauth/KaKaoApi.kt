@@ -6,12 +6,10 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.viewModelScope
 import com.d204.algo.ApplicationClass
 import com.d204.algo.MainActivity
 import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.databinding.DialogSolvedacBinding
-import com.d204.algo.ui.extension.showDialog
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -19,18 +17,19 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     private val espHelper = ApplicationClass.preferencesHelper
-    private val solvedConnected = false
+    private val solvedConnected = espHelper.prefSolvedAcId != null && espHelper.prefSolvedAcId != ""
+
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
+            val tkn = AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
+            if (solvedConnected) connectSolvedAcDialog(tkn)
             try {
-                val tkn = AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
                 CoroutineScope(Dispatchers.IO).launch {
                     loadUser(tkn)
                 }
@@ -96,10 +95,14 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             espHelper.prefUserNickname = it.kakaoNickname
             espHelper.prefUserEmail = it.kakaoId
             espHelper.prefUserProfile = it.profileImage
+            espHelper.prefUserPreTier = it.tier
             espHelper.prefUserTier = it.preTier
             // solved ac 연동이 됐다면(DB에 ID가 있다면) 다음 화면으로
-            if(solvedConnected) toMainActivity(kakaoToken)
-            else connectSolvedAcDialog(kakaoToken)
+            if (solvedConnected) {
+                toMainActivity(kakaoToken)
+            } else {
+                connectSolvedAcDialog(kakaoToken)
+            }
         }
     }
 
@@ -110,7 +113,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
         act.finish()
     }
 
-    fun connectSolvedAcDialog(kakaoToken: OAuthToken) {
+    private fun connectSolvedAcDialog(kakaoToken: OAuthToken) {
         val dialogBinding = DialogSolvedacBinding.inflate(act.layoutInflater)
         val code = generateRandomSixDigitValue()
         dialogBinding.solvedAcConnectCode.text = code

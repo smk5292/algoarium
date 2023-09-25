@@ -16,6 +16,7 @@ open class PresentationPreferencesHelper @Inject constructor(context: Context) {
         private const val PREF_KEY_USER_PRE_TIER = "user_tier_pre"
         private const val PREF_KEY_ACCESS = "access_token" // string
         private const val PREF_KEY_REFRESH = "refresh_token" // string
+        private const val PREF_KEY_SOLVED_AC_ID = "solved_ac_id" // string
     }
 
     private fun newMasterKeyAlias(context: Context): MasterKey =
@@ -72,4 +73,8 @@ open class PresentationPreferencesHelper @Inject constructor(context: Context) {
     var prefRefreshToken: String?
         get() = preferences.getString(PREF_KEY_REFRESH, "")
         set(refreshToken) = preferences.edit().putString(PREF_KEY_REFRESH, refreshToken).apply()
+
+    var prefSolvedAcId: String?
+        get() = preferences.getString(PREF_KEY_SOLVED_AC_ID, "")
+        set(solvedAcId) = preferences.edit().putString(PREF_KEY_SOLVED_AC_ID, solvedAcId).apply()
 }

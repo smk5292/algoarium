@@ -76,7 +76,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         isAntiAlias = true
     }
     private val textPaint = TextPaint().apply {
-        textSize = 28f
+        textSize = 56f
         textAlign = Paint.Align.CENTER
     }
 
@@ -155,6 +155,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
 
         chartTypes.forEach { type ->
             val point = transformRotate(r, startX, startY, cx, cy)
+            if(type == CharacteristicType.VITALITY) point.x += 25f
             canvas.drawText(
                 type.value,
                 point.x,

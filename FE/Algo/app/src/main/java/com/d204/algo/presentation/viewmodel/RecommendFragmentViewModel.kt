@@ -130,7 +130,6 @@ class RecommendFragmentViewModel @Inject constructor(
 
     fun loadConstStrongList() {
         _selectedStrongList.postValue(RecommendUIModel.Success(constStrongList.shuffled().take(3)))
-        _selectedStrongList.postValue(RecommendUIModel.Success(listOf(Problem())))
     }
 
     fun getWeakList(userId: Long): LiveData<RecommendUIModel> {

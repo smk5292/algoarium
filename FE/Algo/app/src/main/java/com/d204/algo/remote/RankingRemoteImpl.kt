@@ -1,5 +1,6 @@
 package com.d204.algo.remote
 
+import android.util.Log
 import com.d204.algo.data.api.NetworkResult
 import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Ranking

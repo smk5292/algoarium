@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var glide: RequestManager
 
     // fragment 이동 화면 애니메이션 종료 여부
-    var isAnimationFinished = false
+    var isAnimationFinished = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,12 +207,15 @@ class MainActivity : AppCompatActivity() {
 
     // 뒤로가기
     private fun initBackPress() {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    Log.d(TAG, "handleOnBackPressed: $isAnimationFinished")
                     if (isAnimationFinished) {
-                        findNavController(R.id.nav_host_fragment_activity_main).navigateUp()
+                        if (navController.currentDestination?.id == R.id.navigation_home) finish()
+                        else navController.navigateUp()
                     }
                 }
             },

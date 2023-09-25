@@ -8,38 +8,36 @@
     android:layout_marginVertical="@dimen/_16sdp"
     >
 
+    <ImageView
+        android:id="@+id/item_status_level_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/item_status_number_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_status_number_text_view"
+        tools:src="@drawable/tier30" />
+
     <TextView
         android:id="@+id/item_status_number_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="1234"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintStart_toEndOf="@+id/item_status_level_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        tools:text="1234" />
 
     <TextView
         android:id="@+id/item_status_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="아기상어"
-        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_status_number_text_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/item_status_level_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        tools:src="@drawable/tier30"
-        android:adjustViewBounds="true"
         android:layout_marginStart="@dimen/_8sdp"
-        app:layout_constraintStart_toEndOf="@+id/item_status_name_text_view"
-        app:layout_constraintTop_toTopOf="@+id/item_status_name_text_view"
-        app:layout_constraintBottom_toBottomOf="@+id/item_status_name_text_view"
-        />
+        tools:text="아기상어" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/item_status_memo_button"

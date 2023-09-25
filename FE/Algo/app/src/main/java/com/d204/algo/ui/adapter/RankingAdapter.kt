@@ -17,7 +17,7 @@ import kotlin.random.Random
 // ApplicationContext는 적절한 종속성을 주입함 (여기서는 Activity의 context를 기대)
 class RankingAdapter @Inject constructor(
     private val glide: RequestManager,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : BaseAdapter<Ranking>() {
     // this(context) 때문에 override로 구현
     override val differ = AsyncListDiffer(this, diffCallback)
@@ -34,12 +34,12 @@ class RankingAdapter @Inject constructor(
                 rankingListItemStart.setImageResource(selectRandomImg())
                 rankingListItemRank.text = item.ranking.toString()
                 rankingListItemPoint.text = item.score.toString()
-//                 rankingListItemName = item.유저이름
-//                root.setOnClickListener {
-//                    onItemClickListener?.let { itemClick ->
-//                        itemClick(item)
-//                    }
-//                }
+                rankingListItemName.text = item.kakaoNickname
+                root.setOnClickListener {
+                    onItemClickListener?.let { itemClick ->
+                        itemClick(item)
+                    }
+                }
             }
         }
     }
