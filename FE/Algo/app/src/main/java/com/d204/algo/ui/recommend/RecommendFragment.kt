@@ -98,7 +98,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             setProblem(recommendLike3, list[2])
         }
     }
-    
+
     private fun initBookmarkClick() = with(binding) {
         recommendStrongBookmarkButton1.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.postProblemLike(
@@ -132,7 +132,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstWeaks(result.data) // 정적리스트에 담아주고
-                viewModel.loadConstWeakList()  // 최초 갱신
+                viewModel.loadConstWeakList() // 최초 갱신
             }
         }
     }
@@ -145,7 +145,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstSimilars(result.data) // 정적리스트에 담아주고
-                viewModel.loadConstSimilarList()  // 최초 갱신
+                viewModel.loadConstSimilarList() // 최초 갱신
             }
         }
     }
