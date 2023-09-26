@@ -39,6 +39,9 @@ public class UserEntity {
     @Column(name = "refresh_token", nullable = false, length = 100)
     private String refreshToken;
 
+    @Column(name = "solved_ac_id" , nullable = true, length = 100)
+    private String solvedAcId;
+
     @OneToOne
     @JoinColumn(name = "user_ranking_id",referencedColumnName = "user_ranking_id")
     private UserRankingEntity userRanking;
@@ -49,13 +52,14 @@ public class UserEntity {
 
     @Builder
     public UserEntity(Long userId , String kakaoId, String kakaoNickname, String profileImage,
-        Integer preTier, String refreshToken) {
+        Integer preTier, String refreshToken , String solvedAcId) {
         this.userId = userId;
         this.kakaoId = kakaoId;
         this.kakaoNickname = kakaoNickname;
         this.profileImage = profileImage;
         this.preTier = preTier;
         this.refreshToken = refreshToken;
+        this.solvedAcId = solvedAcId;
     }
 
     public UserDto toUserDto(){
@@ -66,6 +70,7 @@ public class UserEntity {
             .preTier(this.getPreTier())
             .profileImage(this.getProfileImage())
             .refreshToken(this.getRefreshToken())
+            .solvedAcId(this.getSolvedAcId())
             .build();
     }
 }

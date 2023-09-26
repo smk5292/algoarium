@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("api/my")
+@RequestMapping("/my")
 public class UserStatusController {
 
 	private final UserStatusService userStatusService;
@@ -31,7 +31,10 @@ public class UserStatusController {
 		return toDto(userStatusService.getStatusById(userId));
 	}
 
-
-
+	@GetMapping("/stat/average/{tier}")
+	public UserStatusDTO getAvgStatueByTier(@PathVariable int tier){
+		System.out.println(userStatusService.getAvgStatusByTier(tier).toString());
+		return toDto(userStatusService.getAvgStatusByTier(tier));
+	}
 
 }
