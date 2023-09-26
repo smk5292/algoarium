@@ -30,6 +30,8 @@ public class RecommendProblemController {
 
     @GetMapping("/strong/{userId}")
     public List<RecommendProblemDTO> getStrongRecommendations(@PathVariable Long userId) {
+        System.out.println(userId);
+        System.out.println(recommendProblemService.getStrongRecommendations(Math.toIntExact(userId)));
         return recommendProblemService.getStrongRecommendations(Math.toIntExact(userId));
     }
 
