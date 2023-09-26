@@ -37,14 +37,27 @@ public class BaekjoonUserService {
         }
     }
 
+    @Transactional
+    public String fetchBio(String bjId) {
+        // 유저 조회 URL
+        String apiUrl = "https://solved.ac/api/v3/user/show?handle=";
+
+        // RestTemplate을 사용하여 API 호출
+        RestTemplate restTemplate = new RestTemplate();
+        String apiResponse = restTemplate.getForObject(apiUrl + bjId, String.class);
+
+        // JSON 문자열을 객체로 변환
+        JSONObject jsonObject = new JSONObject(apiResponse);
+
+        return jsonObject.getString("bio");
+    }
+
         /**
          * API 응답을 DTO 리스트로 변환합니다.
          * @param apiResponse API에서 받아온 JSON 형식의 응답
          * @return ProblemDTO 리스트
          */
         private BaekjoonUserDTO convertApiResponseToDTO(String apiResponse){
-            List<BaekjoonUserDTO> baekjoonUserDTOList = new ArrayList<>();
-
             // JSON 문자열을 객체로 변환
             JSONObject jsonObject = new JSONObject(apiResponse);
 
