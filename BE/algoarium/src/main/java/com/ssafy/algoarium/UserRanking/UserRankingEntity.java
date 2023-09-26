@@ -22,6 +22,7 @@ public class UserRankingEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_ranking_id", nullable = false)
 	private Long userRankingId;
 
 	@Column(name = "score" , nullable = false)
