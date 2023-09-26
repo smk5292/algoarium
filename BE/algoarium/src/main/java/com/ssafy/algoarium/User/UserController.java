@@ -55,8 +55,13 @@ public class UserController {
 			.accessToken(accessToken)
 			.refreshToken(refreshToken).build());
 
+		String tier = String.valueOf(userService.getUserByEmail(profileDto.getEmail()).getUserRanking().getTier());
+
 		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+
 		System.out.println(answerDto.getUserId());
+		answerDto.setTier(tier);
+
 		return answerDto;
 	}
 
