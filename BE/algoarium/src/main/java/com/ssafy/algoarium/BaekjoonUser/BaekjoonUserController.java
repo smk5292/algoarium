@@ -22,4 +22,9 @@ public class BaekjoonUserController {
         baekjoonUserService.fetchUserAndSaveToDatabase(bjId);
         return true;
     }
+
+    @GetMapping("/bio/{bjId}")
+    public String bioBaekjoonUser(@PathVariable String bjId) {
+        return baekjoonUserService.fetchBio(bjId);
+    }
 }
