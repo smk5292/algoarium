@@ -33,6 +33,12 @@ public class UserStatusService {
 	}
 
 	@Transactional
+	public UserStatusEntity getAvgStatusByTier(int tier){
+		return userStatusRepository.findAvgByTier(tier).get();
+	}
+
+
+	@Transactional
 	public void saveStatus(UserStatusDTO userStatusDTO){
 		userStatusRepository.save(toEntity(userStatusDTO));
 	}
