@@ -39,4 +39,21 @@ public class ProblemLikeService {
 
         return problemLikeRepository.save(problemLikeEntity);
     }
+
+    // ProblemEntity와 UserEntity에 해당하는 메모와 좋아요 여부 가져오기
+    public ProblemLikeDTO getProblemLikeInfo(ProblemEntity problemEntity, UserEntity userEntity) {
+        ProblemLikeEntity problemLikeEntity = problemLikeRepository.findByProblemEntityAndUserEntity(problemEntity, userEntity);
+        if (problemLikeEntity != null) {
+            return ProblemLikeDTO.builder()
+                    .likeType(problemLikeEntity.getLikeType())
+                    .memo(problemLikeEntity.getMemo())
+                    .build();
+        } else {
+            // 해당하는 데이터가 없을 경우 처리
+            return ProblemLikeDTO.builder()
+                    .likeType(false)
+                    .memo(null)
+                    .build();
+        }
+    }
 }
