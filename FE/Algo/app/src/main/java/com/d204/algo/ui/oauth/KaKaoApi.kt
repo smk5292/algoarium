@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
@@ -28,7 +29,6 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
     private fun skipLogin() {
         if (AuthApiClient.instance.hasToken()) {
             val tkn = AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
-            if (solvedConnected) connectSolvedAcDialog(tkn)
             try {
                 CoroutineScope(Dispatchers.IO).launch {
                     loadUser(tkn)
@@ -101,7 +101,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             if (solvedConnected) {
                 toMainActivity(kakaoToken)
             } else {
-                connectSolvedAcDialog(kakaoToken)
+                withContext(Dispatchers.Main) { connectSolvedAcDialog(kakaoToken) }
             }
         }
     }
@@ -124,7 +124,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
 
         dialogBinding.solvedAcConnectBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val isSuccess = checkValueWithServer(code)
+                val isSuccess = checkValueWithServer(espHelper.prefUserId, code)
                 if (isSuccess) {
                     Toast.makeText(act, "연동이 성공했습니다.", Toast.LENGTH_SHORT).show()
                     alertDialog.dismiss()
@@ -138,10 +138,10 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
         alertDialog.show()
     }
 
-    private suspend fun checkValueWithServer(value: String): Boolean {
-        // 서버에 solved ac api를 넘겨서 bio에 해당 번호가 입력돼있는지 확인하는 코드를 작성한다.
-        val solvedCode = userRepository.getSolvedCode()
-        return value == solvedCode
+    private suspend fun checkValueWithServer(userId: Long, code: String): Boolean {
+        // 서버에 solved ac api를 넘겨서 bio에 해당 번호가 입력돼있는지 확인하고 solvedAc Id를 받아온다
+        val solvedAcId = userRepository.registerSolvedAc(userId, code)
+        return solvedAcId != ""
     }
 
     private fun generateRandomSixDigitValue(): String {

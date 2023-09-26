@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.d204.algo.ApplicationClass
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentMemoBinding
@@ -57,8 +56,9 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
 
     private fun initData() = with(binding) {
         memoProblemNumberTextView.text = requireArguments().getInt(StatusFragment.PROBLEM_NUMBER).toString()
-        memoTitleTextView.text = requireArguments().getInt(StatusFragment.PROBLEM_TITLE).toString()
+        memoTitleTextView.text = requireArguments().getString(StatusFragment.PROBLEM_TITLE)
         memoTierImageView.setImageResource(Constants.TIER[requireArguments().getInt(StatusFragment.PROBLEM_LEVEL)])
+        memoEditText.setText(requireArguments().getString(StatusFragment.PROBLEM_MEMO))
         memoTitleTextView.isSelected = true
     }
 
@@ -66,7 +66,8 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
     private fun registerMemo() {
         viewModel.updateMemo(
             requireArguments().getLong(StatusFragment.PROBLEM_ID),
-            ApplicationClass.preferencesHelper.prefUserId,
+            1,
+//            ApplicationClass.preferencesHelper.prefUserId,
             binding.memoEditText.text.toString(),
         )
     }

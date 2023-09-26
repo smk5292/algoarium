@@ -20,8 +20,12 @@ class UserCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
     }
 
-    override suspend fun getSolvedCode(): String {
-        throw UnsupportedOperationException("getSolvedCode is not supported for UserCacheDataSource.")
+    override suspend fun registerSolvedAc(userId: Long, code: String): String {
+        throw UnsupportedOperationException("registerSolvedAc is not supported for UserCacheDataSource.")
+    }
+
+    override suspend fun getIsSeason(): Boolean? {
+        throw UnsupportedOperationException("getIsSeason is not supported for UserCacheDataSource.")
     }
 
     override suspend fun isRemote(): Boolean {

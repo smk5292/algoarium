@@ -36,9 +36,15 @@ class UserRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSolvedCode(): NetworkResult<String> {
+    override suspend fun registerSolvedAc(userId: Long, code: String): NetworkResult<String> {
         return handleApi {
-            userService.getSolvedCode()
+            userService.registerSolvedAc(userId, code)
+        }
+    }
+
+    override suspend fun getIsSeason(): NetworkResult<Boolean?> {
+        return handleApi {
+            userService.getIsSeason()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.d204.algo.remote
 
+import android.util.Log
 import com.d204.algo.data.api.NetworkResult
 import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Problem
@@ -51,7 +52,10 @@ class ProblemRemoteImpl @Inject constructor(
     }
 
     override suspend fun postLikeProblems(problem: Problem): NetworkResult<Unit> {
-        return handleApi { problemService.postLikeProblems(problemMapper.mapToModel(problem)) }
+        return handleApi {
+            Log.d("클릭리모트임펠", "postLikeProblems: $problem")
+            problemService.postLikeProblems(problemMapper.mapToModel(problem))
+        }
     }
 
     override suspend fun getLikeProblems(userId: Long): List<Problem> {

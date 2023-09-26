@@ -1,6 +1,7 @@
 package com.d204.algo.ui.status
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,6 @@ import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
 import com.d204.algo.ui.adapter.StatusAdapter
 import com.d204.algo.ui.extension.observe
-import com.d204.algo.ui.recommend.RecommendFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,20 +30,30 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         const val PROBLEM_TITLE = "problemTitle"
         const val PROBLEM_NUMBER = "problemNumber"
         const val PROBLEM_LEVEL = "problemLevel"
+        const val PROBLEM_MEMO = "problemMemo"
 
         @JvmStatic
-        fun newInstance(problemId: Long, problemTitle: String, problemNumber: Int, problemLevel: Int) =
-            RecommendFragment().apply {
+        fun newInstance(
+            problemId: Long,
+            problemTitle: String,
+            problemNumber: Int,
+            problemLevel: Int,
+            problemMemo: String,
+        ) =
+            StatusFragment().apply {
                 arguments = Bundle().apply {
                     putLong(PROBLEM_ID, problemId)
                     putString(PROBLEM_TITLE, problemTitle)
                     putInt(PROBLEM_NUMBER, problemNumber)
                     putInt(PROBLEM_LEVEL, problemLevel)
+                    putString(PROBLEM_MEMO, problemMemo)
                 }
             }
     }
 
-    override fun getViewBinding(): FragmentStatusBinding = FragmentStatusBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentStatusBinding =
+        FragmentStatusBinding.inflate(layoutInflater)
+
     override val viewModel: StatusFragmentViewModel by viewModels()
 
     @Inject
@@ -100,16 +110,17 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
-        viewModel.getLikeProblems(ApplicationClass.preferencesHelper.prefUserId)
+        viewModel.getLikeProblems(1)
+//        viewModel.getLikeProblems(ApplicationClass.preferencesHelper.prefUserId)
     }
 
     // 찜한 문제 리스트 초기화
     private fun initViewPager() = with(binding) {
         statusRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
         statusRecyclerView.adapter = statusAdapter.apply {
-            list = listOf(Problem(), Problem(), Problem(), Problem(), Problem())
             setStatusClickListener(object : StatusAdapter.StatusClickListener {
                 override fun bookmarkClick(
                     binding: ItemStatusListBinding,
@@ -118,20 +129,30 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                     position: Int,
                 ) {
                     viewModel.postProblemLike(
-                        Problem(
-                            problemId = problem.id,
-                            userId = ApplicationClass.preferencesHelper.prefUserId,
-                            problemLike = isChecked,
-                        ),
+                        problemId = problem.id,
+                        userId = 1,
+//                            userId = ApplicationClass.preferencesHelper.prefUserId,
+                        problemLike = isChecked,
                     )
                 }
+
                 override fun memoClick(
                     binding: ItemStatusListBinding,
                     problem: Problem,
                     position: Int,
                 ) {
-                    val fragment = newInstance(problem.id, problem.title, problem.problemNumber, problem.problemLevel)
-                    findNavController().navigate(R.id.action_navigation_status_to_navigation_memo, fragment.arguments)
+                    Log.d(TAG, "memoClick: $problem")
+                    val fragment = newInstance(
+                        problem.id,
+                        problem.title,
+                        problem.problemNumber,
+                        problem.problemLevel,
+                        problem.problemMemo ?: "",
+                    )
+                    findNavController().navigate(
+                        R.id.action_navigation_status_to_navigation_memo,
+                        fragment.arguments,
+                    )
                 }
             })
         }

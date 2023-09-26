@@ -21,10 +21,13 @@ class UserRemoteDataSource @Inject constructor(
         return userRemote.getUser(accessToken, refreshToken).successOr(User())
     }
 
-    override suspend fun getSolvedCode(): String {
-        return userRemote.getSolvedCode().successOr("")
+    override suspend fun registerSolvedAc(userId: Long, code: String): String {
+        return userRemote.registerSolvedAc(userId, code).successOr("")
     }
 
+    override suspend fun getIsSeason(): Boolean? {
+        return userRemote.getIsSeason().successOr(null)
+    }
 
     override suspend fun isRemote(): Boolean {
         return userRemote.isRemote()

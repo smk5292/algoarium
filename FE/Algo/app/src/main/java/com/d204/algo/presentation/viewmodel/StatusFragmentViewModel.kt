@@ -33,6 +33,7 @@ class StatusFragmentViewModel @Inject constructor(
     private val statusRepository: StatusRepository,
     private val problemRepository: ProblemRepository,
 ) : BaseViewModel(contextProvider) {
+    private var isPostingBookMark = false
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
@@ -61,9 +62,13 @@ class StatusFragmentViewModel @Inject constructor(
         }
     }
 
-    fun postProblemLike(problem: Problem) {
+    fun postProblemLike(problemId: Long, userId: Long, problemLike: Boolean) {
+        if (isPostingBookMark) return
+        isPostingBookMark = true
         launchCoroutineIO {
-            problemRepository.postLikeProblems(problem)
+            problemRepository.postLikeProblems(Problem(problemId, userId, problemLike)).collect {
+                isPostingBookMark = false
+            }
         }
     }
 }

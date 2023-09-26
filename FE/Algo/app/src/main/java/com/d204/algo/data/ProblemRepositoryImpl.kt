@@ -1,5 +1,6 @@
 package com.d204.algo.data
 
+import android.util.Log
 import com.d204.algo.data.model.Problem
 import com.d204.algo.data.repository.ProblemRepository
 import com.d204.algo.data.source.datasource.ProblemDataSourceFactory
@@ -39,8 +40,15 @@ class ProblemRepositoryImpl @Inject constructor(
 
     override suspend fun postLikeProblems(problem: Problem): Flow<Unit> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+        Log.d("클릭리포지터리임펠", "postLikeProblems: $problem")
         emit(dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem))
     }
+
+//    override suspend fun postLikeProblems(problem: Problem) {
+//        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()
+//        Log.d("클릭리포지터리임펠", "postLikeProblems: $problem")
+//        dataSourceFactory.getDataSource(isRemote).postLikeProblems(problem)
+//    }
 
     override suspend fun getLikeProblems(userId: Long): Flow<List<Problem>> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote()

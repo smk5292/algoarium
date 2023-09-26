@@ -4,10 +4,11 @@ import com.d204.algo.R
 
 object Constants {
     const val DEBUG = true
-    const val BASE_URL = "http://192.168.100.169:8090/"
+    const val BASE_URL = "http://192.168.100.169:8090/" // 노트북 핫스팟을 켜야 내부 네트워크로 잡히는걸 잊지마라.
     const val SOCKET_URL = "ws://192.168.100.169:8090/websocket" // ws://[도메인]/[엔드포인트]/websocket
 
     val TIER = listOf(
+        R.drawable.tier0,
         R.drawable.tier1,
         R.drawable.tier2,
         R.drawable.tier3,

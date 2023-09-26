@@ -1,9 +1,11 @@
 package com.d204.algo.ui.recommend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ToggleButton
 import androidx.fragment.app.viewModels
 import com.d204.algo.ApplicationClass
 import com.d204.algo.base.BaseFragment
@@ -28,7 +30,9 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
             }
     }
 
-    override fun getViewBinding(): FragmentRecommendBinding = FragmentRecommendBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentRecommendBinding =
+        FragmentRecommendBinding.inflate(layoutInflater)
+
     override val viewModel: RecommendFragmentViewModel by viewModels()
     private val espHelper = ApplicationClass.preferencesHelper
 
@@ -54,9 +58,12 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         observe(viewModel.getSelectedSimilars(), ::onViewSimilarChange)
 
         // 각 30개의 추천 문제 리스트를 서버에서 가져온다 -> postValue -> 변경되면 observe에서 인지하고 binding ui를 갱신
-        viewModel.getStrongList(espHelper.prefUserId)
-        viewModel.getWeakList(espHelper.prefUserId)
-        viewModel.getSimilarList(espHelper.prefUserId)
+//        viewModel.getStrongList(espHelper.prefUserId)
+//        viewModel.getWeakList(espHelper.prefUserId)
+//        viewModel.getSimilarList(espHelper.prefUserId)
+        viewModel.getStrongList(1)
+        viewModel.getWeakList(1)
+        viewModel.getSimilarList(1)
 
         // 리프레쉬 등록
         with(binding) {
@@ -66,14 +73,16 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         }
     }
 
-    private fun setProblem(v: RecommendProblemView, problem: Problem) {
-        val curResource = Constants.TIER[problem.problemLevel - 1] // 여기에 잘못된 값이 들어가면 아래 부분도 실행안됨
+    private fun setProblem(v: RecommendProblemView, b: ToggleButton, problem: Problem) {
+        val curResource = Constants.TIER[problem.problemLevel] // 여기에 잘못된 값이 들어가면 아래 부분도 실행안됨
         v.setDifficultyImage(curResource)
         v.setProblemNumber(problem.problemNumber.toString())
         v.setProblemTitle(problem.title)
+        b.isChecked = problem.problemLike
     }
 
     private fun refreshStrong(list: List<Problem>) {
+        Log.d("서버", "refreshStrong: $list")
         try {
             with(binding) {
                 for (i in 0 until minOf(list.size, 3)) {
@@ -84,11 +93,18 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                             2 -> recommendStrong3
                             else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
                         },
+                        when (i) {
+                            0 -> recommendStrongBookmarkButton1
+                            1 -> recommendStrongBookmarkButton2
+                            2 -> recommendStrongBookmarkButton3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
                         list[i],
                     )
                 }
             }
         } catch (e: Exception) {
+            Log.d("서버", "refreshStrong: $e")
             showSnackBar(binding.root, "서버가 혼잡합니다. 나중에 다시 시도해주세요.")
         }
     }
@@ -102,6 +118,12 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                             0 -> recommendWeak1
                             1 -> recommendWeak2
                             2 -> recommendWeak3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
+                        when (i) {
+                            0 -> recommendWeakBookmarkButton1
+                            1 -> recommendWeakBookmarkButton2
+                            2 -> recommendWeakBookmarkButton3
                             else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
                         },
                         list[i],
@@ -122,6 +144,12 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                             0 -> recommendLike1
                             1 -> recommendLike2
                             2 -> recommendLike3
+                            else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                        },
+                        when (i) {
+                            0 -> recommendLikeBookmarkButton1
+                            1 -> recommendLikeBookmarkButton2
+                            2 -> recommendLikeBookmarkButton3
                             else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
                         },
                         list[i],
@@ -178,6 +206,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshStrong(subList)
+                setStrongBookMarkClicker(subList)
             }
         }
     }
@@ -191,6 +220,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshWeak(subList)
+                setWeakBookMarkClicker(subList)
             }
         }
     }
@@ -204,6 +234,57 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshSimilar(subList)
+                setSimilarBookMarkClicker(subList)
+            }
+        }
+    }
+
+    private fun bookmarkClicker(v: RecommendProblemView, b: ToggleButton, p: Problem) = View.OnClickListener {
+        Log.d("클릭", "bookmarkClicker: $p")
+        Log.d("클릭", "bookmarkClicker: ${b.isChecked}")
+        viewModel.postProblemLike(
+            problemId = p.id,
+            userId = 1,
+//                userId = ApplicationClass.preferencesHelper.prefUserId,
+            problemLike = b.isChecked,
+        )
+    }
+
+    private fun setStrongBookMarkClicker(list: List<Problem>) {
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendStrongBookmarkButton1.setOnClickListener(bookmarkClicker(recommendStrong1, recommendStrongBookmarkButton1, list[0]))
+                    1 -> recommendStrongBookmarkButton2.setOnClickListener(bookmarkClicker(recommendStrong2, recommendStrongBookmarkButton2, list[1]))
+                    2 -> recommendStrongBookmarkButton3.setOnClickListener(bookmarkClicker(recommendStrong3, recommendStrongBookmarkButton3, list[2]))
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
+            }
+        }
+    }
+
+    private fun setWeakBookMarkClicker(list: List<Problem>) {
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendWeakBookmarkButton1.setOnClickListener(bookmarkClicker(recommendWeak1, recommendWeakBookmarkButton1, list[0]))
+                    1 -> recommendWeakBookmarkButton2.setOnClickListener(bookmarkClicker(recommendWeak2, recommendWeakBookmarkButton2, list[1]))
+                    2 -> recommendWeakBookmarkButton3.setOnClickListener(bookmarkClicker(recommendWeak3, recommendWeakBookmarkButton3, list[2]))
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
+            }
+        }
+    }
+
+    private fun setSimilarBookMarkClicker(list: List<Problem>) {
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendLikeBookmarkButton1.setOnClickListener(bookmarkClicker(recommendLike1, recommendLikeBookmarkButton1, list[0]))
+                    1 -> recommendLikeBookmarkButton2.setOnClickListener(bookmarkClicker(recommendLike2, recommendLikeBookmarkButton2, list[1]))
+                    2 -> recommendLikeBookmarkButton3.setOnClickListener(bookmarkClicker(recommendLike3, recommendLikeBookmarkButton3, list[2]))
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
             }
         }
     }
