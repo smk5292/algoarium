@@ -7,6 +7,22 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+class BaekjoonUser(models.Model):
+    bj_user_id = models.AutoField(primary_key=True)
+    bj_class = models.IntegerField(blank=True, null=True)
+    bj_id = models.CharField(max_length=100)
+    rank = models.IntegerField(blank=True, null=True)
+    rating = models.IntegerField(blank=True, null=True)
+    rating_by_class = models.IntegerField(blank=True, null=True)
+    rating_by_problem_sum = models.IntegerField(blank=True, null=True)
+    rating_by_solved_count = models.IntegerField(blank=True, null=True)
+    solved_count = models.IntegerField(blank=True, null=True)
+    tier = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'baekjoon_user'
+
 
 class Problem(models.Model):
     problem_id = models.AutoField(primary_key=True)
@@ -67,7 +83,8 @@ class User(models.Model):
 class TagCorrelation(models.Model):
     tag1 = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tag1_correlations')
     tag2 = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tag2_correlations')
-    correlation_coefficient = models.FloatField()
+    jaccard_correlation = models.FloatField()
+    consine_correlation = models.FloatField()
 
     class Meta:
         db_table = 'tag_correlation'
