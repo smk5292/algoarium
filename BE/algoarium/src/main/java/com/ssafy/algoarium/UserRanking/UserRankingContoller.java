@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.algoarium.User.UserEntity;
 import com.ssafy.algoarium.User.UserService;
@@ -23,6 +24,8 @@ public class UserRankingContoller {
 
 	public static UserRankingDTO toDto(UserRankingEntity userRankingEntity){
 		return UserRankingDTO.builder()
+			.userRankingId(userRankingEntity.getUserRankingId())
+			.userId(userRankingEntity.getUser().getUserId())
 			.kakaoNickname(userRankingEntity.getUser().getKakaoNickname())
 			.profileImage(userRankingEntity.getUser().getProfileImage())
 			.score(userRankingEntity.getScore())
