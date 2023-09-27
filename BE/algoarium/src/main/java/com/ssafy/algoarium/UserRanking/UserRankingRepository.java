@@ -17,7 +17,5 @@ public interface UserRankingRepository extends JpaRepository<UserRankingEntity, 
 	@Query(value = "SELECT ur FROM UserRankingEntity ur WHERE ur.tier = :tier ORDER BY ur.score DESC")
 	Optional<UserRankingEntity> findTopByOrderByUserIdDesc(@Param("tier") int tier);
 
-	@Query(value = "SELECT COUNT(ur.userRankingId) FROM UserRankingEntity ur")
-	Integer findLengthUserRanking();
 
 }

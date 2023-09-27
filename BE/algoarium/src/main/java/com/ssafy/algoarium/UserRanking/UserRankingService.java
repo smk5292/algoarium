@@ -39,12 +39,22 @@ public class UserRankingService {
 	}
 
 	public int getLengthUserRanking(){
-		return userRankingRepository.findLengthUserRanking();
+		return userRankingRepository.findAll().size();
 	}
 
 	public UserRankingEntity save(UserRankingEntity userRankingEntity){
 		userRankingRepository.save(userRankingEntity);
 		return userRankingEntity;
+	}
+
+	public UserRankingEntity saveInit(Long userId){
+		return userRankingRepository.save(UserRankingEntity
+			.builder()
+			.user(userService.getUserById(userId))
+				.ranking(getLengthUserRanking()+1)
+				.score(0)
+				.tier(1)
+			.build());
 	}
 
 
