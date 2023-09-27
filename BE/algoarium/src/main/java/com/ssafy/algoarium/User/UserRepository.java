@@ -11,4 +11,5 @@ import com.ssafy.algoarium.UserRanking.UserRankingEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 	UserEntity findByKakaoId(String kakaoId);
+	UserEntity findByUserId(Long userId);
 }

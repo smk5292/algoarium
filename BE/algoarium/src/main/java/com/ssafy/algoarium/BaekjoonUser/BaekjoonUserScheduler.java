@@ -19,15 +19,25 @@ public class BaekjoonUserScheduler {
     }
 
     // 매일 6시에 실행
-//    @Scheduled(cron = "0 0 6 * * ?")
-    @Scheduled(cron = "0 48 9 * * ?")
+    @Scheduled(cron = "0 0 6 * * ?")
+//    @Scheduled(cron = "0 * * * * ?")
     public void updateBaekjoonUsers() {
         System.out.println("모든 백준유저 업데이트 시작");
         // 여기에서 모든 bjId를 가져와서 initializeBaekjoonUser() 메서드 호출
-        List<String> allBjIds = baekjoonUserRepository.findAllBjIds(); // 이 메서드는 BaekjoonUserRepository에 추가되어야 합니다.
+        List<String> allBjIds = baekjoonUserRepository.findAllBjIds();
 
         for (String bjId : allBjIds) {
-            baekjoonUserService.fetchUserAndSaveToDatabase(bjId);
+
+            try {
+                baekjoonUserService.fetchUserAndSaveToDatabase(bjId);
+                System.out.println("-------------------------");
+                System.out.println(bjId + "유저 업데이트 완료");
+            } catch (Exception e) {
+                // 예외가 발생한 경우 예외 메시지 출력
+                System.err.println("---------------------");
+                System.err.println(bjId + "유저 업데이트 중 예외 발생: " + e.getMessage());
+            }
         }
     }
+
 }
