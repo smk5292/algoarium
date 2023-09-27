@@ -1,11 +1,16 @@
 package com.d204.algo.ui.recommend
 
+import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.ToggleButton
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.viewModels
 import com.d204.algo.ApplicationClass
 import com.d204.algo.base.BaseFragment
@@ -19,6 +24,7 @@ import com.d204.algo.ui.custom.RecommendProblemView
 import com.d204.algo.ui.extension.observe
 import com.d204.algo.ui.extension.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>() {
@@ -67,10 +73,27 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
 
         // 리프레쉬 등록
         with(binding) {
-            recommendStrongRefresh.setOnClickListener { viewModel.loadConstStrongList() }
-            recommendWeakRefresh.setOnClickListener { viewModel.loadConstWeakList() }
-            recommendLikeRefresh.setOnClickListener { viewModel.loadConstSimilarList() }
+            recommendStrongRefresh.setOnClickListener {
+                viewModel.loadConstStrongList()
+                setProblemAnimation(recommendStrongAnimLayout)
+            }
+            recommendWeakRefresh.setOnClickListener {
+                viewModel.loadConstWeakList()
+                setProblemAnimation(recommendWeakAnimLayout)
+            }
+            recommendLikeRefresh.setOnClickListener {
+                viewModel.loadConstSimilarList()
+                setProblemAnimation(recommendLikeAnimLayout)
+            }
         }
+    }
+
+    private fun setProblemAnimation(layout: LinearLayoutCompat) {
+        val animation = AnimationUtils.loadAnimation(context, com.d204.algo.R.anim.recommend_animation)
+        animation.duration = 200
+        val controller = LayoutAnimationController(animation)
+        layout.layoutAnimation = controller
+        layout.startLayoutAnimation()
     }
 
     private fun setProblem(v: RecommendProblemView, b: ToggleButton, problem: Problem) {
