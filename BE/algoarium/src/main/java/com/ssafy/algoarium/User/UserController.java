@@ -59,6 +59,7 @@ public class UserController {
 			.refreshToken(refreshToken)
 			.preTier(1)
 			.tier(0)
+			.solvedAcId("")
 			.build();
 		userId = userService.saveUser(answerDto);
 

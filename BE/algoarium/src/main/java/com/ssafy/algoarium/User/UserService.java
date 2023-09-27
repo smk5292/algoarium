@@ -24,6 +24,7 @@ public class UserService {
 			.refreshToken(userDto.getRefreshToken())
 			.profileImage(userDto.getProfileImage())
 			.preTier(0)
+			.solvedAcId(userDto.getSolvedAcId())
 			.build()).getUserId());
 	}
 
