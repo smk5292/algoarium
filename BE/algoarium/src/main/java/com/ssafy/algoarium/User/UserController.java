@@ -69,9 +69,11 @@ public class UserController {
 		}
 
 
-//		redisService.saveByRedisDto(RedisDto.builder()
-//			.accessToken(accessToken)
-//			.refreshToken(refreshToken).build());
+
+		redisService.saveByRedisDto(RedisDto.builder()
+			.accessToken(accessToken)
+			.refreshToken(refreshToken).build());
+		
 		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
 
 		return answerDto;
