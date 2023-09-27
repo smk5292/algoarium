@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.algoarium.User.UserRepository;
+import com.ssafy.algoarium.User.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +14,7 @@ public class UserStatusService {
 
 	private final UserStatusRepository userStatusRepository;
 	private final UserRepository userRepository;
+	private final UserService userService;
 
 	public UserStatusEntity toEntity(UserStatusDTO userStatusDTO){
 		return UserStatusEntity.builder()
@@ -39,19 +41,24 @@ public class UserStatusService {
 
 
 	@Transactional
-	public void saveStatus(UserStatusDTO userStatusDTO){
+	public void updateStatus(UserStatusDTO userStatusDTO){
 		userStatusRepository.save(toEntity(userStatusDTO));
 	}
 
 
 	@Transactional
-	public long saveInit(UserStatusEntity userStatusEntity){
-		return UserStatusEntity.builder()
+	public long saveInit(long userId){
+		UserStatusEntity userStatusEntity = UserStatusEntity.builder()
+			.user(userService.getUserById(userId))
 			.userStatus1(1)
 			.userStatus2(1)
 			.userStatus3(1)
 			.userStatus4(1)
 			.userStatus5(1)
-			.build().getUser().getUserId();
+			.build();
+
+		userStatusRepository.save(userStatusEntity);
+
+		return userStatusEntity.getUser().getUserId();
 	}
 }

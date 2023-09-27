@@ -47,7 +47,6 @@ public class UserController {
 
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
-		String tier = String.valueOf(userService.getUserByEmail(profileDto.getEmail()).getUserRanking().getTier());
 		UserDto answerDto;
 
 		long userId;
@@ -59,32 +58,21 @@ public class UserController {
 			.profileImage(profileDto.getProfileUrl())
 			.refreshToken(refreshToken)
 			.preTier(1)
-			.tier(tier)
+			.tier(0)
+			.solvedAcId("")
 			.build();
 		userId = userService.saveUser(answerDto);
 
-		userRankingService.save(UserRankingEntity.builder()
-			.tier(1)
-			.score(0)
-			.ranking(userRankingService.getLengthUserRanking())
-			.user(userService.getUserById(userId))
-			.build());
-
-
-
-
+		userRankingService.saveInit(userId);
+		userStatusService.saveInit(userId);
 
 		}
+
+
 		redisService.saveByRedisDto(RedisDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken).build());
 		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
-
-
-
-
-		System.out.println(answerDto.getUserId());
-		answerDto.setTier(tier);
 
 		return answerDto;
 	}

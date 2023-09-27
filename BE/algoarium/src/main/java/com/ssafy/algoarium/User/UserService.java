@@ -27,7 +27,8 @@ public class UserService {
 			.kakaoNickname(userDto.getKakaoNickname())
 			.refreshToken(userDto.getRefreshToken())
 			.profileImage(userDto.getProfileImage())
-			.preTier(1)
+			.preTier(0)
+			.solvedAcId(userDto.getSolvedAcId())
 			.build()).getUserId());
 	}
 

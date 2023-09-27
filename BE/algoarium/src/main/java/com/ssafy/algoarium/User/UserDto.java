@@ -19,7 +19,7 @@ public class UserDto {
     private String profileImage;
     private int preTier;
     private String refreshToken;
-    private String tier;
+    private int tier;
     private String solvedAcId;
 
     public static UserEntity toUserEntity(UserEntity userDTO) {
