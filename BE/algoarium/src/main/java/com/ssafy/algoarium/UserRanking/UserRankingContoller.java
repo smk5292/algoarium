@@ -12,6 +12,7 @@ import com.ssafy.algoarium.User.UserEntity;
 import com.ssafy.algoarium.User.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,17 +37,19 @@ public class UserRankingContoller {
 	@GetMapping("/{tier}")
 	public List<UserRankingDTO> getRankingListByTier(@PathVariable int tier){
 		List<UserRankingEntity> userRankingEntities = userRankingService.getListByTier(tier);
-
+		System.out.println("/{tier}"+tier);
 		return userRankingEntities.stream().map(UserRankingContoller::toDto).toList();
 	}
 
 	@GetMapping("/top/{tier}")
 	public UserRankingDTO getRankingTopByTier(@PathVariable int tier){
+		System.out.println("/top/{tier}"+tier);
 		return toDto(userRankingService.getTopUserRankingEntity(tier));
 	}
 
 	@GetMapping("/my/{userId}")
 	public UserRankingDTO getMyRankingById(@PathVariable long userId){
+		System.out.println("/my/{userId}"+userId);
 		UserEntity user = userService.getUserById(userId);
 		return UserRankingDTO.builder()
 			.kakaoNickname(user.getKakaoNickname())

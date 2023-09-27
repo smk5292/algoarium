@@ -1,6 +1,7 @@
 package com.ssafy.algoarium.RecommendProblem;
 
 import com.ssafy.algoarium.Problem.ProblemService;
+import com.ssafy.algoarium.ProblemLike.ProblemLikeDTO;
 import com.ssafy.algoarium.ProblemLike.ProblemLikeService;
 import com.ssafy.algoarium.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,6 @@ public class RecommendProblemController {
 
     @GetMapping("/strong/{userId}")
     public List<RecommendProblemDTO> getStrongRecommendations(@PathVariable Long userId) {
-        System.out.println(userId);
-        System.out.println(recommendProblemService.getStrongRecommendations(Math.toIntExact(userId)));
         return recommendProblemService.getStrongRecommendations(Math.toIntExact(userId));
     }
 
