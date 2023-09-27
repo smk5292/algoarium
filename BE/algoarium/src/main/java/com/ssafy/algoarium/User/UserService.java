@@ -73,7 +73,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean isCodeEquals(long userId, String solvedAc, String code){
+	public String isCodeEquals(long userId, String solvedAc, String code){
 		// 유저 조회 URL
 		String apiUrl = "https://solved.ac/api/v3/user/show?handle=";
 
@@ -99,15 +99,15 @@ public class UserService {
 
 				// 변경된 엔티티를 저장
 				userRepository.save(userEntity);
-				return true;
+				return "true";
 			}
-			return false;
+			return "false";
 
 
 		} catch (Exception e) {
 			// 에러가 발생하면 예외 처리
-			e.printStackTrace(); // 에러 로그 출력 (나중에 수정하세요)
-			return false;
+			e.printStackTrace(); // 에러 로그 출력 (나중에 수정하세요).
+			return "false";
 		}
 	}
 }
