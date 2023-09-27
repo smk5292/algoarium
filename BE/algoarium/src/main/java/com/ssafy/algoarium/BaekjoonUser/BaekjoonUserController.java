@@ -29,7 +29,7 @@ public class BaekjoonUserController {
     }
 
     @GetMapping("/{userId}/{solvedAc}/{code}")
-    public Boolean updateUser(@PathVariable long userId, @PathVariable String solvedAc, @PathVariable String code){
+    public String updateUser(@PathVariable long userId, @PathVariable String solvedAc, @PathVariable String code){
         System.out.println(userId);
         System.out.println(solvedAc);
         System.out.println(code);
