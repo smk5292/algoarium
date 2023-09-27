@@ -44,7 +44,7 @@ public class UserController {
 
 	@GetMapping("/login/{accessToken}/{refreshToken}")
 	public UserDto loginUser(@PathVariable String accessToken, @PathVariable String refreshToken){
-
+		System.out.println("로그인 시도");
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
 		UserDto answerDto;
@@ -69,10 +69,11 @@ public class UserController {
 		}
 
 
+
 		redisService.saveByRedisDto(RedisDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken).build());
-
+		
 		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
 
 		return answerDto;
