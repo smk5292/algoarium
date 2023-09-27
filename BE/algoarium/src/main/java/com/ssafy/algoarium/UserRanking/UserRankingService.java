@@ -34,10 +34,6 @@ public class UserRankingService {
 		return userRankingRepository.findByTier(tier);
 	}
 
-	public UserRankingEntity getRankingByUserId(long userId){
-		UserEntity userEntity = userService.getUserById(userId);
-		return userRankingRepository.findByUserId(userEntity).get();
-	}
 	public UserRankingEntity getTopUserRankingEntity(int tier){
 		return userRankingRepository.findTopByOrderByUserIdDesc(tier).get();
 	}
