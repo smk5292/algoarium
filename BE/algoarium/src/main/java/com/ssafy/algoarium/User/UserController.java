@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
 
 	//accessToken, refreshToken, 만료시간 2개를 준다 ->
@@ -88,21 +88,4 @@ public class UserController {
 
 		return answerDto;
 	}
-
-
-	@PostMapping("api/user/{userId}/{solvedAc}")
-	public String updateUser(@PathVariable long userId, @PathVariable String solvedAc){
-		UserEntity user = userService.getUserById(userId);
-		userRepository.save(UserEntity.builder()
-			.userId(userId)
-			.kakaoId(user.getKakaoId())
-			.kakaoNickname(user.getKakaoNickname())
-			.profileImage(user.getProfileImage())
-			.refreshToken(user.getRefreshToken())
-			.preTier(user.getPreTier())
-			.solvedAcId(solvedAc)
-			.build());
-		return solvedAc;
-	}
-
 }
