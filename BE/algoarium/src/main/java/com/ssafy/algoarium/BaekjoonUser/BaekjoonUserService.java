@@ -23,19 +23,25 @@ public class BaekjoonUserService {
         RestTemplate restTemplate = new RestTemplate();
         String apiResponse = restTemplate.getForObject(apiUrl + bjId, String.class);
 
-        // API 응답을 DTO로 변환
-        BaekjoonUserDTO baekjoonUserDTO = convertApiResponseToDTO(apiResponse);
+        try {
+            // API 응답을 DTO로 변환
+            BaekjoonUserDTO baekjoonUserDTO = convertApiResponseToDTO(apiResponse);
 
-        // bjId를 사용하여 이미 존재하는 엔터티를 찾습니다.
-        BaekjoonUserEntity existingUserEntity = baekjoonUserRepository.findByBjId(bjId);
+            // bjId를 사용하여 이미 존재하는 엔터티를 찾습니다.
+            BaekjoonUserEntity existingUserEntity = baekjoonUserRepository.findByBjId(bjId);
 
-        // 만약 이미 존재하는 엔터티가 있다면 업데이트, 아니면 새로운 엔터티를 생성합니다.
-        if (existingUserEntity != null) {
-            updateExistingEntity(existingUserEntity, baekjoonUserDTO);
-        } else {
-            saveNewEntity(baekjoonUserDTO);
+            // 만약 이미 존재하는 엔터티가 있다면 업데이트, 아니면 새로운 엔터티를 생성합니다.
+            if (existingUserEntity != null) {
+                updateExistingEntity(existingUserEntity, baekjoonUserDTO);
+            } else {
+                saveNewEntity(baekjoonUserDTO);
+            }
+        } catch (Exception e) {
+            // 에러가 발생하면 예외 처리
+            e.printStackTrace(); // 에러 로그 출력 (나중에 수정하세요)
         }
     }
+
 
     @Transactional
     public String fetchBio(String bjId) {
