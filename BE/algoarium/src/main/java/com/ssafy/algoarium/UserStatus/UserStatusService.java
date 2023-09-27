@@ -43,4 +43,15 @@ public class UserStatusService {
 		userStatusRepository.save(toEntity(userStatusDTO));
 	}
 
+
+	@Transactional
+	public long saveInit(UserStatusEntity userStatusEntity){
+		return UserStatusEntity.builder()
+			.userStatus1(1)
+			.userStatus2(1)
+			.userStatus3(1)
+			.userStatus4(1)
+			.userStatus5(1)
+			.build().getUser().getUserId();
+	}
 }

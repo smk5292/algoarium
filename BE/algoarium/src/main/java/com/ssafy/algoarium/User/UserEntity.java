@@ -40,7 +40,7 @@ public class UserEntity {
     private String refreshToken;
 
     @Column(name = "solved_ac_id" , nullable = true, length = 100)
-    private String solvedAcId;
+    private String solvedAcId = "";
 
     @OneToOne
     @JoinColumn(name = "user_ranking_id",referencedColumnName = "user_ranking_id")
