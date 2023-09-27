@@ -51,10 +51,12 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         // 뷰모델 변수에 옵저빙을 등록한다.
-        observe(viewModel.getRankingList(espHelper.prefUserTier), ::onViewRankingChange)
-        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
-        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
-
+//        observe(viewModel.getRankingList(espHelper.prefUserTier), ::onViewRankingChange)
+//        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
+//        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
+        observe(viewModel.getRankingList(1), ::onViewRankingChange)
+//        observe(viewModel.getTopRanking(1), ::onViewTopChange)
+//        observe(viewModel.getMyRanking(1), ::onViewMyChange)
         setupRecyclerView()
         setUpAnimation()
     }
