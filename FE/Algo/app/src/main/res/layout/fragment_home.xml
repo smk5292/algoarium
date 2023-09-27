@@ -75,6 +75,18 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.85" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragment_home_connection_code"
+            style="@style/regularKorFillText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:elevation="100dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/home_ranking"
+            app:layout_constraintEnd_toEndOf="@id/home_ranking"
+            tools:text="PC연결 코드 : 12345668" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fragment_home_bg"
             android:layout_width="0dp"
@@ -120,15 +132,6 @@
             app:layout_constraintEnd_toStartOf="@id/guideline3"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="@id/guideline2" />
-
-        <ImageButton
-            android:elevation="10dp"
-            android:id="@+id/socket"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:background="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </HorizontalScrollView>

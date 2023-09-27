@@ -8,9 +8,11 @@
     <string name="title_rank">Rank</string>
     <string name="title_promote">Promote</string>
     <string name="title_memo">Memo</string>
-    <string name="recommend_strong_text">강점 문제 추천</string>
-    <string name="recommend_weak_text">약점 문제 추천</string>
-    <string name="recommend_similar_text">비슷한 사용자 문제 추천</string>
+    <string name="recommend_strong_text"> 강점 문제 추천</string>
+    <string name="recommend_weak_text"> 약점 문제 추천</string>
+    <string name="recommend_similar_text"> 비슷한 사용자 문제 추천</string>
+    <string name="edittext_hint"><font size="18" color="#999C9B9B">백준ID 입력</font></string>
+    <string name="code"><font color="#ffff4651">코드발급</font></string>
     <string name="kakao_key">9a8d411dc13896f2f547959ce7b402f0</string>
     <string name="kakao_key_sheme">kakao9a8d411dc13896f2f547959ce7b402f0</string>
 

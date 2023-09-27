@@ -6,13 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.ToggleButton
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.viewModels
 import com.d204.algo.ApplicationClass
+import com.d204.algo.MainActivity
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Problem
@@ -24,7 +24,6 @@ import com.d204.algo.ui.custom.RecommendProblemView
 import com.d204.algo.ui.extension.observe
 import com.d204.algo.ui.extension.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>() {
@@ -230,6 +229,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshStrong(subList)
                 setStrongBookMarkClicker(subList)
+                setShowStrongBookMark(subList)
             }
         }
     }
@@ -244,6 +244,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshWeak(subList)
                 setWeakBookMarkClicker(subList)
+                setShowWeakBookMark(subList)
             }
         }
     }
@@ -258,6 +259,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
                 refreshSimilar(subList)
                 setSimilarBookMarkClicker(subList)
+                setShowSimilarBookMark(subList)
             }
         }
     }
@@ -310,5 +312,117 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
                 }
             }
         }
+    }
+
+    private fun setShowStrongBookMark(list: List<Problem>) {
+        val fadeIn = AnimationUtils.loadAnimation(context, R.anim.slide_in_left) // 보이기
+        val fadeOut = AnimationUtils.loadAnimation(context, R.anim.slide_out_right) // 사라지기
+
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendStrong1.setOnClickListener {
+                        if (recommendStrongBookmarkButton1.visibility == View.GONE) {
+                            recommendStrongBookmarkButton1.startAnimation(fadeIn)
+                            recommendStrongBookmarkButton1.visibility = View.VISIBLE
+                            runStomp(list[0].problemNumber.toString())
+                        } else {
+                            recommendStrongBookmarkButton1.startAnimation(fadeOut)
+                            recommendStrongBookmarkButton1.visibility = View.GONE
+                        }
+                    }
+                    1 -> recommendStrong2.setOnClickListener {
+                        if (recommendStrongBookmarkButton2.visibility == View.GONE) {
+                            recommendStrongBookmarkButton2.visibility = View.VISIBLE
+                            runStomp(list[1].problemNumber.toString())
+                        } else {
+                            recommendStrongBookmarkButton2.visibility = View.GONE
+                        }
+                    }
+                    2 -> recommendStrong3.setOnClickListener {
+                        if (recommendStrongBookmarkButton3.visibility == View.GONE) {
+                            recommendStrongBookmarkButton3.visibility = View.VISIBLE
+                            runStomp(list[2].problemNumber.toString())
+                        } else {
+                            recommendStrongBookmarkButton3.visibility = View.GONE
+                        }
+                    }
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
+            }
+        }
+    }
+
+    private fun setShowWeakBookMark(list: List<Problem>) {
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendWeak1.setOnClickListener {
+                        if (recommendWeakBookmarkButton1.visibility == View.GONE) {
+                            recommendWeakBookmarkButton1.visibility = View.VISIBLE
+                            runStomp(list[0].problemNumber.toString())
+                        } else {
+                            recommendWeakBookmarkButton1.visibility = View.GONE
+                        }
+                    }
+                    1 -> recommendWeak2.setOnClickListener {
+                        if (recommendWeakBookmarkButton2.visibility == View.GONE) {
+                            recommendWeakBookmarkButton2.visibility = View.VISIBLE
+                            runStomp(list[1].problemNumber.toString())
+                        } else {
+                            recommendWeakBookmarkButton2.visibility = View.GONE
+                        }
+                    }
+                    2 -> recommendWeak3.setOnClickListener {
+                        if (recommendWeakBookmarkButton3.visibility == View.GONE) {
+                            recommendWeakBookmarkButton3.visibility = View.VISIBLE
+                            runStomp(list[2].problemNumber.toString())
+                        } else {
+                            recommendWeakBookmarkButton3.visibility = View.GONE
+                        }
+                    }
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
+            }
+        }
+    }
+
+    private fun setShowSimilarBookMark(list: List<Problem>) {
+        with(binding) {
+            for (i in 0 until minOf(list.size, 3)) {
+                when (i) {
+                    0 -> recommendLike1.setOnClickListener {
+                        if (recommendLikeBookmarkButton1.visibility == View.GONE) {
+                            recommendLikeBookmarkButton1.visibility = View.VISIBLE
+                            runStomp(list[0].problemNumber.toString())
+                        } else {
+                            recommendLikeBookmarkButton1.visibility = View.GONE
+                        }
+                    }
+                    1 -> recommendLike2.setOnClickListener {
+                        if (recommendLikeBookmarkButton2.visibility == View.GONE) {
+                            recommendLikeBookmarkButton2.visibility = View.VISIBLE
+                            runStomp(list[1].problemNumber.toString())
+                        } else {
+                            recommendLikeBookmarkButton2.visibility = View.GONE
+                        }
+                    }
+                    2 -> recommendLike3.setOnClickListener {
+                        if (recommendLikeBookmarkButton3.visibility == View.GONE) {
+                            recommendLikeBookmarkButton3.visibility = View.VISIBLE
+                            runStomp(list[2].problemNumber.toString())
+                        } else {
+                            recommendLikeBookmarkButton3.visibility = View.GONE
+                        }
+                    }
+                    else -> throw IndexOutOfBoundsException("없는 인덱스: $i")
+                }
+            }
+        }
+    }
+
+    private fun runStomp(problemNum: String) {
+        val targetUrl = "www.acmicpc.net/problem/$problemNum"
+        (requireActivity() as MainActivity).sendSocketMessage(targetUrl)
     }
 }

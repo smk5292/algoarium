@@ -20,7 +20,7 @@ class UserCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getUser is not supported for UserCacheDataSource.")
     }
 
-    override suspend fun registerSolvedAc(userId: Long, code: String): String {
+    override suspend fun registerSolvedAc(userId: Long, solvedAcId: String, code: String): String {
         throw UnsupportedOperationException("registerSolvedAc is not supported for UserCacheDataSource.")
     }
 

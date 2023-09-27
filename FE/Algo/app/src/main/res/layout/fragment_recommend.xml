@@ -105,7 +105,9 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:visibility="gone"
                             android:id="@+id/recommend_strong_bookmark_button1"
+                            android:layout_marginRight="@dimen/_8sdp"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
                             android:background="@drawable/bookmark_toggle_button_resource"
@@ -127,6 +129,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_strong_bookmark_button2"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -149,6 +153,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_strong_bookmark_button3"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -223,6 +229,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_weak_bookmark_button1"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -245,6 +253,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_weak_bookmark_button2"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -267,6 +277,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_weak_bookmark_button3"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -341,6 +353,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_like_bookmark_button1"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -363,6 +377,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_like_bookmark_button2"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"
@@ -385,6 +401,8 @@
                             android:layout_weight="0.9" />
 
                         <ToggleButton
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:visibility="gone"
                             android:id="@+id/recommend_like_bookmark_button3"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="@dimen/_24sdp"

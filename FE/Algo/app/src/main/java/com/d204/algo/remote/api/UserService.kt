@@ -18,6 +18,6 @@ interface UserService {
     @GET("/api/season/true")
     suspend fun getIsSeason(): Boolean
 
-    @POST("api/user/{userId}/{solvedAc}")
-    suspend fun registerSolvedAc(@Path("userId") userId: Long, @Path("solvedAc") code: String): String
+    @GET("api/BaekjoonUser/{userId}/{solvedAc}/{code}")
+    suspend fun registerSolvedAc(@Path("userId") userId: Long, @Path("solvedAc") solvedAcId: String, @Path("code") code: String): String
 }

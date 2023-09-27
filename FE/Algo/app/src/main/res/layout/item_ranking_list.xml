@@ -143,8 +143,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="정용우"
-                        tools:text="정용우" />
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
+                        tools:text="정용우우우" />
 
                     <com.blueiobase.api.android.strokedtextview.StrokedTextView
                         android:id="@+id/ranking_list_item_point"
@@ -153,7 +158,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="center_vertical|right"
-                        android:text="3200pt"
                         tools:text="3200pt" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

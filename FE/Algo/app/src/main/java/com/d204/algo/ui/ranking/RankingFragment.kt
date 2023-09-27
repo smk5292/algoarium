@@ -2,6 +2,7 @@ package com.d204.algo.ui.ranking
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentRankingBinding
 import com.d204.algo.presentation.viewmodel.RankingFragmentViewModel
 import com.d204.algo.presentation.viewmodel.RankingUIModel
-import com.d204.algo.presentation.viewmodel.RecommendUIModel
 import com.d204.algo.presentation.viewmodel.SingleRankingUIModel
 import com.d204.algo.ui.adapter.RankingAdapter
 import com.d204.algo.ui.extension.observe
@@ -55,8 +55,8 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 //        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
 //        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
         observe(viewModel.getRankingList(1), ::onViewRankingChange)
-//        observe(viewModel.getTopRanking(1), ::onViewTopChange)
-//        observe(viewModel.getMyRanking(1), ::onViewMyChange)
+        observe(viewModel.getTopRanking(1), ::onViewTopChange)
+        observe(viewModel.getMyRanking(1), ::onViewMyChange)
         setupRecyclerView()
         setUpAnimation()
     }
@@ -80,7 +80,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
     private fun setupRecyclerView() {
         binding.fragmentRankingRecyclerView.apply {
             // itemAnimator =
-            scheduleLayoutAnimation() // data 변경 시 취소되는 애니메이션을 다시 적용
+            // scheduleLayoutAnimation() // data 변경 시 취소되는 애니메이션을 다시 적용
             adapter = rankingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

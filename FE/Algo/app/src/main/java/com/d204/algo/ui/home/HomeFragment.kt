@@ -1,7 +1,6 @@
 package com.d204.algo.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,10 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupInitSettings()
         setSkin()
-        binding.socket.setOnClickListener {
-            Log.d(TAG, "onViewCreated: 클릭됨")
-            (requireActivity() as MainActivity).sendSocketMessage("www.naver.com")
-        }
+        setCode()
     }
 
     override fun onResume() {
@@ -57,6 +53,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
     override fun onPause() {
         super.onPause()
         coralGenerator.isRunning = false
+    }
+
+    private fun setCode() {
+        binding.fragmentHomeConnectionCode.text = "PC연결 : ${MainActivity.pcConnectionNumber}"
     }
 
     private fun setSkin() {

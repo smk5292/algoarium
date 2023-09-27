@@ -57,8 +57,14 @@ class MainActivity : AppCompatActivity() {
     // fragment 이동 화면 애니메이션 종료 여부
     var isAnimationFinished = true
 
+    // 소켓 연결
+    companion object {
+        val pcConnectionNumber = (10000000..99999999).random().toString()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) // 화면 꽉차게
         binding = ActivityMainBinding.inflate(layoutInflater)
 //        setAnimation() // 새 시즌 시작이 아니면 바로 호출
         setRankAnimation() // 새 시즌으로 랭크업 해야하면 호출 후 클릭 시 setAnimation 호출
@@ -78,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun connectSocket() {
         try {
-            stompClient.connectStomp("9")
+            stompClient.connectStomp(pcConnectionNumber)
         } catch (e: Exception) {
             showSnackBar(binding.root, "PC연결 오류 앱을 재시작해주세요")
         }
@@ -202,7 +208,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendSocketMessage(url: String) {
-        stompClient.sendStomp(url, "9")
+        stompClient.sendStomp(url, pcConnectionNumber)
     }
 
     // 뒤로가기
@@ -214,8 +220,11 @@ class MainActivity : AppCompatActivity() {
                 override fun handleOnBackPressed() {
                     Log.d(TAG, "handleOnBackPressed: $isAnimationFinished")
                     if (isAnimationFinished) {
-                        if (navController.currentDestination?.id == R.id.navigation_home) finish()
-                        else navController.navigateUp()
+                        if (navController.currentDestination?.id == R.id.navigation_home) {
+                            finish()
+                        } else {
+                            navController.navigateUp()
+                        }
                     }
                 }
             },

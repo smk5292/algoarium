@@ -35,6 +35,7 @@ class RankingAdapter @Inject constructor(
                 rankingListItemRank.text = item.ranking.toString()
                 rankingListItemPoint.text = item.score.toString()
                 rankingListItemName.text = item.kakaoNickname
+                rankingListItemName.isSelected = true
                 root.setOnClickListener {
                     onItemClickListener?.let { itemClick ->
                         itemClick(item)

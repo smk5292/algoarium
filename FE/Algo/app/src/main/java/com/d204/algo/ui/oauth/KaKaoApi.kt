@@ -24,10 +24,10 @@ import kotlinx.coroutines.withContext
 private const val TAG = "KaKaoApi"
 class KaKaoApi(private val act: AppCompatActivity, private val userRepository: UserRepository) {
     private val espHelper = ApplicationClass.preferencesHelper
-    private val solvedConnected = espHelper.prefSolvedAcId != null && espHelper.prefSolvedAcId != ""
+    private val solvedConnected = espHelper.prefSolvedAcId != ""
 
     private fun skipLogin() {
-        if (AuthApiClient.instance.hasToken()) {
+        if (AuthApiClient.instance.hasToken() && espHelper.prefUserId != 0L) {
             val tkn = AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
             try {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -37,12 +37,20 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                 Toast.makeText(act, "카카오 토큰 발급 중 오류 발생", Toast.LENGTH_SHORT).show()
             }
         }
+        else {
+            realLoign()
+        }
     }
 
     fun setLoginBtn(loginBtn: ImageButton) {
         // 자동 로그인
-        skipLogin()
+//        skipLogin()
+        loginBtn.setOnClickListener {
+            skipLogin()
+        }
+    }
 
+    private fun realLoign() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Toast.makeText(act, "카카오 계정으로 로그인 실패", Toast.LENGTH_SHORT).show()
@@ -54,35 +62,32 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                 act.finish()
             }
         }
+        // kakao 실행 가능 여부
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(act)) {
+            // 가능하다면 카카오톡으로 로그인하기
+            UserApiClient.instance.loginWithKakaoTalk(act) { token, error ->
+                if (error != null) {
+                    Toast.makeText(act, "카카오톡으로 로그인 실패", Toast.LENGTH_SHORT).show()
+                    Log.e("test", "카카오톡으로 로그인 실패 " + error.message)
 
-        loginBtn.setOnClickListener {
-            // kakao 실행 가능 여부
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(act)) {
-                // 가능하다면 카카오톡으로 로그인하기
-                UserApiClient.instance.loginWithKakaoTalk(act) { token, error ->
-                    if (error != null) {
-                        Toast.makeText(act, "카카오톡으로 로그인 실패", Toast.LENGTH_SHORT).show()
-                        Log.e("test", "카카오톡으로 로그인 실패 " + error.message)
-
-                        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                        // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                            return@loginWithKakaoTalk
-                        }
-                    } else if (token != null) {
-                        // 서버에 카카오 토큰을 넘겨주는 과정
-                        CoroutineScope(Dispatchers.IO).launch {
-                            loadUser(token)
-                        }
-
-                        Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
-                        Log.d(TAG, "카카오톡 로그인: $token")
-                        Log.d("test", "카카오톡으로 로그인 성공" + token.accessToken)
+                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                        return@loginWithKakaoTalk
                     }
+                } else if (token != null) {
+                    // 서버에 카카오 토큰을 넘겨주는 과정
+                    CoroutineScope(Dispatchers.IO).launch {
+                        loadUser(token)
+                    }
+
+                    Toast.makeText(act, "카카오톡으로 로그인 성공", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "카카오톡 로그인: $token")
+                    Log.d("test", "카카오톡으로 로그인 성공" + token.accessToken)
                 }
-            } else {
-                UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
             }
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
         }
     }
 
@@ -97,7 +102,9 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             espHelper.prefUserProfile = it.profileImage
             espHelper.prefUserPreTier = it.tier
             espHelper.prefUserTier = it.preTier
+            espHelper.prefSolvedAcId = it.solvedAcId
             // solved ac 연동이 됐다면(DB에 ID가 있다면) 다음 화면으로
+            Log.d(TAG, "loadUser: $solvedConnected ${espHelper.prefSolvedAcId}")
             if (solvedConnected) {
                 toMainActivity(kakaoToken)
             } else {
@@ -116,32 +123,40 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
     private fun connectSolvedAcDialog(kakaoToken: OAuthToken) {
         val dialogBinding = DialogSolvedacBinding.inflate(act.layoutInflater)
         val code = generateRandomSixDigitValue()
-        dialogBinding.solvedAcConnectCode.text = code
+        dialogBinding.solvedAcConnectCode.setOnClickListener {
+            dialogBinding.solvedAcConnectCode.text = code
+            dialogBinding.solvedAcConnectCode.isClickable = false
+        }
 
         val alertDialog = AlertDialog.Builder(act)
             .setView(dialogBinding.root)
             .create()
 
+        alertDialog.show()
+
         dialogBinding.solvedAcConnectBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val isSuccess = checkValueWithServer(espHelper.prefUserId, code)
+                val isSuccess = checkValueWithServer(espHelper.prefUserId, dialogBinding.solvedAcConnectId.text.toString(), code)
                 if (isSuccess) {
-                    Toast.makeText(act, "연동이 성공했습니다.", Toast.LENGTH_SHORT).show()
-                    alertDialog.dismiss()
-                    toMainActivity(kakaoToken)
+                    withContext(Dispatchers.Main) {
+                        dialogBinding.solvedAcConnectBtn.text = "연동 완료"
+                        dialogBinding.solvedAcConnectBtn.isEnabled = false
+                        Toast.makeText(act, "연동이 성공했습니다.", Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
+                        toMainActivity(kakaoToken)
+                    }
                 } else {
-                    Toast.makeText(act, "연동이 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) { Toast.makeText(act, "연동이 실패했습니다.", Toast.LENGTH_SHORT).show() }
                 }
             }
         }
-
-        alertDialog.show()
     }
 
-    private suspend fun checkValueWithServer(userId: Long, code: String): Boolean {
+    private suspend fun checkValueWithServer(userId: Long, solvedAcId: String, code: String): Boolean {
         // 서버에 solved ac api를 넘겨서 bio에 해당 번호가 입력돼있는지 확인하고 solvedAc Id를 받아온다
-        val solvedAcId = userRepository.registerSolvedAc(userId, code)
-        return solvedAcId != ""
+        val isSolved = userRepository.registerSolvedAc(userId, solvedAcId, code)
+        Log.d(TAG, "checkValueWithServer: $userId $solvedAcId $code $isSolved")
+        return isSolved == "true"
     }
 
     private fun generateRandomSixDigitValue(): String {
