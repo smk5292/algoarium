@@ -49,16 +49,15 @@ public class UserRankingContoller {
 
 	@GetMapping("/my/{userId}")
 	public UserRankingDTO getMyRankingById(@PathVariable long userId){
-		System.out.println("/my/{userId}"+userId);
-		UserEntity user = userService.getUserById(userId);
+		UserRankingEntity user = userRankingService.getRankingByUserId(userId);
 		return UserRankingDTO.builder()
-			.kakaoNickname(user.getKakaoNickname())
-			.profileImage(user.getProfileImage())
-			.score(user.getUserRanking().getScore())
-			.tier(user.getUserRanking().getTier())
-			.ranking(user.getUserRanking().getRanking())
+			.userId(user.getUser().getUserId())
+			.userRankingId(user.getUserRankingId())
+			.kakaoNickname(user.getUser().getKakaoNickname())
+			.score(user.getScore())
+			.tier(user.getTier())
+			.profileImage(user.getUser().getProfileImage())
+			.ranking(user.getRanking())
 			.build();
 	}
-
-
 }
