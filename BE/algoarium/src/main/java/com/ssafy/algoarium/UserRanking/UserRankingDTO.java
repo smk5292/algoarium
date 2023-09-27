@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRankingDTO {
 
+	private long userRankingId;
+	private long userId;
 	private String kakaoNickname;
 	private String profileImage;
 	private int score;

@@ -4,6 +4,8 @@ import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,9 @@ import com.ssafy.algoarium.KakaoLogin.KakaoInfo;
 import com.ssafy.algoarium.KakaoLogin.KakaoLoginService;
 import com.ssafy.algoarium.Redis.RedisDto;
 import com.ssafy.algoarium.Redis.RedisService;
+import com.ssafy.algoarium.UserRanking.UserRankingEntity;
+import com.ssafy.algoarium.UserRanking.UserRankingService;
+import com.ssafy.algoarium.UserStatus.UserStatusService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +37,9 @@ public class UserController {
 	private final UserService userService;
 	private final KakaoLoginService kakaoLoginService;
 	private final RedisService redisService;
+	private final UserRepository userRepository;
+	private final UserRankingService userRankingService;
+	private final UserStatusService userStatusService;
 
 
 	@GetMapping("/login/{accessToken}/{refreshToken}")
@@ -39,7 +47,11 @@ public class UserController {
 
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
+		String tier = String.valueOf(userService.getUserByEmail(profileDto.getEmail()).getUserRanking().getTier());
 		UserDto answerDto;
+
+		long userId;
+
 		if(userService.getUserByEmail(profileDto.getEmail()) == null){
 		answerDto  = UserDto.builder()
 			.kakaoId(profileDto.getEmail())
@@ -47,22 +59,50 @@ public class UserController {
 			.profileImage(profileDto.getProfileUrl())
 			.refreshToken(refreshToken)
 			.preTier(1)
+			.tier(tier)
 			.build();
-		userService.saveUser(answerDto);
-		}
+		userId = userService.saveUser(answerDto);
 
+		userRankingService.save(UserRankingEntity.builder()
+			.tier(1)
+			.score(0)
+			.ranking(userRankingService.getLengthUserRanking())
+			.user(userService.getUserById(userId))
+			.build());
+
+
+
+
+
+		}
 		redisService.saveByRedisDto(RedisDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken).build());
-
-		String tier = String.valueOf(userService.getUserByEmail(profileDto.getEmail()).getUserRanking().getTier());
-
 		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+
+
+
 
 		System.out.println(answerDto.getUserId());
 		answerDto.setTier(tier);
 
 		return answerDto;
+	}
+
+
+	@PostMapping("api/user/{userId}/{solvedAc}")
+	public String updateUser(@PathVariable long userId, @PathVariable String solvedAc){
+		UserEntity user = userService.getUserById(userId);
+		userRepository.save(UserEntity.builder()
+			.userId(userId)
+			.kakaoId(user.getKakaoId())
+			.kakaoNickname(user.getKakaoNickname())
+			.profileImage(user.getProfileImage())
+			.refreshToken(user.getRefreshToken())
+			.preTier(user.getPreTier())
+			.solvedAcId(solvedAc)
+			.build());
+		return solvedAc;
 	}
 
 }

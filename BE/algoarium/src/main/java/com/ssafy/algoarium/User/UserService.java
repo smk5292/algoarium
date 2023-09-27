@@ -27,6 +27,7 @@ public class UserService {
 			.build()).getUserId());
 	}
 
+
 	@Transactional
 	public UserEntity updateUser(UserDto userDto){
 		UserEntity userEntity = userRepository.findByKakaoId(userDto.getKakaoId());
@@ -38,6 +39,7 @@ public class UserService {
 			.preTier(userEntity.getPreTier())
 			.profileImage(userDto.getProfileImage())
 			.refreshToken(userDto.getRefreshToken())
+			.solvedAcId(userDto.getSolvedAcId())
 			.build();
 
 		userRepository.save(updateUserEntity);
