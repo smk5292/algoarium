@@ -55,6 +55,7 @@ class StatusFragmentViewModel @Inject constructor(
     var likeProblems: LiveData<LikeProblemsUIModel> = _likeProblems
 
     fun getLikeProblems(userId: Long) {
+        _likeProblems.postValue(LikeProblemsUIModel.Success(listOf(Problem(), Problem())))
         launchCoroutineIO {
             problemRepository.getLikeProblems(userId).collect {
                 _likeProblems.postValue(LikeProblemsUIModel.Success(it))

@@ -100,6 +100,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_strong1"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -124,6 +125,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_strong2"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -148,6 +150,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_strong3"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -224,6 +227,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_weak1"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -248,6 +252,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_weak2"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -272,6 +277,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_weak3"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -348,6 +354,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_like1"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -372,6 +379,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_like2"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />
@@ -396,6 +404,7 @@
 
                         <com.d204.algo.ui.custom.RecommendProblemView
                             android:id="@+id/recommend_like3"
+                            android:background="?android:attr/selectableItemBackground"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9" />

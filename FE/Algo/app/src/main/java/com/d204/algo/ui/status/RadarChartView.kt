@@ -7,10 +7,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.res.ResourcesCompat
+import com.d204.algo.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -95,7 +98,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         val cy = height / 2f
 
         // 0. 흰색 배경 그리기
-        paint.color = Color.WHITE
+        paint.color = Color.argb(88,255,255,255)
         paint.style = Paint.Style.FILL
 
         path.reset()
@@ -146,6 +149,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         // 3. 각 꼭지점 부근에 각 특성 문자열 표시하기
         textPaint.textAlign = Paint.Align.CENTER
         textPaint.color = Color.BLACK
+        textPaint.typeface = ResourcesCompat.getFont(context, R.font.dnf_bit);
         startX = cx
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f

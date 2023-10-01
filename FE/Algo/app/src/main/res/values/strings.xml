@@ -19,7 +19,7 @@
     <string name="app_exit_label">한번 더 뒤로가기를 누르면 종료됩니다.</string>
 
     <!-- StatusFragment -->
-    <string name="status_checkbox_text">같은 등급 비교하기</string>
+    <string name="status_checkbox_text">티어 평균 표시</string>
 
     <!-- MemoFragment -->
     <string name="memo_register_button">등록</string>
