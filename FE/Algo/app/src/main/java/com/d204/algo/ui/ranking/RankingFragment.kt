@@ -2,14 +2,17 @@ package com.d204.algo.ui.ranking
 
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d204.algo.ApplicationClass
+import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentRankingBinding
@@ -20,6 +23,7 @@ import com.d204.algo.ui.adapter.RankingAdapter
 import com.d204.algo.ui.extension.observe
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
@@ -54,9 +58,11 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 //        observe(viewModel.getRankingList(espHelper.prefUserTier), ::onViewRankingChange)
 //        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
 //        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
+
         observe(viewModel.getRankingList(1), ::onViewRankingChange)
         observe(viewModel.getTopRanking(1), ::onViewTopChange)
         observe(viewModel.getMyRanking(1), ::onViewMyChange)
+
         setupRecyclerView()
         setUpAnimation()
     }
@@ -79,8 +85,6 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     private fun setupRecyclerView() {
         binding.fragmentRankingRecyclerView.apply {
-            // itemAnimator =
-            // scheduleLayoutAnimation() // data 변경 시 취소되는 애니메이션을 다시 적용
             adapter = rankingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -93,6 +97,8 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
             is RankingUIModel.Loading -> handleLoading(true)
             is RankingUIModel.Success -> {
                 handleLoading(false)
+//                val animationController: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(binding.root.context, R.anim.recycler_animation)
+//                binding.fragmentRankingRecyclerView.layoutAnimation = animationController
                 rankingAdapter.list = result.data
             }
         }

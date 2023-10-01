@@ -10,19 +10,19 @@ import com.airbnb.lottie.LottieAnimationView
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(layout.activity_splash)
-//
-//        val splashAnim: LottieAnimationView = findViewById(R.id.loading_image)
-//
-//        splashAnim.setAnimation(raw.asafsplash)
-//
-//        splashAnim.playAnimation() // 애니메이션 재생
-//
-//        val handler = Handler(Looper.getMainLooper())
-//        handler.postDelayed({
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }, 1200)
+        setContentView(R.layout.activity_splash)
+
+        val splashLogo: LottieAnimationView = findViewById(R.id.loading_logo)
+        val splashAnim: LottieAnimationView = findViewById(R.id.loading_image)
+
+        splashLogo.playAnimation()
+        splashAnim.playAnimation()
+
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }, 2000)
     }
 }

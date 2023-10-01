@@ -66,6 +66,7 @@ class RankingFragmentViewModel @Inject constructor(
     private suspend fun loadRankingList(tier: Int) {
         rankingRepository.getRankingsByTier(tier).collect {
             _rankingList.postValue(RankingUIModel.Success(it))
+            _rankingList.postValue(RankingUIModel.Success(listOf(Ranking(),Ranking(),Ranking(),Ranking(),Ranking(),Ranking(),Ranking())))
         }
     }
 

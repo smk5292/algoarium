@@ -12,10 +12,13 @@ import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Problem
+import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.databinding.ItemStatusListBinding
 import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
+import com.d204.algo.presentation.viewmodel.RecommendUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
+import com.d204.algo.presentation.viewmodel.StatusUIModel
 import com.d204.algo.ui.adapter.StatusAdapter
 import com.d204.algo.ui.extension.observe
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +54,8 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             }
     }
 
+    private val espHelper = ApplicationClass.preferencesHelper
+
     override fun getViewBinding(): FragmentStatusBinding =
         FragmentStatusBinding.inflate(layoutInflater)
 
@@ -62,7 +67,12 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        test()
+        observe(viewModel.statusData, ::onStatusChange)
+        viewModel.getUserStatus(espHelper.prefUserId)
+
+        observe(viewModel.statusAvgData, ::onAvgStatusChange)
+        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
+        // test()
         init()
     }
 
@@ -71,30 +81,13 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         statusRadarChartView
             .setDataList(
                 arrayListOf(
-                    RadarChartData(CharacteristicType.WISDOM, 92),
-                    RadarChartData(CharacteristicType.VITALITY, 20),
-                    RadarChartData(CharacteristicType.STRENGTH, 60),
-                    RadarChartData(CharacteristicType.CHARISMA, 70),
-                    RadarChartData(CharacteristicType.LUCK, 80),
+                    RadarChartData(CharacteristicType.WISDOM, 0),
+                    RadarChartData(CharacteristicType.VITALITY, 0),
+                    RadarChartData(CharacteristicType.STRENGTH, 0),
+                    RadarChartData(CharacteristicType.CHARISMA, 0),
+                    RadarChartData(CharacteristicType.LUCK, 0),
                 ),
             )
-
-        statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                statusRadarChartView
-                    .setSameLevelDataList(
-                        arrayListOf(
-                            RadarChartData(CharacteristicType.WISDOM, 12),
-                            RadarChartData(CharacteristicType.VITALITY, 40),
-                            RadarChartData(CharacteristicType.STRENGTH, 23),
-                            RadarChartData(CharacteristicType.CHARISMA, 96),
-                            RadarChartData(CharacteristicType.LUCK, 7),
-                        ),
-                    )
-            } else {
-                statusRadarChartView.setSameLevelDataList(arrayListOf())
-            }
-        }
     }
 
     private fun init() {
@@ -167,6 +160,54 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             is LikeProblemsUIModel.Success -> {
                 handleLoading(false)
                 statusAdapter.list = result.data
+            }
+        }
+    }
+
+    private fun onStatusChange(result: StatusUIModel) = with(binding) {
+        if (result.isRedelivered) return
+        when (result) {
+            is StatusUIModel.Error -> handleErrorMessage(result.error)
+            StatusUIModel.Loading -> handleLoading(true)
+            is StatusUIModel.Success -> {
+                handleLoading(false)
+                statusRadarChartView
+                    .setDataList(
+                        arrayListOf(
+                            RadarChartData(CharacteristicType.WISDOM, result.data.wisdom),
+                            RadarChartData(CharacteristicType.VITALITY, result.data.vitality),
+                            RadarChartData(CharacteristicType.STRENGTH, result.data.strength),
+                            RadarChartData(CharacteristicType.CHARISMA, result.data.charisma),
+                            RadarChartData(CharacteristicType.LUCK, result.data.luck),
+                        ),
+                    )
+            }
+        }
+    }
+
+    private fun onAvgStatusChange(result: StatusUIModel) = with(binding) {
+        if (result.isRedelivered) return
+        when (result) {
+            is StatusUIModel.Error -> handleErrorMessage(result.error)
+            StatusUIModel.Loading -> handleLoading(true)
+            is StatusUIModel.Success -> {
+                handleLoading(false)
+                statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        statusRadarChartView
+                            .setSameLevelDataList(
+                                arrayListOf(
+                                    RadarChartData(CharacteristicType.WISDOM, result.data.wisdom),
+                                    RadarChartData(CharacteristicType.VITALITY, result.data.vitality),
+                                    RadarChartData(CharacteristicType.STRENGTH, result.data.strength),
+                                    RadarChartData(CharacteristicType.CHARISMA, result.data.charisma),
+                                    RadarChartData(CharacteristicType.LUCK, result.data.luck),
+                                ),
+                            )
+                    } else {
+                        statusRadarChartView.setSameLevelDataList(arrayListOf())
+                    }
+                }
             }
         }
     }

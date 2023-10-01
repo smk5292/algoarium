@@ -13,6 +13,10 @@ class StatusCacheDataSource @Inject constructor(
         throw UnsupportedOperationException("getStatuss is not supported for StatusCacheDataSource.")
     }
 
+    override suspend fun getAvgStatus(tier: Int): Status {
+        throw UnsupportedOperationException("getAvgStatus is not supported for StatusCacheDataSource.")
+    }
+
     override suspend fun updateMemo(problem: Problem) {
         throw UnsupportedOperationException("updateMemo is not supported for StatusCacheDataSource.")
     }

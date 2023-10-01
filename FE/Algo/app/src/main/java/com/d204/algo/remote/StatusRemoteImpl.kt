@@ -21,6 +21,12 @@ class StatusRemoteImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAvgStatus(tier: Int): NetworkResult<Status> {
+        return handleApi {
+            statusMapper.mapFromModel(statusService.getAvgStatus(tier))
+        }
+    }
+
     override suspend fun updateMemo(problem: Problem): NetworkResult<Unit> {
         return handleApi {
             statusService.updateMemo(problemMapper.mapToModel(problem))

@@ -14,6 +14,10 @@ class StatusRemoteDataSource @Inject constructor(
         return statusRemote.getStatus(userId).successOr(Status())
     }
 
+    override suspend fun getAvgStatus(tier: Int): Status {
+        return statusRemote.getAvgStatus(tier).successOr(Status())
+    }
+
     override suspend fun updateMemo(problem: Problem) {
         statusRemote.updateMemo(problem)
     }

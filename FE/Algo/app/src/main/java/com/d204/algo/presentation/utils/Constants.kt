@@ -41,4 +41,26 @@ const val BASE_URL = "http://j9d204.p.ssafy.io:8090/"
         R.drawable.tier29,
         R.drawable.tier30,
     )
+
+    val RANK_TIER = listOf(
+        R.drawable.tier1_transparent,
+        R.drawable.tier2_transparent,
+        R.drawable.tier3_transparent,
+        R.drawable.tier4_transparent,
+        R.drawable.tier5_transparent,
+        R.drawable.tier6_transparent,
+        R.drawable.tier7_transparent,
+        R.drawable.tier8_transparent
+    )
+
+    val COPYRIGHT_RANK_TIER = listOf(
+        R.drawable.tier1_copyright_transparent,
+        R.drawable.tier2_copyright_transparent,
+        R.drawable.tier3_copyright_transparent,
+        R.drawable.tier4_copyright_transparent,
+        R.drawable.tier5_copyright_transparent,
+        R.drawable.tier6_copyright_transparent,
+        R.drawable.tier7_copyright_transparent,
+        R.drawable.tier8_copyright_transparent
+    )
 }

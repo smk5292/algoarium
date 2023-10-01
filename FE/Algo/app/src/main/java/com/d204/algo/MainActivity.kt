@@ -27,6 +27,8 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
+import com.d204.algo.presentation.utils.Constants
+import com.d204.algo.presentation.utils.PresentationPreferencesHelper
 import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import com.d204.algo.ui.extension.showSnackBar
@@ -42,6 +44,7 @@ private const val ACTION_ANIM_TIME = 2_000L
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
+    private val espHelper = ApplicationClass.preferencesHelper
     private lateinit var binding: ActivityMainBinding
     private lateinit var bubbleTransition: GifDrawable
     private lateinit var rankUpEffect: GifDrawable
@@ -194,6 +197,16 @@ class MainActivity : AppCompatActivity() {
     private fun setRankAnimation() {
         // 처음에 아무 것도 안하는 클릭이벤트를 달아야 아래에 겹쳐진 뷰로 클릭이벤트 전달을 막을 수 있음
         binding.activityMainRankUp.setOnClickListener {}
+
+//        with(binding) {
+//            if(ApplicationClass.skinOn) {
+//                activityMainTierBefore.setImageResource(Constants.RANK_TIER[espHelper.prefUserPreTier])
+//                activityMainTierAfter.setImageResource(Constants.RANK_TIER[espHelper.prefUserTier])
+//            } else {
+//                activityMainTierBefore.setImageResource(Constants.COPYRIGHT_RANK_TIER[espHelper.prefUserPreTier])
+//                activityMainTierAfter.setImageResource(Constants.COPYRIGHT_RANK_TIER[espHelper.prefUserTier])
+//            }
+//        }
 
         val rotateAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "rotationY", 0f, 10800f)
         val transparentAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "alpha", 1.0f, 0.0f) // 투명도 1.0에서 0.0으로 애니메이션
