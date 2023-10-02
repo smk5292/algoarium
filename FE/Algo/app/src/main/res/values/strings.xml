@@ -13,8 +13,6 @@
     <string name="recommend_similar_text"> 비슷한 사용자 문제 추천</string>
     <string name="edittext_hint"><font size="18" color="#999C9B9B">백준ID 입력</font></string>
     <string name="code"><font color="#ffff4651">코드발급</font></string>
-    <string name="kakao_key">9a8d411dc13896f2f547959ce7b402f0</string>
-    <string name="kakao_key_sheme">kakao9a8d411dc13896f2f547959ce7b402f0</string>
 
     <string name="app_exit_label">한번 더 뒤로가기를 누르면 종료됩니다.</string>
 

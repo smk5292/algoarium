@@ -22,6 +22,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "KAKAO_KEY", '"${kakao_key}"'
+        resValue "string", "KAKAO_KEY_SCHEME", '"${kakao_key_scheme}"'
     }
 
     buildTypes {
@@ -38,6 +40,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 }

@@ -39,6 +39,10 @@ class StatusAdapter @Inject constructor(
             itemStatusMemoButton.setOnClickListener {
                 statusClickListener.memoClick(binding, item, layoutPosition)
             }
+
+            itemStatusListLayout.setOnClickListener {
+                statusClickListener.layoutClick(item)
+            }
         }
     }
 
@@ -46,6 +50,7 @@ class StatusAdapter @Inject constructor(
     interface StatusClickListener {
         fun bookmarkClick(binding: ItemStatusListBinding, problem: Problem, isChecked: Boolean, position: Int)
         fun memoClick(binding: ItemStatusListBinding, problem: Problem, position: Int)
+        fun layoutClick(problem: Problem)
     }
     private lateinit var statusClickListener: StatusClickListener
     fun setStatusClickListener(statusClickListener: StatusClickListener) {

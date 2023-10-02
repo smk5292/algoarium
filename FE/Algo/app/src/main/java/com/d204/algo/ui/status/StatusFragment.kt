@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.d204.algo.ApplicationClass
+import com.d204.algo.MainActivity
 import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
@@ -15,6 +16,7 @@ import com.d204.algo.data.model.Problem
 import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.databinding.ItemStatusListBinding
+import com.d204.algo.presentation.utils.Constants
 import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
 import com.d204.algo.presentation.viewmodel.RecommendUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
@@ -101,6 +103,9 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             .load(ApplicationClass.preferencesHelper.prefUserProfile)
             .into(statusProfileImg)
 
+        // 티어표시
+        binding.statusRankImage.setImageResource(Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier])
+
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
         viewModel.getLikeProblems(1)
@@ -146,6 +151,10 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                         R.id.action_navigation_status_to_navigation_memo,
                         fragment.arguments,
                     )
+                }
+
+                override fun layoutClick(problem: Problem) {
+                    runStomp(problem.problemNumber.toString())
                 }
             })
         }
@@ -210,5 +219,10 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                 }
             }
         }
+    }
+
+    private fun runStomp(problemNum: String) {
+        val targetUrl = "www.acmicpc.net/problem/$problemNum"
+        (requireActivity() as MainActivity).sendSocketMessage(targetUrl)
     }
 }

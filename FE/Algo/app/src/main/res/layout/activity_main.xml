@@ -95,11 +95,12 @@
         <com.blueiobase.api.android.strokedtextview.StrokedTextView
             android:id="@+id/activity_main_rankUp_text"
             style="@style/rankKorFillText"
+            android:textSize="@dimen/_44sdp"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="시즌 랭크 업데이트"
-            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_70sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
