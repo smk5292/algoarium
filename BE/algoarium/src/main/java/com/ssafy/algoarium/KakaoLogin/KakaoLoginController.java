@@ -30,7 +30,7 @@ public class KakaoLoginController {
 	//접속 창 이동
 	//https://kauth.kakao.com/oauth/authorize
 	//?response_type=code&client_id=1e6e787538b273266b9e8054397aec13
-	//&redirect_uri=http://localhost:8090/auth/kakao/callback
+	//&redirect_uri=http://j9d204.p.ssafy.io:8090/auth/kakao/callback
 	@Autowired
 	KakaoLoginService kakaoLoginService;
 
@@ -42,7 +42,7 @@ public class KakaoLoginController {
 		RedirectView redirectView = new RedirectView();
 		redirectView.setUrl("https://kauth.kakao.com/oauth/authorize"
 			+ "?response_type=code&client_id=1e6e787538b273266b9e8054397aec13"
-			+ "&redirect_uri=http://localhost:8090/auth/kakao/callback");
+			+ "&redirect_uri=http://j9d204.p.ssafy.io:8090/auth/kakao/callback");
 
 		return redirectView;
 	}
