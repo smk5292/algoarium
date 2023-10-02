@@ -66,7 +66,7 @@ class RankingAdapter @Inject constructor(
     }
 
     private fun setAnimation(binding: ItemRankingListBinding, position: Int) {
-        val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.slide_left)
+        val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.slide_shake_left)
         when(position) {
             in 0..3 -> animation.startOffset = 200L*position
             else -> animation.startOffset = 100L
