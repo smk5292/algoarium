@@ -104,7 +104,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             .into(statusProfileImg)
 
         // 티어표시
-        binding.statusRankImage.setImageResource(Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier])
+        binding.statusRankImage.setImageResource(Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2])
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
