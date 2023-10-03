@@ -40,6 +40,7 @@ class StatusFragmentViewModel @Inject constructor(
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
+        Log.d(TAG, "$errorSite ")
         when (errorSite) {
             1 -> _statusData.postValue(StatusUIModel.Error(exception.message ?: "Error"))
             2 -> _likeProblems.postValue(LikeProblemsUIModel.Error(exception.message ?: "Error"))
@@ -71,6 +72,7 @@ class StatusFragmentViewModel @Inject constructor(
         _statusAvgData.postValue(StatusUIModel.Loading)
         launchCoroutineIO {
             statusRepository.getAvgStatus(tier).collect {
+                Log.d(TAG, "getAvgStatus: $it")
                 _statusAvgData.postValue(StatusUIModel.Success(it))
             }
         }
@@ -81,6 +83,7 @@ class StatusFragmentViewModel @Inject constructor(
         _likeProblems.postValue(LikeProblemsUIModel.Loading)
         launchCoroutineIO {
             problemRepository.getLikeProblems(userId).collect {
+                Log.d(TAG, "getLikeProblems: $it")
                 _likeProblems.postValue(LikeProblemsUIModel.Success(it))
             }
         }

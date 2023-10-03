@@ -27,7 +27,7 @@ class ProblemRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getSimilarProblems(userId: Long): List<Problem> {
-        return problemRemote.getSimilarProblems(userId).successOr(emptyList())
+        return problemRemote.getSimilarProblems(userId)
     }
 
     override suspend fun postLikeProblems(problem: Problem) {

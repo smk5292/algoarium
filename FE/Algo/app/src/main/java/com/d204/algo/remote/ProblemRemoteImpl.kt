@@ -43,23 +43,21 @@ class ProblemRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSimilarProblems(userId: Long): NetworkResult<List<Problem>> {
-        return handleApi {
-            problemService.getSimilarProblems(userId).map { problemModel ->
-                problemMapper.mapFromModel(problemModel)
-            }
+    override suspend fun getSimilarProblems(userId: Long): List<Problem> {
+        return problemService.getSimilarProblems(userId).map { problemModel ->
+            problemMapper.mapFromModel(problemModel)
         }
     }
 
     override suspend fun postLikeProblems(problem: Problem): NetworkResult<Unit> {
         return handleApi {
-            Log.d("클릭리모트임펠", "postLikeProblems: $problem")
             problemService.postLikeProblems(problemMapper.mapToModel(problem))
         }
     }
 
     override suspend fun getLikeProblems(userId: Long): List<Problem> {
         return problemService.getLikeProblems(userId).map { problemModel ->
+            Log.d("리모트라이크프로블럼", "getLikeProblems: $problemModel")
             problemMapper.mapFromModel(problemModel)
         }
     }

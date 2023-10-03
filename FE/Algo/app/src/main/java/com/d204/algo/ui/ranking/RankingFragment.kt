@@ -2,13 +2,11 @@ package com.d204.algo.ui.ranking
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d204.algo.ApplicationClass
@@ -59,9 +57,12 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 //        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
 //        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
 
-        observe(viewModel.getRankingList(1), ::onViewRankingChange)
-        observe(viewModel.getTopRanking(1), ::onViewTopChange)
-        observe(viewModel.getMyRanking(1), ::onViewMyChange)
+        observe(viewModel.myRanking, ::onViewMyChange)
+        viewModel.getMyRanking(1)
+        observe(viewModel.rankingList, ::onViewRankingChange)
+        viewModel.getRankingList(1)
+        observe(viewModel.topRanking, ::onViewTopChange)
+        viewModel.getTopRanking(1)
 
         setupRecyclerView()
         setUpAnimation()
@@ -94,7 +95,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
         if (result.isRedelivered) return
         when (result) {
             is RankingUIModel.Error -> handleErrorMessage(result.error)
-            is RankingUIModel.Loading -> handleLoading(true)
+            RankingUIModel.Loading -> handleLoading(true)
             is RankingUIModel.Success -> {
                 handleLoading(false)
 //                val animationController: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(binding.root.context, R.anim.recycler_animation)
@@ -108,7 +109,10 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
         if (result.isRedelivered) return
         when (result) {
             is SingleRankingUIModel.Error -> handleErrorMessage(result.error)
-            is SingleRankingUIModel.Loading -> handleLoading(true)
+            is SingleRankingUIModel.Loading -> {
+                Log.d("랭킹프래그먼트", "onViewTopChange: 로딩옴")
+                handleLoading(true)
+            }
             is SingleRankingUIModel.Success -> {
                 handleLoading(false)
                 with(binding.fragmentRankingWantedInner) {

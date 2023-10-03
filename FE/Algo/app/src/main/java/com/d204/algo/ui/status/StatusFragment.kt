@@ -104,7 +104,8 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             .into(statusProfileImg)
 
         // 티어표시
-        binding.statusRankImage.setImageResource(Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2])
+        val tierImg = if(ApplicationClass.skinOn) Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2] else Constants.COPYRIGHT_RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2]
+        binding.statusRankImage.setImageResource(tierImg)
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)

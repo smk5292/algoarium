@@ -31,6 +31,18 @@ class RecommendFragmentViewModel @Inject constructor(
     private var errorSite = 0
     private var isPostingBookMark = false
 
+    // <!------------------------------------------------------->
+    override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        val message = ExceptionHandler.parse(exception)
+        Log.d(TAG, "$errorSite ")
+        when (errorSite) {
+            1 -> _strongList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
+            2 -> _weakList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
+            3 -> _similarList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
+            else -> Log.d(TAG, "예기치 못한 에러 : $message")
+        }
+    }
+
     private val _selectedStrongList = UiAwareLiveData<RecommendUIModel>()
     var selectedStrongList: LiveData<RecommendUIModel> = _selectedStrongList
 
@@ -55,17 +67,6 @@ class RecommendFragmentViewModel @Inject constructor(
     var similarList: LiveData<RecommendUIModel> = _similarList
 
     private var constSimilarList: List<Problem> = listOf()
-
-    // <!------------------------------------------------------->
-    override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        val message = ExceptionHandler.parse(exception)
-        when (errorSite) {
-            1 -> _strongList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
-            2 -> _weakList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
-            3 -> _similarList.postValue(RecommendUIModel.Error(exception.message ?: "Error"))
-            else -> Log.d(TAG, "예기치 못한 에러 : $message")
-        }
-    }
 
     fun postProblemLike(problemId: Long, userId: Long, problemLike: Boolean) {
         if (isPostingBookMark) return

@@ -187,7 +187,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstStrongs(result.data) // 정적리스트에 담아주고 // // setConstStrongs() 안에 loadConstStrongList() 정적리스트 가져오면  3개만 담는 추천 리스트에 postValue
@@ -199,7 +199,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstWeaks(result.data) // 정적리스트에 담아주고
@@ -211,7 +211,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 viewModel.setConstSimilars(result.data) // 정적리스트에 담아주고
@@ -223,7 +223,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
@@ -238,7 +238,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
@@ -253,7 +253,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         if (result.isRedelivered) return
         when (result) {
             is RecommendUIModel.Error -> handleErrorMessage(result.error)
-            is RecommendUIModel.Loading -> handleLoading(true)
+            RecommendUIModel.Loading -> handleLoading(true)
             is RecommendUIModel.Success -> {
                 handleLoading(false)
                 val subList = result.data.subList(0, minOf(result.data.size, 3))
