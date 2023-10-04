@@ -1,6 +1,7 @@
 package com.d204.algo
 
 import android.app.Application
+import android.util.Log
 import com.d204.algo.presentation.utils.PresentationPreferencesHelper
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
