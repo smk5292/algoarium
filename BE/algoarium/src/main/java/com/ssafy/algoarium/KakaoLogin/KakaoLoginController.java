@@ -61,20 +61,22 @@ public class KakaoLoginController {
 	}
 
 
+	// @ResponseBody
+	// @GetMapping("/auth/kakao/{accessToken}/{refreshToken}")
+	// public KakaoDto findKakaoInfo(@RequestParam String accessToken, @RequestParam String refreshToken){
+
 	@ResponseBody
 	@GetMapping("/auth/kakao/{accessToken}/{refreshToken}")
-	public KakaoDto findKakaoInfo(@RequestParam String accessToekn, @RequestParam String refreshToken){
+	public KakaoDto findKakaoInfo(@PathVariable String accessToken, @PathVariable String refreshToken) {
 
-		String accessToken = accessToekn;
+		String accessTokenName = accessToken;
 		KakaoInfo profile = kakaoLoginService.findKakaoInfo(accessToken);
 		KakaoDto profileDto = kakaoLoginService.sendKakaoDto(profile);
 
-		redisService.saveByRedisDto(RedisDto.builder()
-			.accessToken(accessToekn)
-
-
-			.refreshToken(refreshToken)
-			.build());
+		// redisService.saveByRedisDto(RedisDto.builder()
+		// 	.accessToken(accessTokenName)
+		// 	.refreshToken(refreshToken)
+		// 	.build());
 
 		System.out.printf("token save !!!!\n");
 
