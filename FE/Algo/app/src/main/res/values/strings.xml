@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">algo</string>
+    <string name="app_name">알고알리움</string>
 
     <!-- Fragment Title -->
     <string name="title_home">Home</string>
