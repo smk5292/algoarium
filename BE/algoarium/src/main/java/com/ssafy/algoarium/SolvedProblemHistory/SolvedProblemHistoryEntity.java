@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,4 +39,11 @@ public class SolvedProblemHistoryEntity {
 	@JoinColumn(name = "problem_id", referencedColumnName = "problemId") // 연관되는 컬럼 지정
 	private ProblemEntity problem;
 
+	@Builder
+	public SolvedProblemHistoryEntity(Long solvedProblemHistoryId, boolean solvedOrNot, UserEntity userEntity, ProblemEntity problemEntity){
+		this.solvedProblemHistoryId = solvedProblemHistoryId;
+		this.solvedOrNot = solvedOrNot;
+		this.user = userEntity;
+		this.problem = problemEntity;
+	}
 }
