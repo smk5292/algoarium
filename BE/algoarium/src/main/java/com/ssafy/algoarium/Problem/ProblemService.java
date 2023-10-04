@@ -21,35 +21,45 @@ public class ProblemService {
     public void fetchProblemsAndSaveToDatabase() {
         // 문제 조회 URL
         String apiUrl = "https://solved.ac/api/v3/problem/lookup?problemIds=";
-        for (int cnt = 1000; cnt <= 1499; cnt++) {
-            if (cnt != 1000 & cnt % 500 == 0){
-                try {
-                    Thread.sleep(600000); // 10분 대기
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        int startProblemNumber = 1000;
+        int endProblemNumber = 1499;
+
+        while (startProblemNumber <= 30000) {
+            // 데이터베이스에 해당 문제가 존재하는지 확인합니다.
+            boolean problemExists = problemRepository.existsById(startProblemNumber);
+
+            if (problemExists) {
+                // 해당 문제가 존재하면 startProblemNumber를 500씩 증가시킵니다.
+                startProblemNumber += 500;
+                endProblemNumber += 500;
+            } else {
+                // 해당 문제가 존재하지 않으면 문제를 가져오고 startProblemNumber를 500 증가시킵니다.
+                for (int cnt = startProblemNumber; cnt <= endProblemNumber; cnt++) {
+                    // RestTemplate을 사용하여 API 호출
+                    RestTemplate restTemplate = new RestTemplate();
+                    String apiResponse = restTemplate.getForObject(apiUrl + cnt, String.class);
+
+                    // API 응답이 빈 배열인 경우 처리
+                    if (apiResponse.equals("[]")) {
+                        System.out.println("API 응답이 빈 배열입니다.");
+                        continue;
+                    }
+
+                    // API 응답을 DTO로 변환
+                    List<ProblemDTO> problemDTOs = convertApiResponseToDTO(apiResponse);
+
+                    // DTO를 Entity로 변환하여 DB에 저장
+                    for (ProblemDTO problemDTO : problemDTOs) {
+                        ProblemEntity problemEntity = ProblemDTO.toProblemEntity(problemDTO);
+                        problemRepository.save(problemEntity);
+                    }
                 }
-            }
 
-            // RestTemplate을 사용하여 API 호출
-            RestTemplate restTemplate = new RestTemplate();
-            String apiResponse = restTemplate.getForObject(apiUrl + cnt, String.class);
-
-            // API 응답이 빈 배열인 경우 처리
-            if (apiResponse.equals("[]")) {
-                System.out.println("API 응답이 빈 배열입니다.");
-                continue;
-            }
-
-            // API 응답을 DTO로 변환
-            List<ProblemDTO> problemDTOs = convertApiResponseToDTO(apiResponse);
-
-            // DTO를 Entity로 변환하여 DB에 저장
-            for (ProblemDTO problemDTO : problemDTOs) {
-                ProblemEntity problemEntity = ProblemDTO.toProblemEntity(problemDTO);
-                problemRepository.save(problemEntity);
+                break;
             }
         }
     }
+
 
     /**
      * API 응답을 DTO 리스트로 변환합니다.
