@@ -1,5 +1,6 @@
 package com.ssafy.algoarium.BaekjoonUser;
 
+import com.ssafy.algoarium.User.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class BaekjoonUserService {
     @Autowired
     private BaekjoonUserRepository baekjoonUserRepository;
+    @Autowired
+    private UserRepository userRepository; // UserRepository 주입
 
     @Transactional
     public void fetchUserAndSaveToDatabase(String bjId) {
@@ -115,5 +118,26 @@ public class BaekjoonUserService {
         BaekjoonUserEntity baekjoonUserEntity = BaekjoonUserDTO.toBaekjoonUserEntity(baekjoonUserDTO);
         baekjoonUserRepository.save(baekjoonUserEntity);
     }
+
+    @Transactional
+    public void updateBaekjoonUsers() {
+        System.out.println("모든 백준유저 업데이트 시작");
+
+        // user 테이블의 모든 유저의 solved_ac_id 가져오기
+        List<String> allSolvedAcIds = userRepository.findAllSolvedAcIds();
+
+        for (String solvedAcId : allSolvedAcIds) {
+            try {
+                fetchUserAndSaveToDatabase(solvedAcId);
+                System.out.println("-------------------------");
+                System.out.println(solvedAcId + "유저 업데이트 완료");
+            } catch (Exception e) {
+                // 예외가 발생한 경우 예외 메시지 출력
+                System.err.println("---------------------");
+                System.err.println(solvedAcId + "유저 업데이트 중 예외 발생: " + e.getMessage());
+            }
+        }
+    }
+
 
 }

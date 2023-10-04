@@ -52,29 +52,42 @@ public class UserController {
 		long userId;
 
 		if(userService.getUserByEmail(profileDto.getEmail()) == null){
-		answerDto  = UserDto.builder()
-			.kakaoId(profileDto.getEmail())
-			.kakaoNickname(profileDto.getName())
-			.profileImage(profileDto.getProfileUrl())
-			.refreshToken(refreshToken)
-			.preTier(1)
-			.tier(0)
-			.solvedAcId("")
-			.build();
-		userId = userService.saveUser(answerDto);
+			answerDto  = UserDto.builder()
+					.kakaoId(profileDto.getEmail())
+					.kakaoNickname(profileDto.getName())
+					.profileImage(profileDto.getProfileUrl())
+					.refreshToken(refreshToken)
+					.preTier(1)
+					.tier(1)
+					.solvedAcId("")
+					.build();
+			userId = userService.saveUser(answerDto);
 
-		userRankingService.saveInit(userId);
-		userStatusService.saveInit(userId);
-
+			userRankingService.saveInit(userId);
+			userStatusService.saveInit(userId);
 		}
 
+		// redisService.saveByRedisDto(RedisDto.builder()
+		//     .accessToken(accessToken)
+		//     .refreshToken(refreshToken).build());
+		else {
+			UserDto answerUserDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+			UserRankingEntity userRankingEntity = userRankingService.getRankingByUserId(answerUserDto.getUserId());
+
+			return UserDto.builder()
+					.userId(answerUserDto.getUserId())
+					.kakaoId(answerUserDto.getKakaoId())
+					.kakaoNickname(answerUserDto.getKakaoNickname())
+					.profileImage(answerUserDto.getProfileImage())
+					.preTier(answerUserDto.getPreTier())
+					.refreshToken(answerUserDto.getRefreshToken())
+					.tier(userRankingEntity.getTier())
+					.solvedAcId(answerUserDto.getSolvedAcId())
+					.build();
 
 
-		redisService.saveByRedisDto(RedisDto.builder()
-			.accessToken(accessToken)
-			.refreshToken(refreshToken).build());
-		
-		answerDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+
+		}
 
 		return answerDto;
 	}
