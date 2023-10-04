@@ -35,9 +35,7 @@ public class SolvedProblemHistoryController {
 
 	@GetMapping("/{baekjoonUser}")
 	public void browseProblem(@PathVariable String baekjoonUser){
-
-		solvedProblemHistoryService.testBrowse(baekjoonUser);
-
+		solvedProblemHistoryService.saveBaekjoonId(baekjoonUser);
 	}
 
 
