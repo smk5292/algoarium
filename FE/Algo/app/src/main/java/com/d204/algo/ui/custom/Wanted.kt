@@ -24,9 +24,9 @@ class Wanted @JvmOverloads constructor(
             .diskCacheStrategy(DiskCacheStrategy.DATA),
     )
 
-    init {
-        inflate(context, R.layout.custom_view_wanted, this)
-    }
+//    init {
+//        inflate(context, R.layout.custom_view_wanted, this)
+//    }
 
     fun setWantedImage(resource: String) {
         glide.load(resource)
@@ -39,5 +39,9 @@ class Wanted @JvmOverloads constructor(
 
     fun setWantedCost(cost: String) {
         binding.wantedCost.text = cost
+    }
+
+    fun getWantedName(): String{
+        return binding.wantedName.text.toString()
     }
 }

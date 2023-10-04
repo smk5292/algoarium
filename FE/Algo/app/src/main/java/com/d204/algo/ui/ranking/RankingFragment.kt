@@ -18,10 +18,10 @@ import com.d204.algo.presentation.viewmodel.RankingFragmentViewModel
 import com.d204.algo.presentation.viewmodel.RankingUIModel
 import com.d204.algo.presentation.viewmodel.SingleRankingUIModel
 import com.d204.algo.ui.adapter.RankingAdapter
+import com.d204.algo.ui.custom.Wanted
 import com.d204.algo.ui.extension.observe
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
@@ -51,18 +51,19 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("랭킹", "onViewCreated: ${espHelper.prefUserTier} ${espHelper.prefUserPreTier}")
         // 뷰모델 변수에 옵저빙을 등록한다.
-//        observe(viewModel.getRankingList(espHelper.prefUserTier), ::onViewRankingChange)
-//        observe(viewModel.getTopRanking(espHelper.prefUserTier), ::onViewTopChange)
-//        observe(viewModel.getMyRanking(espHelper.prefUserId), ::onViewMyChange)
-
-        observe(viewModel.myRanking, ::onViewMyChange)
-        viewModel.getMyRanking(1)
         observe(viewModel.rankingList, ::onViewRankingChange)
-        viewModel.getRankingList(1)
         observe(viewModel.topRanking, ::onViewTopChange)
-        viewModel.getTopRanking(1)
+        observe(viewModel.myRanking, ::onViewMyChange)
+
+        viewModel.getMyRanking(espHelper.prefUserTier.toLong())
+        viewModel.getRankingList(espHelper.prefUserTier)
+        viewModel.getTopRanking(espHelper.prefUserTier)
+
+//        observe(viewModel.myRanking, ::onViewMyChange)
+//        observe(viewModel.rankingList, ::onViewRankingChange)
+//        observe(viewModel.topRanking, ::onViewTopChange)
 
         setupRecyclerView()
         setUpAnimation()
@@ -70,7 +71,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
 
     private fun setUpAnimation() {
         val viewToAnimate = binding.fragmentRankingWantedOuter // 애니메이션을 적용할 뷰
-        val targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._150sdp) // 200dp를 픽셀로 변환
+        val targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._175sdp) // 175dp를 픽셀로 변환
 
         val animation = ValueAnimator.ofInt(0, targetHeight)
         animation.addUpdateListener { valueAnimator ->
@@ -110,7 +111,6 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
         when (result) {
             is SingleRankingUIModel.Error -> handleErrorMessage(result.error)
             is SingleRankingUIModel.Loading -> {
-                Log.d("랭킹프래그먼트", "onViewTopChange: 로딩옴")
                 handleLoading(true)
             }
             is SingleRankingUIModel.Success -> {
@@ -119,6 +119,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding, BaseViewModel>() {
                     setWantedName(result.data.kakaoNickname)
                     setWantedImage(result.data.profileImage)
                     setWantedCost(result.data.score.toString())
+                    requestLayout()
                 }
             }
         }

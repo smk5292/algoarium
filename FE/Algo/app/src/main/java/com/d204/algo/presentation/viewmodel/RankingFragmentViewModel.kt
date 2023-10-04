@@ -84,7 +84,7 @@ class RankingFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getMyRanking(userId: Long) {
+    fun getMyRanking(userId: Long){
         errorSite = 3
         _myRanking.postValue(SingleRankingUIModel.Loading)
         launchCoroutineIO {

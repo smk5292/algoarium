@@ -13,12 +13,10 @@ import com.d204.algo.R
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.data.model.Problem
-import com.d204.algo.data.model.Status
 import com.d204.algo.databinding.FragmentStatusBinding
 import com.d204.algo.databinding.ItemStatusListBinding
 import com.d204.algo.presentation.utils.Constants
 import com.d204.algo.presentation.viewmodel.LikeProblemsUIModel
-import com.d204.algo.presentation.viewmodel.RecommendUIModel
 import com.d204.algo.presentation.viewmodel.StatusFragmentViewModel
 import com.d204.algo.presentation.viewmodel.StatusUIModel
 import com.d204.algo.ui.adapter.StatusAdapter
@@ -104,13 +102,14 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             .into(statusProfileImg)
 
         // 티어표시
-        val tierImg = if(ApplicationClass.skinOn) Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2] else Constants.COPYRIGHT_RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier+2]
+        val tierImg =
+            if (ApplicationClass.skinOn) Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier] else Constants.COPYRIGHT_RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier]
         binding.statusRankImage.setImageResource(tierImg)
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
-        viewModel.getLikeProblems(1)
-//        viewModel.getLikeProblems(ApplicationClass.preferencesHelper.prefUserId)
+//        viewModel.getLikeProblems(1)
+        viewModel.getLikeProblems(ApplicationClass.preferencesHelper.prefUserId)
     }
 
     // 찜한 문제 리스트 초기화
@@ -129,8 +128,8 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                 ) {
                     viewModel.postProblemLike(
                         problemId = problem.id,
-                        userId = 1,
-//                            userId = ApplicationClass.preferencesHelper.prefUserId,
+//                        userId = 1,
+                        userId = ApplicationClass.preferencesHelper.prefUserId,
                         problemLike = isChecked,
                     )
                 }
@@ -208,9 +207,18 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                             .setSameLevelDataList(
                                 arrayListOf(
                                     RadarChartData(CharacteristicType.WISDOM, result.data.wisdom),
-                                    RadarChartData(CharacteristicType.VITALITY, result.data.vitality),
-                                    RadarChartData(CharacteristicType.STRENGTH, result.data.strength),
-                                    RadarChartData(CharacteristicType.CHARISMA, result.data.charisma),
+                                    RadarChartData(
+                                        CharacteristicType.VITALITY,
+                                        result.data.vitality,
+                                    ),
+                                    RadarChartData(
+                                        CharacteristicType.STRENGTH,
+                                        result.data.strength,
+                                    ),
+                                    RadarChartData(
+                                        CharacteristicType.CHARISMA,
+                                        result.data.charisma,
+                                    ),
                                     RadarChartData(CharacteristicType.LUCK, result.data.luck),
                                 ),
                             )

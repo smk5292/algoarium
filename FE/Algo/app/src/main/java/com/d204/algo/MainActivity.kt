@@ -27,6 +27,7 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
+import com.d204.algo.presentation.utils.Constants
 import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import com.d204.algo.ui.extension.showSnackBar
@@ -196,15 +197,18 @@ class MainActivity : AppCompatActivity() {
         // 처음에 아무 것도 안하는 클릭이벤트를 달아야 아래에 겹쳐진 뷰로 클릭이벤트 전달을 막을 수 있음
         binding.activityMainRankUp.setOnClickListener {}
 
-//        with(binding) {
-//            if(ApplicationClass.skinOn) {
-//                activityMainTierBefore.setImageResource(Constants.RANK_TIER[espHelper.prefUserPreTier])
-//                activityMainTierAfter.setImageResource(Constants.RANK_TIER[espHelper.prefUserTier])
-//            } else {
-//                activityMainTierBefore.setImageResource(Constants.COPYRIGHT_RANK_TIER[espHelper.prefUserPreTier])
-//                activityMainTierAfter.setImageResource(Constants.COPYRIGHT_RANK_TIER[espHelper.prefUserTier])
-//            }
-//        }
+        with(binding) {
+            val prefTier = if (espHelper.prefUserPreTier == 0) 1 else espHelper.prefUserPreTier
+            val curTier = if (espHelper.prefUserTier == 0) 1 else espHelper.prefUserPreTier
+            Log.d(TAG, "setRankAnimation: $prefTier, $curTier")
+            if (ApplicationClass.skinOn) {
+                activityMainTierBefore.setImageResource(Constants.RANK_TIER[prefTier])
+                activityMainTierAfter.setImageResource(Constants.RANK_TIER[curTier])
+            } else {
+                activityMainTierBefore.setImageResource(Constants.COPYRIGHT_RANK_TIER[prefTier])
+                activityMainTierAfter.setImageResource(Constants.COPYRIGHT_RANK_TIER[curTier])
+            }
+        }
 
         val rotateAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "rotationY", 0f, 10800f)
         val transparentAnimator = ObjectAnimator.ofFloat(binding.activityMainTierBefore, "alpha", 1.0f, 0.0f) // 투명도 1.0에서 0.0으로 애니메이션
@@ -295,10 +299,12 @@ class MainActivity : AppCompatActivity() {
                         navController.navigateUp()
                         callOutTransition()
                     }
-                }
-                else if (isAnimationFinished && navController.currentDestination?.id == R.id.navigation_home) {
-                    if(doubleBackToExit) finish()
-                    else Toast.makeText(this@MainActivity, "한번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
+                } else if (isAnimationFinished && navController.currentDestination?.id == R.id.navigation_home) {
+                    if (doubleBackToExit) {
+                        finish()
+                    } else {
+                        Toast.makeText(this@MainActivity, "한번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
+                    }
                     doubleBackToExit = true
                     Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExit = false }, 2000)
                 }

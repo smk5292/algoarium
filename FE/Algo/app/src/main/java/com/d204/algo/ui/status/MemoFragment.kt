@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d204.algo.ApplicationClass
 import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentMemoBinding
@@ -69,8 +70,8 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
     private fun registerMemo() {
         viewModel.updateMemo(
             requireArguments().getLong(StatusFragment.PROBLEM_ID),
-            1,
-//            ApplicationClass.preferencesHelper.prefUserId,
+//            1,
+            if (ApplicationClass.preferencesHelper.prefUserId == 0L) 1 else ApplicationClass.preferencesHelper.prefUserId,
             binding.memoEditText.text.toString(),
         )
     }

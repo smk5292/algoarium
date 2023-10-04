@@ -63,12 +63,12 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         observe(viewModel.getSelectedSimilars(), ::onViewSimilarChange)
 
         // 각 30개의 추천 문제 리스트를 서버에서 가져온다 -> postValue -> 변경되면 observe에서 인지하고 binding ui를 갱신
-//        viewModel.getStrongList(espHelper.prefUserId)
-//        viewModel.getWeakList(espHelper.prefUserId)
-//        viewModel.getSimilarList(espHelper.prefUserId)
-        viewModel.getStrongList(1)
-        viewModel.getWeakList(1)
-        viewModel.getSimilarList(1)
+        viewModel.getStrongList(espHelper.prefUserId)
+        viewModel.getWeakList(espHelper.prefUserId)
+        viewModel.getSimilarList(espHelper.prefUserId)
+//        viewModel.getStrongList(1)
+//        viewModel.getWeakList(1)
+//        viewModel.getSimilarList(1)
 
         // 리프레쉬 등록
         with(binding) {
@@ -269,8 +269,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding, BaseViewModel>(
         Log.d("클릭", "bookmarkClicker: ${b.isChecked}")
         viewModel.postProblemLike(
             problemId = p.id,
-            userId = 1,
-//                userId = ApplicationClass.preferencesHelper.prefUserId,
+//            userId = 1,
+            userId = ApplicationClass.preferencesHelper.prefUserId,
             problemLike = b.isChecked,
         )
     }

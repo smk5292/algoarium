@@ -1,14 +1,10 @@
 package com.d204.algo.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -19,7 +15,6 @@ import com.d204.algo.databinding.ItemRankingListBinding
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.random.Random
-
 
 // ApplicationContext는 적절한 종속성을 주입함 (여기서는 Activity의 context를 기대)
 class RankingAdapter @Inject constructor(
@@ -39,9 +34,10 @@ class RankingAdapter @Inject constructor(
         RecyclerView.ViewHolder(binding.root), Binder<Ranking> {
         override fun bind(item: Ranking) {
             binding.apply {
+                glide.load(item.profileImage).into(binding.rankingListItemProfileImage)
                 rankingListItemStart.setImageResource(selectRandomImg())
                 rankingListItemRank.text = item.ranking.toString()
-                rankingListItemPoint.text = item.score.toString()
+                rankingListItemPoint.text = item.score.toString() + " pt "
                 rankingListItemName.text = item.kakaoNickname
                 rankingListItemName.isSelected = true
                 setAnimation(binding, adapterPosition)
@@ -67,8 +63,8 @@ class RankingAdapter @Inject constructor(
 
     private fun setAnimation(binding: ItemRankingListBinding, position: Int) {
         val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.slide_shake_left)
-        when(position) {
-            in 0..3 -> animation.startOffset = 150L*position
+        when (position) {
+            in 0..3 -> animation.startOffset = 150L * position
             else -> animation.startOffset = 100L
         }
         // 애니메이션 리스너 설정
