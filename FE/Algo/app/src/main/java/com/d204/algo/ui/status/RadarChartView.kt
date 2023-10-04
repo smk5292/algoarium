@@ -77,9 +77,17 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
     private val paint = Paint().apply {
         isAntiAlias = true
     }
+
     private val textPaint = TextPaint().apply {
         textSize = 56f
         textAlign = Paint.Align.CENTER
+    }
+
+    private val strokeTextPaint = TextPaint().apply {
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        strokeWidth = 8f
+        color = Color.WHITE
     }
 
     private var path = Path()
@@ -171,6 +179,13 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
                 point.x,
                 textPaint.fontMetrics.getBaseLine(point.y),
                 textPaint,
+            )
+
+            canvas.drawText(
+                type.value,
+                point.x,
+                strokeTextPaint.fontMetrics.getBaseLine(point.y),
+                strokeTextPaint
             )
 
             // 전달된 데이터를 표시하는 path 계산
