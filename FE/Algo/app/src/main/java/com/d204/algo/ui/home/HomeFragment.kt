@@ -1,15 +1,9 @@
 package com.d204.algo.ui.home
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +14,6 @@ import com.d204.algo.base.BaseFragment
 import com.d204.algo.base.BaseViewModel
 import com.d204.algo.databinding.FragmentHomeBinding
 import com.d204.algo.presentation.viewmodel.HomeFragmentViewModel
-import com.d204.algo.ui.extension.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "HomeFragment"
@@ -79,7 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
                 ConstraintSet.BOTTOM,
                 binding.guidelineHorizontal4.id,
                 ConstraintSet.TOP,
-                0
+                0,
             )
             constraintSet.applyTo(binding.fragmentHomeConstraintLayout)
         }
@@ -92,8 +85,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
             fragmentHomeScrollView.post {
                 fragmentHomeScrollView.scrollTo(
                     fragmentHomeScrollView.getChildAt(
-                        0
-                    ).width / 3, 0
+                        0,
+                    ).width / 3,
+                    0,
                 )
             }
             homeRecommend.setOnClickListener {

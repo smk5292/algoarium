@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -37,6 +38,7 @@ class RankingAdapter @Inject constructor(
                 glide.load(item.profileImage).into(binding.rankingListItemProfileImage)
                 rankingListItemStart.setImageResource(selectRandomImg())
                 rankingListItemRank.text = item.ranking.toString()
+                rankingListItemRank.textSize = adaptTextSize(binding).toFloat()
                 rankingListItemPoint.text = item.score.toString() + " pt "
                 rankingListItemName.text = item.kakaoNickname
                 rankingListItemName.isSelected = true
@@ -47,6 +49,15 @@ class RankingAdapter @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun adaptTextSize(b: ItemRankingListBinding): Int {
+        return when(b.rankingListItemRank.text.toString().length) {
+            1 -> b.root.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._13sdp)
+            2 -> b.root.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp)
+            3 -> b.root.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._11sdp)
+            else -> b.root.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)
         }
     }
 
