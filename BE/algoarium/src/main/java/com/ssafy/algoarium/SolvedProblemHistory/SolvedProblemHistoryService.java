@@ -1,5 +1,8 @@
 package com.ssafy.algoarium.SolvedProblemHistory;
 
+import com.ssafy.algoarium.KakaoLogin.KakaoOauthToken;
+import com.ssafy.algoarium.Problem.ProblemRepository;
+import com.ssafy.algoarium.User.UserRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,16 +16,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SolvedProblemHistoryService {
 
 	private final SolvedProblemHistoryRepository solvedProblemHistoryRepository;
+	private final UserRepository userRepository;
+	private final ProblemRepository problemRepository;
 
 	public SolvedProblemHistoryEntity toEntity(SolvedProblemHistoryDTO solvedProblemHistoryDTO){
 		return SolvedProblemHistoryEntity.builder()
-			.solvedProblemHistoryId(solvedProblemHistoryDTO.getSolvedProblemHistoryId())
 			.solvedOrNot(solvedProblemHistoryDTO.getSolvedOrNot())
 			.userEntity(solvedProblemHistoryDTO.getUser())
 			.problemEntity(solvedProblemHistoryDTO.getProblem())
@@ -33,27 +42,50 @@ public class SolvedProblemHistoryService {
 		solvedProblemHistoryRepository.save(toEntity(solvedProblemHistoryDTO));
 	}
 
+	public void saveBaekjoonId(String baekjoonId){
+		int pageCount = 40;
+		int page = 1;
+		int count;
+		do {
+			URI uri = UriComponentsBuilder
+					.fromUriString("https://solved.ac/api/v3/search/problem")
+					.queryParam("query" , "s@" + baekjoonId)
+					.queryParam("page", page)
+					.encode()
+					.build()
+					.toUri();
 
-	public void testBrowse(String baekjoonId){
+			RestTemplate rt = new RestTemplate();
 
-		RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<String> result = rt.getForEntity(uri, String.class);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-		headers.add("Authorization" , "bear dtBsYylntbwOQqEYFT_YF2CzNJQH8ROzFF26TcOgCisM1AAAAYpkUq77");
+			ObjectMapper objectMapper = new ObjectMapper();
 
-		String firstUrl ="https://solved.ac/api/v3/search/problem";
-		// String endUrl = "&page=1";
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("query" , "s%40smk921");
-		params.add("page" , "1");
+			SolvedResponse solvedResponse = null;
 
-		HttpEntity<MultiValueMap<String, String>> httpEntity =
-			new HttpEntity<>(params, headers);
+			try {
+				solvedResponse = objectMapper.readValue(result.getBody(), SolvedResponse.class);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
 
+			count = solvedResponse.getCount();
 
+			List<SolvedResponse.Problem> problemList = solvedResponse.getItems();
+			for (SolvedResponse.Problem problem : problemList) {
 
+				int problemId = problem.getProblemId();
 
+				solvedProblemHistoryRepository.save(SolvedProblemHistoryEntity.builder()
+						.userEntity(userRepository.findBySolvedAcId(baekjoonId))
+						.problemEntity(problemRepository.findByProblemNumber(problemId))
+						.build());
+				}
+			if (count < page *pageCount){
+				break;
+			}
+			page++;
+		}while (true);
 	}
 }
 
