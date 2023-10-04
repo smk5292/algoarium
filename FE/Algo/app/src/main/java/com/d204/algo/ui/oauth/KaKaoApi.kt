@@ -36,8 +36,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
             } catch (e: Error) {
                 Toast.makeText(act, "카카오 토큰 발급 중 오류 발생", Toast.LENGTH_SHORT).show()
             }
-        }
-        else {
+        } else {
             realLoign()
         }
     }
@@ -64,6 +63,7 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
         }
         // kakao 실행 가능 여부
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(act)) {
+            Log.d(TAG, "realLoign: dddd")
             // 가능하다면 카카오톡으로 로그인하기
             UserApiClient.instance.loginWithKakaoTalk(act) { token, error ->
                 if (error != null) {
@@ -87,11 +87,13 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
                 }
             }
         } else {
+            Log.d(TAG, "realLoign: 엘스")
             UserApiClient.instance.loginWithKakaoAccount(act, callback = callback)
         }
     }
 
     private suspend fun loadUser(kakaoToken: OAuthToken) {
+        Log.d("getUser", "getUser: 로그인 요청 $kakaoToken")
         userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
             Log.d(TAG, "loadUser: $it")
             espHelper.prefAccessToken = kakaoToken.accessToken

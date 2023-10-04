@@ -20,4 +20,5 @@
     <color name="transition">#DAE2FF</color>
     <color name="splash">#D4F7FF</color>
     <color name="recommend_bg_color">#80FFFFFF</color>
+    <color name="loading">#CD000000</color>
 </resources>

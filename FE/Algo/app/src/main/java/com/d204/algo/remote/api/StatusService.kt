@@ -11,7 +11,7 @@ interface StatusService {
     @GET("my/stat/{userId}")
     suspend fun getStatus(@Path("userId") userId: Long): StatusModel
 
-    @GET("my/stat/avg/{tier}")
+    @GET("my/stat/average/{tier}")
     suspend fun getAvgStatus(@Path("tier") tier: Int): StatusModel
 
     @POST("api/problemLikes/updateMemo")

@@ -4,9 +4,10 @@ import com.d204.algo.R
 
 object Constants {
     const val DEBUG = true
-//    const val BASE_URL = "http://192.168.100.169:8090/" // 노트북 핫스팟을 켜야 내부 네트워크로 잡히는걸 잊지마라.
-const val BASE_URL = "http://j9d204.p.ssafy.io:8090/"
-    const val SOCKET_URL = "ws://192.168.100.169:8090/websocket" // ws://[도메인]/[엔드포인트]/websocket
+
+    const val BASE_URL = "http://192.168.100.169:8090/" // 노트북 핫스팟을 켜야 내부 네트워크로 잡히는걸 잊지마라.
+//    const val BASE_URL = "http://j9d204.p.ssafy.io:8090/"
+    const val SOCKET_URL = "ws://j9d204.p.ssafy.io:8090/websocket" // ws://[도메인]/[엔드포인트]/websocket
 
     val TIER = listOf(
         R.drawable.tier0,
@@ -50,7 +51,7 @@ const val BASE_URL = "http://j9d204.p.ssafy.io:8090/"
         R.drawable.tier5_transparent,
         R.drawable.tier6_transparent,
         R.drawable.tier7_transparent,
-        R.drawable.tier8_transparent
+        R.drawable.tier8_transparent,
     )
 
     val COPYRIGHT_RANK_TIER = listOf(
@@ -61,6 +62,6 @@ const val BASE_URL = "http://j9d204.p.ssafy.io:8090/"
         R.drawable.tier5_copyright_transparent,
         R.drawable.tier6_copyright_transparent,
         R.drawable.tier7_copyright_transparent,
-        R.drawable.tier8_copyright_transparent
+        R.drawable.tier8_copyright_transparent,
     )
 }

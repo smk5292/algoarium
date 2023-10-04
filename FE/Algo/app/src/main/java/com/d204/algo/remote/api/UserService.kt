@@ -2,7 +2,6 @@ package com.d204.algo.remote.api
 
 import com.d204.algo.remote.model.UserModel
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface UserService {

@@ -27,8 +27,6 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.databinding.ActivityMainBinding
-import com.d204.algo.presentation.utils.Constants
-import com.d204.algo.presentation.utils.PresentationPreferencesHelper
 import com.d204.algo.presentation.utils.StompHandler
 import com.d204.algo.presentation.viewmodel.MainActivityViewModel
 import com.d204.algo.ui.extension.showSnackBar
