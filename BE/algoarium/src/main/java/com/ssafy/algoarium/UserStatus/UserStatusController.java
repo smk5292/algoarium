@@ -37,7 +37,7 @@ public class UserStatusController {
 	@GetMapping("/stat/average/{tier}")
 	public UserStatusDTO getAvgStatueByTier(@PathVariable int tier){
 		System.out.println(userStatusService.getAvgStatusByTier(tier).toString());
-		return StatustoDto(userStatusService.getAvgStatusByTier(tier));
+		return userStatusService.getAvgStatusByTier(tier);
 	}
 
 
