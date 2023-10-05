@@ -1,5 +1,6 @@
 package com.ssafy.algoarium.UserRanking;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,10 @@ public class UserRankingContoller {
 	public List<UserRankingDTO> getRankingListByTier(@PathVariable int tier){
 		List<UserRankingEntity> userRankingEntities = userRankingService.getListByTier(tier);
 		System.out.println("/{tier}"+tier);
-		return userRankingEntities.stream().map(UserRankingContoller::toDto).toList();
+		return userRankingEntities.stream()
+			.map(UserRankingContoller::toDto)
+			.sorted(Comparator.comparingInt(UserRankingDTO::getRanking).reversed())
+			.toList();
 	}
 
 	@GetMapping("/top/{tier}")

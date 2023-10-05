@@ -74,7 +74,10 @@ public class SolvedProblemHistoryService {
 			List<SolvedResponse.Problem> problemList = solvedResponse.getItems();
 			for (SolvedResponse.Problem problem : problemList) {
 
+
 				int problemId = problem.getProblemId();
+				System.out.println(userRepository.findBySolvedAcId(baekjoonId).getSolvedAcId() + " ,"
+				+ problemRepository.findByProblemNumber(problemId) + "saved!!!");
 
 				solvedProblemHistoryRepository.save(SolvedProblemHistoryEntity.builder()
 						.userEntity(userRepository.findBySolvedAcId(baekjoonId))
