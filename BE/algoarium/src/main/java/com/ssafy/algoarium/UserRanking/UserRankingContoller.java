@@ -41,7 +41,7 @@ public class UserRankingContoller {
 		System.out.println("/{tier}"+tier);
 		return userRankingEntities.stream()
 			.map(UserRankingContoller::toDto)
-			.sorted(Comparator.comparingInt(UserRankingDTO::getRanking).reversed())
+			.sorted(Comparator.comparingInt(UserRankingDTO::getScore).reversed())
 			.toList();
 	}
 
