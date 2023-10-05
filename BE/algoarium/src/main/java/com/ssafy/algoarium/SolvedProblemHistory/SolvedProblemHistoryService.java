@@ -81,6 +81,10 @@ public class SolvedProblemHistoryService {
 			for (SolvedResponse.Problem problem : problemList) {
 				int problemId = problem.getProblemId();
 
+				if(problemRepository.findByProblemNumber(problemId) == null){
+					continue;
+				}
+
 				if(isSolvedByUserIdAndProblemId(
 					userRepository.findBySolvedAcId(baekjoonId).getUserId()
 					, problemRepository.findByProblemNumber(problemId).getProblemId()
