@@ -2,12 +2,18 @@ package com.ssafy.algoarium.UserStatus;
 
 import java.net.URI;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.algoarium.Problem.ProblemRepository;
 import com.ssafy.algoarium.SolvedProblemHistory.SolvedProblemHistoryRepository;
+import com.ssafy.algoarium.SolvedProblemHistory.SolvedResponse;
+import com.ssafy.algoarium.User.UserEntity;
 import com.ssafy.algoarium.User.UserRepository;
 import com.ssafy.algoarium.User.UserService;
 
@@ -71,14 +77,45 @@ public class UserStatusService {
 
 	@Transactional
 	public void initStatus(String baekjoonId){
+
 		URI uri = UriComponentsBuilder
 			.fromUriString("https://solved.ac/api/v3/user/show")
-			.queryParam("query" , "s@" + baekjoonId)
+			.queryParam("handle" , baekjoonId)
 			.encode()
 			.build()
 			.toUri();
 
+		System.out.println(uri.toString());
 
+		RestTemplate rt = new RestTemplate();
+
+		ResponseEntity<String> result = rt.getForEntity(uri, String.class);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		UserStatusResponse solvedResponse = null;
+
+		try {
+			solvedResponse = objectMapper.readValue(result.getBody(), UserStatusResponse.class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+		UserEntity user = userRepository.findBySolvedAcId(baekjoonId);
+
+		System.out.println(user.getUserId());
+
+		UserStatusEntity userStatusEntity = userStatusRepository.findByUserUserId(user.getUserId());
+
+		userStatusEntity.setUserStatus1(solvedResponse.getSolvedCount()/100 + 20);
+		userStatusEntity.setUserStatus2((solvedResponse.getStardustsCount()-300)/100);
+		userStatusEntity.setUserStatus3(solvedResponse.getMaxStreakCount()/30 + 30);
+		userStatusEntity.setUserStatus4(solvedResponse.getRatingBySolvedCount()/5 +10);
+		userStatusEntity.setUserStatus5(solvedResponse.getRating()/100 + 20);
+
+		userStatusRepository.save(userStatusEntity);
+
+		System.out.println("save!!!!!!!");
 	}
 
 
