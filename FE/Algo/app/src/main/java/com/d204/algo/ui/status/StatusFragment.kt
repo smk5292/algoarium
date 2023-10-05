@@ -67,21 +67,18 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        observe(viewModel.statusData, ::onStatusChange)
-//        viewModel.getUserStatus(espHelper.prefUserId)
-//
-//        observe(viewModel.statusAvgData, ::onAvgStatusChange)
-//        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
-        test()
-//        init()
+        observe(viewModel.statusData, ::onStatusChange)
+        viewModel.getUserStatus(espHelper.prefUserId)
+
+        observe(viewModel.statusAvgData, ::onAvgStatusChange)
+        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
+//        test()
+        init()
     }
 
     // 테스트용 함수, 데이터 연결 후 제거
     private fun test() = with(binding) {
-        statusRecyclerView.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
+        initViewPager()
         statusRadarChartView
             .setDataList(
                 arrayListOf(
