@@ -52,7 +52,7 @@ public class UserStatusService {
 
 
 
-		return userStatusRepository.findAvgByTier(tier).get();
+		return userStatusRepository.findAvgByTier(tier);
 	}
 
 

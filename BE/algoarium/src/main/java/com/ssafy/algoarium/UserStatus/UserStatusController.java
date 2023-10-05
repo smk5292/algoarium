@@ -1,21 +1,23 @@
 package com.ssafy.algoarium.UserStatus;
 
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@Log
 @RequiredArgsConstructor
 @RequestMapping("/my")
 public class UserStatusController {
 
 	private final UserStatusService userStatusService;
 
-
-	public static UserStatusDTO toDto(UserStatusEntity userStatusEntity){
+	public UserStatusDTO StatustoDto(UserStatusEntity userStatusEntity){
 		return UserStatusDTO.builder()
 			.userId(userStatusEntity.getUser().getUserId())
 			.userStatus1(userStatusEntity.getUserStatus1())
@@ -28,13 +30,14 @@ public class UserStatusController {
 
 	@GetMapping("/stat/{userId}")
 	public UserStatusDTO getStatusById(@PathVariable long userId){
-		return toDto(userStatusService.getStatusById(userId));
+		System.out.println("---------------------------------");
+		return StatustoDto(userStatusService.getStatusById(userId));
 	}
 
 	@GetMapping("/stat/average/{tier}")
 	public UserStatusDTO getAvgStatueByTier(@PathVariable int tier){
 		System.out.println(userStatusService.getAvgStatusByTier(tier).toString());
-		return toDto(userStatusService.getAvgStatusByTier(tier));
+		return StatustoDto(userStatusService.getAvgStatusByTier(tier));
 	}
 
 
