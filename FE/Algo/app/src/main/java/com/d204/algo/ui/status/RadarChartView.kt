@@ -86,7 +86,8 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
     private val strokeTextPaint = TextPaint().apply {
         isAntiAlias = true
         style = Paint.Style.STROKE
-        strokeWidth = 8f
+        textSize = 56f
+        strokeWidth = 2f
         color = Color.WHITE
     }
 
@@ -161,12 +162,16 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f
 
+        strokeTextPaint.textAlign = Paint.Align.CENTER
+        strokeTextPaint.color = Color.WHITE
+        strokeTextPaint.typeface = ResourcesCompat.getFont(context, R.font.dnf_bit)
+
         path.reset()
         sameLevelPath.reset()
 
         chartTypes.forEachIndexed { index, type ->
             val point = transformRotate(r, startX, startY, cx, cy)
-            when(index) {
+            when (index) {
                 0 -> textPaint.color = Color.YELLOW
                 1 -> textPaint.color = Color.RED
                 2 -> textPaint.color = Color.BLUE
@@ -185,7 +190,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
                 type.value,
                 point.x,
                 strokeTextPaint.fontMetrics.getBaseLine(point.y),
-                strokeTextPaint
+                strokeTextPaint,
             )
 
             // 전달된 데이터를 표시하는 path 계산
