@@ -34,11 +34,11 @@ public class UserStatusController {
 		return StatustoDto(userStatusService.getStatusById(userId));
 	}
 
-//	@GetMapping("/stat/average/{tier}")
-//	public UserStatusDTO getAvgStatueByTier(@PathVariable int tier){
-//		System.out.println(userStatusService.getAvgStatusByTier(tier).toString());
-//		return toDto(userStatusService.getAvgStatusByTier(tier));
-//	}
+	@GetMapping("/stat/average/{tier}")
+	public UserStatusDTO getAvgStatueByTier(@PathVariable int tier){
+		System.out.println(userStatusService.getAvgStatusByTier(tier).toString());
+		return StatustoDto(userStatusService.getAvgStatusByTier(tier));
+	}
 
 
 	@GetMapping("/stat/init/{baekjoonId}")
