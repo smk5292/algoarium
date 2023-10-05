@@ -74,7 +74,6 @@ public class UserStatusService {
 		URI uri = UriComponentsBuilder
 			.fromUriString("https://solved.ac/api/v3/user/show")
 			.queryParam("query" , "s@" + baekjoonId)
-			.queryParam("page", page)
 			.encode()
 			.build()
 			.toUri();
