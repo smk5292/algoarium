@@ -187,8 +187,9 @@ $ cd backend
 
 ```
 └─📂backend
-    └─📁 api-server
-    └─📁 django
+    └─📁 algo_MR
+    └─📁 algoarium
+    └─📁 socket
 └─📂frontend
 ```
 
@@ -197,70 +198,78 @@ $ cd backend
 <div markdown="1">
 
 ```
-┗📦src
-  ┣ 📂assets
-  ┃ ┣ 📂icon
-  ┃ ┣ 📂images
-  ┃ ┗ 📂lottie
-  ┣ 📂components
-  ┃ ┣ 📂auth
-  ┃ ┣ 📂bookmark
-  ┃ ┃ ┣ 📂bookmarkItem
-  ┃ ┣ 📂common
-  ┃ ┃ ┣ 📂Button
-  ┃ ┃ ┣ 📂DetailBtn
-  ┃ ┃ ┣ 📂Dropdown
-  ┃ ┃ ┣ 📂Footer
-  ┃ ┃ ┣ 📂Header
-  ┃ ┃ ┣ 📂Loading
-  ┃ ┃ ┣ 📂Mic
-  ┃ ┃ ┣ 📂Modal
-  ┃ ┃ ┗ 📂RadioButton
-  ┃ ┣ 📂course
-  ┃ ┃ ┣ 📂map
-  ┃ ┃ ┣ 📂sideBar
-  ┃ ┃ ┃ ┣ 📂folderList
-  ┃ ┃ ┃ ┃ ┣ 📂openFolder
-  ┃ ┣ 📂Detail
-  ┃ ┣ 📂Intro
-  ┃ ┃ ┣ 📂main
-  ┃ ┃ ┣ 📂main2
-  ┃ ┃ ┣ 📂main3
-  ┃ ┃ ┣ 📂main4
-  ┃ ┃ ┣ 📂main5
-  ┃ ┣ 📂personal
-  ┃ ┣ 📂search
-  ┃ ┣ 📂survey
-  ┃ ┃ ┣ 📂Accordion
-  ┃ ┃ ┃ ┣ 📂question1
-  ┃ ┃ ┃ ┃ ┣ 📂Button
-  ┃ ┃ ┃ ┣ 📂question2
-  ┃ ┃ ┃ ┃ ┣ 📂dropdown
-  ┃ ┃ ┃ ┣ 📂question3
-  ┃ ┃ ┃ ┣ 📂question4
-  ┃ ┃ ┃ ┣ 📂question5
-  ┃ ┃ ┃ ┃ ┣ 📂OptionCards
-  ┃ ┃ ┣ 📂SaveBtn
-  ┃ ┃ ┗ 📂SurveyTitle
-  ┃ ┣ 📂trip
-  ┃ ┃ ┣ 📂tripList
-  ┃ ┃ ┃ ┣ 📂tripCardItem
-  ┃ ┃ ┗ 📂tripRec
-  ┃ ┃ ┃ ┣ 📂tripRecCardItem
-  ┃ ┗ 📂utils
-  ┣ 📂fonts
-  ┣ 📂pages
-  ┃ ┣ 📂BookmarkPage
-  ┃ ┣ 📂DetailPage
-  ┃ ┣ 📂ListPage
-  ┃ ┣ 📂LoginPage
-  ┃ ┣ 📂SearchPage
-  ┣ 📂recoil
-  ┣ 📂styles
-  ┣ 📂types
-  ┣ 📜App.tsx
-  ┣ 📜index.css
-  ┣ 📜index.tsx
+─app
+│  └─src
+│      ├─androidTest
+│      │  └─java
+│      │      └─com
+│      │          └─d204
+│      │              └─algo
+│      ├─main
+│      │  ├─java
+│      │  │  └─com
+│      │  │      └─d204
+│      │  │          └─algo
+│      │  │              ├─base
+│      │  │              ├─cache
+│      │  │              │  ├─dao
+│      │  │              │  ├─mapper
+│      │  │              │  └─model
+│      │  │              ├─data
+│      │  │              │  ├─api
+│      │  │              │  ├─model
+│      │  │              │  ├─repository
+│      │  │              │  │  ├─cache
+│      │  │              │  │  ├─datasource
+│      │  │              │  │  └─remote
+│      │  │              │  └─source
+│      │  │              │      ├─cache
+│      │  │              │      ├─datasource
+│      │  │              │      └─remote
+│      │  │              ├─di
+│      │  │              ├─presentation
+│      │  │              │  ├─utils
+│      │  │              │  └─viewmodel
+│      │  │              ├─remote
+│      │  │              │  ├─api
+│      │  │              │  ├─mapper
+│      │  │              │  └─model
+│      │  │              └─ui
+│      │  │                  ├─adapter
+│      │  │                  ├─custom
+│      │  │                  ├─extension
+│      │  │                  ├─home
+│      │  │                  ├─oauth
+│      │  │                  ├─promote
+│      │  │                  ├─ranking
+│      │  │                  ├─recommend
+│      │  │                  └─status
+│      │  └─res
+│      │      ├─anim
+│      │      ├─animator
+│      │      ├─drawable
+│      │      ├─drawable-night
+│      │      ├─drawable-v24
+│      │      ├─font
+│      │      ├─layout
+│      │      ├─mipmap-anydpi-v26
+│      │      ├─mipmap-hdpi
+│      │      ├─mipmap-mdpi
+│      │      ├─mipmap-xhdpi
+│      │      ├─mipmap-xxhdpi
+│      │      ├─mipmap-xxxhdpi
+│      │      ├─navigation
+│      │      ├─raw
+│      │      ├─values
+│      │      ├─values-night
+│      │      └─xml
+│      └─test
+│          └─java
+│              └─com
+│                  └─d204
+│                      └─algo
+└─gradle
+    └─wrapper
 ```
 
 </div>
@@ -271,40 +280,171 @@ $ cd backend
 <div markdown="1">
 
 ```
-└─📂 src
-    ├─📂 main
-    │  ├─📂 java
-    │  │  └─📂 com
-    │  │      └─📂 dawool
-    │  │          └─📂 api
-    │  │              ├─📁 code
-    │  │              ├─📁 config
-    │  │              ├─📁 controller
-    │  │              ├─📂 dto
-    │  │              │  ├─📁 detailInfo
-    │  │              │  └─📁 user
-    │  │              ├─📁 entity
-    │  │              ├─📁 error
-    │  │              ├─📁 jwt
-    │  │              ├─📁 repository
-    │  │              └─📁 service
-    │  └─📂 resources
-    │      ├─📁 static
-    │      └─📁 templates
-└─🐘 build.gradle
-└─🐘 settings.gradle
+─algoarium
+│  ├─.gradle
+│  │  ├─8.2.1
+│  │  │  ├─checksums
+│  │  │  ├─dependencies-accessors
+│  │  │  ├─executionHistory
+│  │  │  ├─fileChanges
+│  │  │  ├─fileHashes
+│  │  │  └─vcsMetadata
+│  │  ├─buildOutputCleanup
+│  │  └─vcs-1
+│  ├─.idea
+│  ├─build
+│  │  ├─classes
+│  │  │  └─java
+│  │  │      ├─main
+│  │  │      │  └─com
+│  │  │      │      └─ssafy
+│  │  │      │          └─algoarium
+│  │  │      │              ├─BaekjoonUser
+│  │  │      │              ├─DummyData
+│  │  │      │              ├─KakaoLogin
+│  │  │      │              ├─Problem
+│  │  │      │              ├─ProblemLike
+│  │  │      │              ├─ProblemTag
+│  │  │      │              ├─RecommendProblem
+│  │  │      │              ├─Redis
+│  │  │      │              ├─Season
+│  │  │      │              ├─SolvedProblemHistory
+│  │  │      │              ├─Tag
+│  │  │      │              ├─User
+│  │  │      │              ├─UserRanking
+│  │  │      │              ├─UserStatus
+│  │  │      │              └─WebSocket
+│  │  │      └─test
+│  │  │          └─com
+│  │  │              └─ssafy
+│  │  │                  └─algoarium
+│  │  ├─generated
+│  │  │  └─sources
+│  │  │      ├─annotationProcessor
+│  │  │      │  └─java
+│  │  │      │      ├─main
+│  │  │      │      └─test
+│  │  │      └─headers
+│  │  │          └─java
+│  │  │              ├─main
+│  │  │              └─test
+│  │  ├─libs
+│  │  ├─reports
+│  │  │  └─tests
+│  │  │      └─test
+│  │  │          ├─classes
+│  │  │          ├─css
+│  │  │          ├─js
+│  │  │          └─packages
+│  │  ├─resources
+│  │  │  └─main
+│  │  │      └─static
+│  │  ├─test-results
+│  │  │  └─test
+│  │  │      └─binary
+│  │  └─tmp
+│  │      ├─bootJar
+│  │      ├─compileJava
+│  │      │  └─compileTransaction
+│  │      │      ├─backup-dir
+│  │      │      └─stash-dir
+│  │      ├─compileTestJava
+│  │      │  └─compileTransaction
+│  │      │      ├─backup-dir
+│  │      │      └─stash-dir
+│  │      ├─jar
+│  │      └─test
+│  ├─gradle
+│  │  └─wrapper
+│  └─src
+│      ├─main
+│      │  ├─java
+│      │  │  └─com
+│      │  │      └─ssafy
+│      │  │          └─algoarium
+│      │  │              ├─BaekjoonUser
+│      │  │              ├─DummyData
+│      │  │              ├─KakaoLogin
+│      │  │              ├─Problem
+│      │  │              ├─ProblemLike
+│      │  │              ├─ProblemTag
+│      │  │              ├─RecommendProblem
+│      │  │              ├─Redis
+│      │  │              ├─Season
+│      │  │              ├─SolvedProblemHistory
+│      │  │              ├─Tag
+│      │  │              ├─User
+│      │  │              ├─UserRanking
+│      │  │              ├─UserStatus
+│      │  │              └─WebSocket
+│      │  └─resources
+│      │      └─static
+│      └─test
+│          └─java
+│              └─com
+│                  └─ssafy
+│                      └─algoarium
+├─algo_MR
+│  ├─algoarium
+│  └─recommend
+│      └─migrations
+└─socket
+    ├─.gradle
+    │  ├─8.2.1
+    │  │  ├─checksums
+    │  │  ├─dependencies-accessors
+    │  │  ├─executionHistory
+    │  │  ├─fileChanges
+    │  │  ├─fileHashes
+    │  │  └─vcsMetadata
+    │  ├─buildOutputCleanup
+    │  └─vcs-1
+    ├─.idea
+    ├─build
+    │  ├─classes
+    │  │  └─java
+    │  │      └─main
+    │  │          └─com
+    │  │              └─ssafy
+    │  │                  └─socket
+    │  ├─generated
+    │  │  └─sources
+    │  │      ├─annotationProcessor
+    │  │      │  └─java
+    │  │      │      └─main
+    │  │      └─headers
+    │  │          └─java
+    │  │              └─main
+    │  ├─libs
+    │  ├─resources
+    │  │  └─main
+    │  └─tmp
+    │      ├─compileJava
+    │      │  └─compileTransaction
+    │      │      ├─backup-dir
+    │      │      └─stash-dir
+    │      └─shadowJar
+    ├─gradle
+    │  └─wrapper
+    └─src
+        └─main
+            ├─java
+            │  └─com
+            │      └─ssafy
+            │          └─socket
+            └─resources
 ```
 
 </div>
 </details>
 
-<br><br>
+<br>
 
 ## 7. Design
 
 ### 7.1. 시스템 구조도
 
-![Architecture](./wiki/img/architecture.png)
+![Architecture](./README/architecture.jpg)
 
 <br>
 
@@ -312,9 +452,9 @@ $ cd backend
 
 ![API 명세서](./wiki/gif/API_document.gif)
 
-[API 명세서](https://dodo-elice.notion.site/API-6e8c079e046941eaa35c514dc2f22692)
+[API 명세서](https://ten-brownie-866.notion.site/54edf2756f7848de9f43c8d8c85f85e3?pvs=4)
 
-<br><br>
+<br>
 
 ## 8. TEAM
 
@@ -324,15 +464,13 @@ $ cd backend
 <thead>
   <tr>
     <th class="tg-0pky">팀원</th>
-    <th class="tg-0pky">최예린</th>
-    <th class="tg-0pky">이해솜</th>
-    <th class="tg-0pky">이지예</th>
+    <th class="tg-0pky">박현우</th>
+    <th class="tg-0pky">정용우</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td class="tg-0pky">GitHub</td>
-    <td class="tg-0pky">-</td>
     <td class="tg-0pky">-</td>
     <td class="tg-0pky">-</td>
   </tr>
@@ -348,10 +486,6 @@ $ cd backend
     - 컴포넌트 구조 설계<br>
     - 검색<br>
     - 필터링</td>
-    <td class="tg-0pky">
-    - 회원관리<br>
-    - 장소관리<br>
-    - API</td>
   </tr>
 </tbody>
 </table>
@@ -364,14 +498,16 @@ $ cd backend
 <thead>
   <tr>
     <th class="tg-0pky">팀원</th>
-    <th class="tg-0pky">김정은</th>
-    <th class="tg-0pky">박희주</th>
-    <th class="tg-0pky">이 준</th>
+    <th class="tg-0pky">김현진</th>
+    <th class="tg-0pky">이상혁</th>
+    <th class="tg-0pky">손민균</th>
+    <th class="tg-0pky">김형진</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td class="tg-0pky">GitHub</td>
+    <td class="tg-0pky">-</td>
     <td class="tg-0pky">-</td>
     <td class="tg-0pky">-</td>
     <td class="tg-0pky">-</td>
@@ -388,11 +524,14 @@ $ cd backend
     <td class="tg-0pky">
     - 회원관리<br>
     - 검색</td>
+    <td class="tg-0pky">
+    - 회원관리<br>
+    - 검색</td>
   </tr>
 </tbody>
 </table>
 
-<br><br>
+<br>
 
 ## 📒 License
 
