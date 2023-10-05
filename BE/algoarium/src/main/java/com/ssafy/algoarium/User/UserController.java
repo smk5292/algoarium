@@ -72,20 +72,23 @@ public class UserController {
 		//     .refreshToken(refreshToken).build());
 		else {
 			UserDto answerUserDto = userService.getUserByEmail(profileDto.getEmail()).toUserDto();
+			answerUserDto.setKakaoNickname(profileDto.getName());
+			answerUserDto.setProfileImage(profileDto.getProfileUrl());
+
+			userService.saveUser(answerUserDto);
+
 			UserRankingEntity userRankingEntity = userRankingService.getRankingByUserId(answerUserDto.getUserId());
 
 			return UserDto.builder()
 					.userId(answerUserDto.getUserId())
 					.kakaoId(answerUserDto.getKakaoId())
-					.kakaoNickname(profileDto.getName())
-					.profileImage(profileDto.getProfileUrl())
+					.kakaoNickname(answerUserDto.getKakaoNickname())
+					.profileImage(answerUserDto.getProfileImage())
 					.preTier(answerUserDto.getPreTier())
 					.refreshToken(answerUserDto.getRefreshToken())
 					.tier(userRankingEntity.getTier())
 					.solvedAcId(answerUserDto.getSolvedAcId())
 					.build();
-
-
 
 		}
 
