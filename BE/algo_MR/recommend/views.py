@@ -29,7 +29,7 @@ def test_recommend_problem(request):
     linkage_matrix = linkage(data, method='ward')
 
     # 클러스터 자르기 및 결과 출력
-    k = 5  # 클러스터의 수
+    k = 3  # 클러스터의 수
     cluster_labels = fcluster(linkage_matrix, k, criterion='maxclust')
     # print("클러스터 레이블:", cluster_labels)
 
