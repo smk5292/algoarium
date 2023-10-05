@@ -1,6 +1,7 @@
 package com.ssafy.algoarium.UserStatus;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -48,11 +49,32 @@ public class UserStatusService {
 	}
 
 	@Transactional
-	public UserStatusEntity getAvgStatusByTier(int tier){
+	public UserStatusDTO getAvgStatusByTier(int tier){
 
+		List<UserStatusEntity> userStatusEntityList = userStatusRepository.findAvgByTier(tier);
 
+		int length = userStatusEntityList.size();
 
-		return userStatusRepository.findAvgByTier(tier);
+		int wis = 0;
+		int con = 0;
+		int str = 0;
+		int luk = 0;
+		int sma = 0;
+
+		for(UserStatusEntity entity : userStatusEntityList){
+			wis += entity.getUserStatus1();
+			con += entity.getUserStatus2();
+			str += entity.getUserStatus3();
+			luk += entity.getUserStatus4();
+			sma += entity.getUserStatus5();
+		}
+
+		return UserStatusDTO.builder()
+				.userStatus1(wis/length)
+				.userStatus2(con/length)
+				.userStatus3(str/length)
+				.userStatus4(luk/length)
+				.userStatus5(sma/length).build();
 	}
 
 
