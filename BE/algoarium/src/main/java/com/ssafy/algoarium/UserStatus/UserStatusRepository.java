@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.algoarium.User.UserEntity;
+
 @Repository
 public interface UserStatusRepository extends JpaRepository<UserStatusEntity, Long> {
 
@@ -19,6 +21,6 @@ public interface UserStatusRepository extends JpaRepository<UserStatusEntity, Lo
 		"WHERE ur.tier = :tier" , nativeQuery = true)
 	Optional<UserStatusEntity> findAvgByTier(@Param("tier") int tier);
 
-	UserStatusEntity findByUserUserId(Long userId);
+	UserStatusEntity findByUser(UserEntity user);
 
 }

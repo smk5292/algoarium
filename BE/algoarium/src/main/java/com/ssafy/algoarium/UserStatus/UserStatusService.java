@@ -42,13 +42,16 @@ public class UserStatusService {
 
 	@Transactional
 	public UserStatusEntity getStatusById(long userId){;
-		UserStatusEntity userStatusEntity = userStatusRepository.findById(userId).get();
+		UserStatusEntity userStatusEntity = userStatusRepository.findByUser(userRepository.findByUserId(userId));
 		// userStatusDTO.ifPresent();
 		return userStatusEntity;
 	}
 
 	@Transactional
 	public UserStatusEntity getAvgStatusByTier(int tier){
+
+
+
 		return userStatusRepository.findAvgByTier(tier).get();
 	}
 
@@ -105,10 +108,12 @@ public class UserStatusService {
 
 		System.out.println(user.getUserId());
 
-		UserStatusEntity userStatusEntity = userStatusRepository.findByUserUserId(user.getUserId());
+		UserStatusEntity userStatusEntity = userStatusRepository.findByUser(user);
+
+		System.out.println(userStatusEntity.getUser());
 
 		userStatusEntity.setUserStatus1(solvedResponse.getSolvedCount()/100 + 20);
-		userStatusEntity.setUserStatus2((solvedResponse.getStardustsCount()-300)/100);
+		userStatusEntity.setUserStatus2((solvedResponse.getStardustsCount()-500)/100);
 		userStatusEntity.setUserStatus3(solvedResponse.getMaxStreakCount()/30 + 30);
 		userStatusEntity.setUserStatus4(solvedResponse.getRatingBySolvedCount()/5 +10);
 		userStatusEntity.setUserStatus5(solvedResponse.getRating()/100 + 20);
