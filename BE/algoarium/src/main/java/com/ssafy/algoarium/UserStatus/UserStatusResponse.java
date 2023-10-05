@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.time.OffsetDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,16 +14,18 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserStatusResponse {
+
     @JsonProperty("rating")
-    private long rating;
+    private int rating;
     @JsonProperty("solvedCount")
-    private long solvedCount;
+    private int solvedCount;
     @JsonProperty("maxStreak")
-    private long maxStreak;
-    @JsonProperty("maxStreak")
-    private long stardusts;
+    private int maxStreakCount; // 속성 이름 변경
+
+    @JsonProperty("stardusts")
+    private int stardustsCount; // 속성 이름 변경
 
     @JsonProperty("ratingBySolvedCount")
-    private long ratingBySolvedCount;
+    private int ratingBySolvedCount;
 
 }
