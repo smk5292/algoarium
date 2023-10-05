@@ -1,8 +1,13 @@
 package com.ssafy.algoarium.UserStatus;
 
+import java.net.URI;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ssafy.algoarium.Problem.ProblemRepository;
+import com.ssafy.algoarium.SolvedProblemHistory.SolvedProblemHistoryRepository;
 import com.ssafy.algoarium.User.UserRepository;
 import com.ssafy.algoarium.User.UserService;
 
@@ -15,6 +20,8 @@ public class UserStatusService {
 	private final UserStatusRepository userStatusRepository;
 	private final UserRepository userRepository;
 	private final UserService userService;
+	private final SolvedProblemHistoryRepository solvedProblemHistoryRepository;
+	private final ProblemRepository problemRepository;
 
 	public UserStatusEntity toEntity(UserStatusDTO userStatusDTO){
 		return UserStatusEntity.builder()
@@ -63,8 +70,14 @@ public class UserStatusService {
 	}
 
 	@Transactional
-	public void initSatus(String baekjoonId){
-
+	public void initStatus(String baekjoonId){
+		URI uri = UriComponentsBuilder
+			.fromUriString("https://solved.ac/api/v3/user/show")
+			.queryParam("query" , "s@" + baekjoonId)
+			.queryParam("page", page)
+			.encode()
+			.build()
+			.toUri();
 
 
 	}
