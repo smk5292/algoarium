@@ -1,6 +1,6 @@
 # 🧳 알고알리움
 
-<img src="./wiki/img/logo.png" height="15%" width="15%" />
+![intro page](./README/intro_page.png)
 
 ## == Contents ==
 
@@ -15,7 +15,8 @@
 7. [Design](#7-design)
 8. [TEAM](#8-team)
 
-<br><br>
+<br>
+<br>
 
 ## 1. 개요
 
@@ -25,11 +26,10 @@
   
   `#빅데이터` `#알고리즘문제추천`
 
-<br><br>
+<br>
+<br>
 
 ## 2. 프로젝트 소개
-
-![intro page](./README/intro_page.png)
 
 🌊 Naming : 알고리즘문제를 의미하는 알고와 알려준다라는 의미를 가진 알리움을 결합. 
 
@@ -49,13 +49,14 @@
 
 - 사용자의 능력과 비슷한 다른 사용자들이 많이 푼 문제를 추천
 
-<br><br>
+<br>
+<br>
 
 ## 3. 주요 기능
 
 ### 3.1. 시즌 별 티어 제도
 
-![filtering](./wiki/gif/filtering.gif)
+![tier](./README/tier.png)
 
 - 8가지의 티어를 두어 시즌 내 특정 포인트 달성 시 승급
 - 매 시즌 포인트 초기화
@@ -65,7 +66,7 @@
 
 ### 3.2. 랭킹 제도
 
-![STT](./wiki/gif/STT.gif)
+![ranking](./README/ranking.png)
 
 - 포인트를 기반으로 전체 사용자의 랭킹을 보여줌
 
@@ -73,7 +74,7 @@
 
 ### 3.3. 스탯 제도
 
-![recommend](./wiki/gif/recommend.gif)
+![status](./README/status.png)
 
 - 사용자에게 5개의 스탯 (지혜, 생명, 힘, 운, 카리스마)을 할당
 - 지혜 : 푼 문제 수
@@ -86,7 +87,7 @@
 
 ### 3.4 알고리즘 문제 추천
 
-![detail](/wiki/gif/detail.gif)
+![recommend](./README/recommend.png)
 
 - 알고리즘 문제를 사용자에 실력에 맞추어 (강점 문제, 약점 문제, 비슷한 사용자가 푼 문제)로 나누어 알고리즘 문제를 추천
 
@@ -96,60 +97,46 @@
 
 ### 3.5 PC에 문제 띄우기
 
-![detail](/wiki/gif/detail.gif)
+![pc](./README/pc.png)
 
 - PC 어플리케이션을 실행하고 모바일과 연동 한 후 모바일 문제를 클릭하면 해당 PC에 웹페이지를 띄움
 - 어플리케이션은 백그라운드에서도 실행 가능
 
-<br><br>
+<br>
+<br>
 
 ## 4. 프로젝트 실행 방법
 
 ### 4.1. client 실행
 
-1. **원격 저장소 복제**
+1. **클라이언트 다운로드**
 
 ```bash
-$ git clone https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22D105.git
+$ http://j9d204.p.ssafy.io:8090/
 ```
 
-2. **프로젝트 폴더로 이동**
+2. **인증코드 입력**
 
-```bash
-$ cd frontend
-```
-
-3. **필요한 node_modules 설치**
-
-```bash
-$ npm install
-```
-
-4. **개발 서버 실행**
-
-```bash
-$ npm start
-```
-
-<br />
+<br>
 
 ### 4.2. server 실행
 
 1. **원격 저장소 복제**
 
 ```bash
-$ git clone https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22D105.git
+$ https://lab.ssafy.com/s09-bigdata-recom-sub2/S09P22D204.git
 ```
 
 2. **프로젝트 폴더로 이동**
 
 ```bash
-$ cd backend
+$ cd BE/algoarium
 ```
 
 3. **main 메서드 실행하기**
 
-<br><br>
+<br>
+<br>
 
 ## 5. 기술 스택
 
@@ -157,7 +144,7 @@ $ cd backend
 
 <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"><img src="https://img.shields.io/badge/.ENV-ECD53F?style=for-the-badge&logo=.ENV&logoColor=black"><img src="https://img.shields.io/badge/KAKAO-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black">
 
-<br/>
+<br>
 
 ### 5.2. Back-End
 
@@ -181,7 +168,8 @@ $ cd backend
 
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"><img src="https://img.shields.io/badge/Gitlab-FC6D26?style=for-the-badge&logo=Gitlab&logoColor=white"><img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=JiraSoftware&logoColor=white"><img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white">
 
-<br/><br/>
+<br>
+<br>
 
 ## 6. 프로젝트 구조도
 
@@ -450,10 +438,9 @@ $ cd backend
 
 ### 7.2. API 설계
 
-![API 명세서](./wiki/gif/API_document.gif)
-
 [API 명세서](https://ten-brownie-866.notion.site/54edf2756f7848de9f43c8d8c85f85e3?pvs=4)
 
+<br>
 <br>
 
 ## 8. TEAM
@@ -479,13 +466,11 @@ $ cd backend
     <td class="tg-0pky">
     - 팀장<br>
     - 디자인<br>
-    - 취향설문<br>
-    - 추천 및 여행지 목록</td>
+    - 필터링</td>
     <td class="tg-0pky">
     - FE 팀장<br>
     - 컴포넌트 구조 설계<br>
-    - 검색<br>
-    - 필터링</td>
+    - 검색</td>
   </tr>
 </tbody>
 </table>
@@ -519,10 +504,10 @@ $ cd backend
     - CI/CD<br>
     - 장소관리</td>
     <td class="tg-0pky">
-    - 추천 알고리즘<br>
+    - 인프라<br>
     - API</td>
     <td class="tg-0pky">
-    - 회원관리<br>
+    - 추천 알고리즘<br>
     - 검색</td>
     <td class="tg-0pky">
     - 회원관리<br>
@@ -531,6 +516,7 @@ $ cd backend
 </tbody>
 </table>
 
+<br>
 <br>
 
 ## 📒 License
