@@ -26,7 +26,8 @@ public class ProblemService {
 
         while (startProblemNumber <= 30000) {
             // 데이터베이스에 해당 문제가 존재하는지 확인합니다.
-            boolean problemExists = problemRepository.existsById(startProblemNumber);
+            boolean problemExists = problemRepository.existsByProblemNumber(startProblemNumber);
+
 
             if (problemExists) {
                 // 해당 문제가 존재하면 startProblemNumber를 500씩 증가시킵니다.
