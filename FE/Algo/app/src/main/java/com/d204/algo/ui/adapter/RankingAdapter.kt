@@ -37,7 +37,8 @@ class RankingAdapter @Inject constructor(
             binding.apply {
                 glide.load(item.profileImage).into(binding.rankingListItemProfileImage)
                 rankingListItemStart.setImageResource(selectRandomImg())
-                rankingListItemRank.text = item.ranking.toString()
+//                rankingListItemRank.text = item.ranking.toString()
+                rankingListItemRank.text = (layoutPosition+1).toString()
                 rankingListItemRank.textSize = adaptTextSize(binding).toFloat()
                 rankingListItemPoint.text = item.score.toString() + " pt "
                 rankingListItemName.text = item.kakaoNickname

@@ -20,9 +20,35 @@ private const val TAG = "Algo_MemoFragment"
 
 @AndroidEntryPoint
 class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
+    companion object {
+        const val PROBLEM_ID = "problemId"
+        const val PROBLEM_TITLE = "problemTitle"
+        const val PROBLEM_NUMBER = "problemNumber"
+        const val PROBLEM_LEVEL = "problemLevel"
+        const val PROBLEM_MEMO = "problemMemo"
+
+        @JvmStatic
+        fun newInstance(
+            problemId: Long,
+            problemTitle: String,
+            problemNumber: Int,
+            problemLevel: Int,
+            problemMemo: String,
+        ) =
+            MemoFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(PROBLEM_ID, problemId)
+                    putString(PROBLEM_TITLE, problemTitle)
+                    putInt(PROBLEM_NUMBER, problemNumber)
+                    putInt(PROBLEM_LEVEL, problemLevel)
+                    putString(PROBLEM_MEMO, problemMemo)
+                }
+            }
+    }
+
     override fun getViewBinding(): FragmentMemoBinding = FragmentMemoBinding.inflate(layoutInflater)
     override val viewModel: MemoFragmentViewModel by viewModels()
-    private val imm = (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+    private lateinit var imm: InputMethodManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +57,7 @@ class MemoFragment : BaseFragment<FragmentMemoBinding, BaseViewModel>() {
 
     private fun init() = with(binding) {
         initData()
-
+        imm = (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         // MemoFragment로 들어왔을 때 입력란 focus 및 키보드 띄우기
         memoEditText.requestFocus()
         imm.showSoftInput(memoEditText, 0)

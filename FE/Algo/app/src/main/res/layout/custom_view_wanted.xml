@@ -15,13 +15,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/wanted_profile_img"
         android:layout_width="0dp"
         android:layout_height="@dimen/_80sdp"
         android:layout_marginHorizontal="@dimen/_12sdp"
         android:padding="@dimen/_8sdp"
-        android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="@+id/wanted_frame"
         app:layout_constraintEnd_toEndOf="@+id/wanted_frame"
         app:layout_constraintStart_toStartOf="@+id/wanted_frame"

@@ -96,9 +96,8 @@ class KaKaoApi(private val act: AppCompatActivity, private val userRepository: U
     private suspend fun loadUser(kakaoToken: OAuthToken) {
         var isServerActivated: Boolean
         userRepository.getUser(kakaoToken.accessToken, kakaoToken.refreshToken).collect {
-            Log.d(TAG, "loadUser: $it")
-            isServerActivated = it.id > 0L
             saveUserInfo(kakaoToken, it)
+            isServerActivated = it.id > 0L
             // solved ac 연동이 됐다면(DB에 ID가 있다면) 다음 화면으로
             solvedConnected = espHelper.prefSolvedAcId != ""
             Log.d(TAG, "loadUser: $solvedConnected ${espHelper.prefSolvedAcId}")

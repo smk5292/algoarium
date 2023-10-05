@@ -64,6 +64,7 @@ class RankingFragmentViewModel @Inject constructor(
 
     private suspend fun loadRankingList(tier: Int) {
         rankingRepository.getRankingsByTier(tier).collect {
+            Log.d(TAG, "loadRankingList: $it")
             _rankingList.postValue(RankingUIModel.Success(it))
 //            _rankingList.postValue(RankingUIModel.Success(listOf(Ranking(),Ranking(),Ranking(),Ranking(),Ranking(),Ranking(),Ranking())))
         }
@@ -84,7 +85,7 @@ class RankingFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getMyRanking(userId: Long){
+    fun getMyRanking(userId: Long) {
         errorSite = 3
         _myRanking.postValue(SingleRankingUIModel.Loading)
         launchCoroutineIO {

@@ -67,27 +67,56 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.statusData, ::onStatusChange)
-        viewModel.getUserStatus(espHelper.prefUserId)
-
-        observe(viewModel.statusAvgData, ::onAvgStatusChange)
-        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
-        // test()
-        init()
+//        observe(viewModel.statusData, ::onStatusChange)
+//        viewModel.getUserStatus(espHelper.prefUserId)
+//
+//        observe(viewModel.statusAvgData, ::onAvgStatusChange)
+//        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
+        test()
+//        init()
     }
 
     // 테스트용 함수, 데이터 연결 후 제거
     private fun test() = with(binding) {
+        statusRecyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
         statusRadarChartView
             .setDataList(
                 arrayListOf(
-                    RadarChartData(CharacteristicType.WISDOM, 0),
-                    RadarChartData(CharacteristicType.VITALITY, 0),
-                    RadarChartData(CharacteristicType.STRENGTH, 0),
-                    RadarChartData(CharacteristicType.CHARISMA, 0),
-                    RadarChartData(CharacteristicType.LUCK, 0),
+                    RadarChartData(CharacteristicType.WISDOM, 93),
+                    RadarChartData(CharacteristicType.VITALITY, 73),
+                    RadarChartData(CharacteristicType.STRENGTH, 60),
+                    RadarChartData(CharacteristicType.CHARISMA, 80),
+                    RadarChartData(CharacteristicType.LUCK, 45),
                 ),
             )
+        statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                statusRadarChartView
+                    .setSameLevelDataList(
+                        arrayListOf(
+                            RadarChartData(CharacteristicType.WISDOM, 50),
+                            RadarChartData(
+                                CharacteristicType.VITALITY,
+                                50,
+                            ),
+                            RadarChartData(
+                                CharacteristicType.STRENGTH,
+                                50,
+                            ),
+                            RadarChartData(
+                                CharacteristicType.CHARISMA,
+                                50,
+                            ),
+                            RadarChartData(CharacteristicType.LUCK, 50),
+                        ),
+                    )
+            } else {
+                statusRadarChartView.setSameLevelDataList(arrayListOf())
+            }
+        }
     }
 
     private fun init() {
@@ -140,7 +169,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                     position: Int,
                 ) {
                     Log.d(TAG, "memoClick: $problem")
-                    val fragment = newInstance(
+                    val fragment = MemoFragment.newInstance(
                         problem.id,
                         problem.title,
                         problem.problemNumber,

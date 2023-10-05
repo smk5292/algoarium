@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
             val prefTier = if (espHelper.prefUserPreTier == 0) 1 else espHelper.prefUserPreTier
-            val curTier = if (espHelper.prefUserTier == 0) 1 else espHelper.prefUserPreTier
+            val curTier = if (espHelper.prefUserTier == 0) 1 else espHelper.prefUserTier
             Log.d(TAG, "setRankAnimation: $prefTier, $curTier")
             if (ApplicationClass.skinOn) {
                 activityMainTierBefore.setImageResource(Constants.RANK_TIER[prefTier])
