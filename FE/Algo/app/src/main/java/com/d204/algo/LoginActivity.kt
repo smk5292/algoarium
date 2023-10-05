@@ -1,12 +1,11 @@
 package com.d204.algo
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
@@ -18,14 +17,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.d204.algo.data.repository.UserRepository
 import com.d204.algo.databinding.ActivityLoginBinding
-import com.d204.algo.databinding.DialogSolvedacBinding
 import com.d204.algo.ui.oauth.KaKaoApi
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 private const val TAG = "LoginActivity"
 
@@ -43,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) // 화면 꽉차게
         binding = ActivityLoginBinding.inflate(layoutInflater)
         kakaoApi = KaKaoApi(this, userRepository)
         kakaoApi.setLoginBtn(binding.btnKakao)
@@ -92,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResourceReady(
                     resource: GifDrawable?,
                     model: Any?,
-                    target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                    target: Target<GifDrawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean,
                 ): Boolean {

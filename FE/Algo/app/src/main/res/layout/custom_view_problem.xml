@@ -44,7 +44,6 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="0.1"
-                android:src="@drawable/tier1"
                 tools:src="@drawable/tier1" />
 
             <com.blueiobase.api.android.strokedtextview.StrokedTextView
@@ -70,6 +69,7 @@
                 android:gravity="center"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:scrollHorizontally="true"
                 tools:text="아니 세상에 이런일이 있을 수 있나요" />
         </androidx.appcompat.widget.LinearLayoutCompat>

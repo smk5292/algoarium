@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:paddingHorizontal="@dimen/_12sdp"
         android:paddingVertical="@dimen/_8sdp"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="홍길동"
+            android:textSize="@dimen/_36sdp"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/tier5_transparent"
+            tools:src="@drawable/tier4_transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,19 +84,22 @@
 
     <com.d204.algo.ui.status.RadarChartView
         android:id="@+id/status_radar_chart_view"
-        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/_minus10sdp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/_300sdp"
         android:layout_marginHorizontal="@dimen/_32sdp"
         android:layout_marginTop="@dimen/_40sdp"
-        app:layout_constraintTop_toBottomOf="@+id/status_chip_group"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_chip_group" />
 
     <CheckBox
         android:id="@+id/status_chart_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/status_checkbox_text"
-        android:textSize="@dimen/_8sdp"
+        android:textSize="@dimen/_10sdp"
+        android:fontFamily="@font/dnf_bit"
         android:textColor="@color/black"
         android:layout_marginEnd="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="@+id/status_radar_chart_view"

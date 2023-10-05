@@ -11,6 +11,8 @@ data class User(
     val kakaoNickname: String,
     var profileImage: String,
     var preTier: Int,
+    var tier: Int,
+    var solvedAcId: String,
 ) : Parcelable, Identifiable {
-    constructor() : this(0, "", "", "", 0)
+    constructor() : this(0, "", "", "", 0, 0, "")
 }

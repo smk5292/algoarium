@@ -12,6 +12,8 @@ class UserMapper @Inject constructor() : Mapper<UserModel, User> {
             kakaoNickname = model.kakaoNickname,
             profileImage = model.profileImage,
             preTier = model.preTier,
+            tier = model.tier,
+            solvedAcId = model.solvedAcId,
         )
     }
 
@@ -22,6 +24,8 @@ class UserMapper @Inject constructor() : Mapper<UserModel, User> {
             kakaoNickname = type.kakaoNickname,
             profileImage = type.profileImage,
             preTier = type.preTier,
+            tier = type.tier,
+            solvedAcId = type.solvedAcId,
         )
     }
 }

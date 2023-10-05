@@ -1,7 +1,6 @@
 package com.d204.algo.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,10 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupInitSettings()
         setSkin()
-        binding.socket.setOnClickListener {
-            Log.d(TAG, "onViewCreated: 클릭됨")
-            (requireActivity() as MainActivity).sendSocketMessage("www.naver.com")
-        }
+        setCode()
     }
 
     override fun onResume() {
@@ -59,6 +55,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         coralGenerator.isRunning = false
     }
 
+    private fun setCode() {
+        binding.fragmentHomeConnectionCode.text = "PC연결 : ${MainActivity.pcConnectionNumber}"
+    }
+
     private fun setSkin() {
         if (ApplicationClass.skinOn == false) {
             binding.homeRecommend.setImageResource(R.drawable.starhouse_copyrighted)
@@ -67,7 +67,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
 
             val constraintSet = ConstraintSet()
             constraintSet.clone(binding.fragmentHomeConstraintLayout)
-            constraintSet.connect(binding.homeRecommend.id, ConstraintSet.BOTTOM, binding.guidelineHorizontal4.id, ConstraintSet.TOP, 0)
+            constraintSet.connect(
+                binding.homeRecommend.id,
+                ConstraintSet.BOTTOM,
+                binding.guidelineHorizontal4.id,
+                ConstraintSet.TOP,
+                0,
+            )
             constraintSet.applyTo(binding.fragmentHomeConstraintLayout)
         }
     }
@@ -76,7 +82,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
         coralGenerator.generateCoral()
 
         binding.apply {
-            fragmentHomeScrollView.post { fragmentHomeScrollView.scrollTo(fragmentHomeScrollView.getChildAt(0).width / 3, 0) }
+            fragmentHomeScrollView.post {
+                fragmentHomeScrollView.scrollTo(
+                    fragmentHomeScrollView.getChildAt(
+                        0,
+                    ).width / 3,
+                    0,
+                )
+            }
             homeRecommend.setOnClickListener {
                 with(requireActivity() as MainActivity) {
                     callTransition()

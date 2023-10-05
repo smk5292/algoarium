@@ -29,5 +29,6 @@ class UserRepositoryImpl @Inject constructor(
         emit(dataSourceFactory.getRemoteDataSource().getUser(accessToken, refreshToken))
     }
 
-    override suspend fun getSolvedCode(): String = dataSourceFactory.getRemoteDataSource().getSolvedCode()
+    override suspend fun registerSolvedAc(userId: Long, solvedAcId: String, code: String): String = dataSourceFactory.getRemoteDataSource().registerSolvedAc(userId, solvedAcId, code)
+    override suspend fun getIsSeason(): Boolean? = dataSourceFactory.getRemoteDataSource().getIsSeason()
 }

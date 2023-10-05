@@ -14,23 +14,27 @@
             android:id="@+id/action_navigation_home_to_navigation_ranking"
             app:destination="@id/navigation_ranking"
             app:enterAnim="@anim/fade_out"
-            app:exitAnim="@anim/fade_in"/>
+            app:exitAnim="@anim/fade_in"
+            app:popExitAnim="@anim/scale_out"/>
         <action
             android:id="@+id/action_navigation_home_to_navigation_recommend"
             app:destination="@id/navigation_recommend"
             app:enterAnim="@anim/fade_out"
-            app:exitAnim="@anim/fade_in"/>
+            app:exitAnim="@anim/fade_in"
+            app:popExitAnim="@anim/scale_out"/>
         <action
             android:id="@+id/action_navigation_home_to_navigation_status"
             app:destination="@id/navigation_status"
             app:enterAnim="@anim/fade_out"
             app:exitAnim="@anim/fade_in"
+            app:popExitAnim="@anim/scale_out"
             />
         <action
             android:id="@+id/action_navigation_home_to_navigation_promote"
             app:destination="@id/navigation_promote"
             app:enterAnim="@anim/fade_out"
-            app:exitAnim="@anim/fade_in"/>
+            app:exitAnim="@anim/fade_in"
+            app:popExitAnim="@anim/scale_out"/>
     </fragment>
 
     <fragment

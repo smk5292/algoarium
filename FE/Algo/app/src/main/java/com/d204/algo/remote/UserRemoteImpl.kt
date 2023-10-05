@@ -1,5 +1,6 @@
 package com.d204.algo.remote
 
+import android.util.Log
 import com.d204.algo.data.api.NetworkResult
 import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.User
@@ -36,9 +37,15 @@ class UserRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSolvedCode(): NetworkResult<String> {
+    override suspend fun registerSolvedAc(userId: Long, solvedAcId: String, code: String): NetworkResult<String> {
         return handleApi {
-            userService.getSolvedCode()
+            userService.registerSolvedAc(userId, solvedAcId, code)
+        }
+    }
+
+    override suspend fun getIsSeason(): NetworkResult<Boolean?> {
+        return handleApi {
+            userService.getIsSeason()
         }
     }
 

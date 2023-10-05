@@ -41,5 +41,6 @@ class RecommendProblemView(context: Context, attrs: AttributeSet? = null) : Mate
 
     fun setProblemTitle(title: String) {
         recommendProblemTitle.text = title
+        recommendProblemTitle.isSelected = true
     }
 }

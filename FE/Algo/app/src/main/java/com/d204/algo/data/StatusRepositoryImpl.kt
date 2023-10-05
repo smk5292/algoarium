@@ -16,6 +16,11 @@ class StatusRepositoryImpl @Inject constructor(
         emit(dataSourceFactory.getDataStore(isRemote).getStatus(userId))
     }
 
+    override suspend fun getAvgStatus(tier: Int): Flow<Status> = flow {
+        val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 StatusRemoteImpl에 구현돼있음
+        emit(dataSourceFactory.getDataStore(isRemote).getAvgStatus(tier))
+    }
+
     override suspend fun updateMemo(problem: Problem): Flow<Unit> = flow {
         val isRemote = dataSourceFactory.getRemoteDataSource().isRemote() // 무조건 true가 나오도록 StatusRemoteImpl에 구현돼있음
         dataSourceFactory.getDataStore(isRemote).updateMemo(problem)

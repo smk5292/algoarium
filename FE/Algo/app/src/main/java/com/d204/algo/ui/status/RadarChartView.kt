@@ -11,6 +11,8 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.res.ResourcesCompat
+import com.d204.algo.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -75,9 +77,18 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
     private val paint = Paint().apply {
         isAntiAlias = true
     }
+
     private val textPaint = TextPaint().apply {
-        textSize = 28f
+        textSize = 56f
         textAlign = Paint.Align.CENTER
+    }
+
+    private val strokeTextPaint = TextPaint().apply {
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        textSize = 56f
+        strokeWidth = 2f
+        color = Color.WHITE
     }
 
     private var path = Path()
@@ -95,7 +106,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         val cy = height / 2f
 
         // 0. 흰색 배경 그리기
-        paint.color = Color.WHITE
+        paint.color = Color.argb(88, 255, 255, 255)
         paint.style = Paint.Style.FILL
 
         path.reset()
@@ -112,7 +123,7 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         }
         canvas.drawPath(path, paint)
 
-        paint.color = Color.BLACK
+        paint.color = Color.BLUE
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1f
 
@@ -146,20 +157,40 @@ class RadarChartView(context: Context?, attrs: AttributeSet?) : View(context, at
         // 3. 각 꼭지점 부근에 각 특성 문자열 표시하기
         textPaint.textAlign = Paint.Align.CENTER
         textPaint.color = Color.BLACK
+        textPaint.typeface = ResourcesCompat.getFont(context, R.font.dnf_bit)
         startX = cx
         startY = (cy - heightMaxValue) * 0.7f
         var r = 0f
 
+        strokeTextPaint.textAlign = Paint.Align.CENTER
+        strokeTextPaint.color = Color.WHITE
+        strokeTextPaint.typeface = ResourcesCompat.getFont(context, R.font.dnf_bit)
+
         path.reset()
         sameLevelPath.reset()
 
-        chartTypes.forEach { type ->
+        chartTypes.forEachIndexed { index, type ->
             val point = transformRotate(r, startX, startY, cx, cy)
+            when (index) {
+                0 -> textPaint.color = Color.YELLOW
+                1 -> textPaint.color = Color.RED
+                2 -> textPaint.color = Color.BLUE
+                3 -> textPaint.color = Color.GREEN
+                else -> textPaint.color = Color.MAGENTA
+            }
+            if (type == CharacteristicType.VITALITY) point.x += 25f
             canvas.drawText(
                 type.value,
                 point.x,
                 textPaint.fontMetrics.getBaseLine(point.y),
                 textPaint,
+            )
+
+            canvas.drawText(
+                type.value,
+                point.x,
+                strokeTextPaint.fontMetrics.getBaseLine(point.y),
+                strokeTextPaint,
             )
 
             // 전달된 데이터를 표시하는 path 계산

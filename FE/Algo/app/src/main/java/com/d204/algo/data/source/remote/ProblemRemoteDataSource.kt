@@ -1,5 +1,6 @@
 package com.d204.algo.data.source.remote
 
+import android.util.Log
 import com.d204.algo.data.api.successOr
 import com.d204.algo.data.model.Problem
 import com.d204.algo.data.repository.datasource.ProblemDataSource
@@ -26,10 +27,11 @@ class ProblemRemoteDataSource @Inject constructor(
     }
 
     override suspend fun getSimilarProblems(userId: Long): List<Problem> {
-        return problemRemote.getSimilarProblems(userId).successOr(emptyList())
+        return problemRemote.getSimilarProblems(userId)
     }
 
     override suspend fun postLikeProblems(problem: Problem) {
+        Log.d("클릭데이터소스", "postLikeProblems: $problem")
         return problemRemote.postLikeProblems(problem).successOr(Unit)
     }
 

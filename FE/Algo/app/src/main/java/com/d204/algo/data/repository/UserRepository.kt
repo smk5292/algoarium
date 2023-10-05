@@ -7,5 +7,6 @@ interface UserRepository {
     suspend fun getUsers(): Flow<List<User>>
     suspend fun getUsersByTier(tier: Int): Flow<List<User>>
     suspend fun getUser(accessToken: String, refreshToken: String): Flow<User>
-    suspend fun getSolvedCode(): String
+    suspend fun registerSolvedAc(userId: Long, solvedAcId: String, code: String): String
+    suspend fun getIsSeason(): Boolean?
 }

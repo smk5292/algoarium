@@ -1,5 +1,6 @@
 package com.d204.algo.data.source.remote
 
+import android.util.Log
 import com.d204.algo.data.api.successOr
 import com.d204.algo.data.model.Ranking
 import com.d204.algo.data.repository.datasource.RankingDataSource

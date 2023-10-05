@@ -35,16 +35,31 @@ class StatusFragmentViewModel @Inject constructor(
     private val statusRepository: StatusRepository,
     private val problemRepository: ProblemRepository,
 ) : BaseViewModel(contextProvider) {
+    private var isPostingBookMark = false
+    private var errorSite = 0
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         val message = ExceptionHandler.parse(exception)
-        _statusData.postValue(StatusUIModel.Error(exception.message ?: "Error"))
+        Log.d(TAG, "$errorSite ")
+        when (errorSite) {
+            1 -> _statusData.postValue(StatusUIModel.Error(exception.message ?: "Error"))
+            2 -> _likeProblems.postValue(LikeProblemsUIModel.Error(exception.message ?: "Error"))
+            else -> Log.d(TAG, "예기치 못한 에러 : $message")
+        }
     }
 
     private val _statusData = UiAwareLiveData<StatusUIModel>()
     var statusData: LiveData<StatusUIModel> = _statusData
 
+    private val _statusAvgData = UiAwareLiveData<StatusUIModel>()
+    var statusAvgData: LiveData<StatusUIModel> = _statusAvgData
+
+    private val _likeProblems = UiAwareLiveData<LikeProblemsUIModel>()
+    var likeProblems: LiveData<LikeProblemsUIModel> = _likeProblems
+
     fun getUserStatus(userId: Long) {
+        errorSite = 1
+        _statusData.postValue(StatusUIModel.Loading)
         launchCoroutineIO {
             statusRepository.getStatus(userId).collect {
                 _statusData.postValue(StatusUIModel.Success(it))
@@ -52,22 +67,34 @@ class StatusFragmentViewModel @Inject constructor(
         }
     }
 
-    private val _likeProblems = UiAwareLiveData<LikeProblemsUIModel>()
-    var likeProblems: LiveData<LikeProblemsUIModel> = _likeProblems
+    fun getAvgStatus(tier: Int) {
+        errorSite = 1
+        _statusAvgData.postValue(StatusUIModel.Loading)
+        launchCoroutineIO {
+            statusRepository.getAvgStatus(tier).collect {
+                Log.d(TAG, "getAvgStatus: $it")
+                _statusAvgData.postValue(StatusUIModel.Success(it))
+            }
+        }
+    }
 
     fun getLikeProblems(userId: Long) {
+        errorSite = 2
+        _likeProblems.postValue(LikeProblemsUIModel.Loading)
         launchCoroutineIO {
             problemRepository.getLikeProblems(userId).collect {
+                Log.d(TAG, "getLikeProblems: $it")
                 _likeProblems.postValue(LikeProblemsUIModel.Success(it))
             }
         }
     }
 
-    fun postProblemLike(problem: Problem) {
-        // TODO: 아래 로그가 실행 안됨
+    fun postProblemLike(problemId: Long, userId: Long, problemLike: Boolean) {
+        if (isPostingBookMark) return
+        isPostingBookMark = true
         launchCoroutineIO {
-            Log.d(TAG, "postProblemLike: $problem")
-            problemRepository.postLikeProblems(problem).collect {
+            problemRepository.postLikeProblems(Problem(problemId, userId, problemLike)).collect {
+                isPostingBookMark = false
             }
         }
     }

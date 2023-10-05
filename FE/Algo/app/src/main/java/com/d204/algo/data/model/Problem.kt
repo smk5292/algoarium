@@ -13,10 +13,10 @@ data class Problem(
     val problemLevel: Int,
     val solvedUserCount: Int,
     val problemLike: Boolean,
-    val problemMemo: String,
+    val problemMemo: String?,
     val userId: Long,
 ) : Parcelable, Identifiable {
-    constructor(problemId: Long, userId: Long, problemMemo: String) : this(
+    constructor(problemId: Long, userId: Long, problemMemo: String?) : this(
         id = problemId,
         problemNumber = -1,
         title = "",
@@ -38,5 +38,5 @@ data class Problem(
         problemMemo = "",
         userId = userId,
     )
-    constructor() : this(0, 0, "", "", 0, 0, false, "", 0)
+    constructor() : this(0, 0, "", "", 0, 0, false, null, 0)
 }

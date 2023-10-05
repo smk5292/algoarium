@@ -1,5 +1,6 @@
 package com.d204.algo.remote
 
+import android.util.Log
 import com.d204.algo.data.api.NetworkResult
 import com.d204.algo.data.api.handleApi
 import com.d204.algo.data.model.Problem
@@ -42,20 +43,21 @@ class ProblemRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSimilarProblems(userId: Long): NetworkResult<List<Problem>> {
-        return handleApi {
-            problemService.getSimilarProblems(userId).map { problemModel ->
-                problemMapper.mapFromModel(problemModel)
-            }
+    override suspend fun getSimilarProblems(userId: Long): List<Problem> {
+        return problemService.getSimilarProblems(userId).map { problemModel ->
+            problemMapper.mapFromModel(problemModel)
         }
     }
 
     override suspend fun postLikeProblems(problem: Problem): NetworkResult<Unit> {
-        return handleApi { problemService.postLikeProblems(problemMapper.mapToModel(problem)) }
+        return handleApi {
+            problemService.postLikeProblems(problemMapper.mapToModel(problem))
+        }
     }
 
     override suspend fun getLikeProblems(userId: Long): List<Problem> {
         return problemService.getLikeProblems(userId).map { problemModel ->
+            Log.d("리모트라이크프로블럼", "getLikeProblems: $problemModel")
             problemMapper.mapFromModel(problemModel)
         }
     }

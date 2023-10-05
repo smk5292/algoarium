@@ -11,6 +11,13 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/recycler_wide_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1.2" />
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fragment_ranking_wide_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +43,7 @@
             android:id="@+id/fragment_ranking_top"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_height="@dimen/_175sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -76,9 +83,10 @@
             android:id="@+id/fragment_ranking_recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:translationX="@dimen/_minus60sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/recycler_wide_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_ranking_top"
             tools:listitem="@layout/item_ranking_list" />

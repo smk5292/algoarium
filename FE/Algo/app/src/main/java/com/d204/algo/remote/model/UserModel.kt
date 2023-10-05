@@ -8,4 +8,6 @@ data class UserModel(
     @Json(name = "kakaoNickname") val kakaoNickname: String,
     @Json(name = "profileImage") val profileImage: String,
     @Json(name = "preTier") val preTier: Int,
+    @Json(name = "tier") val tier: Int,
+    @Json(name = "solvedAcId") val solvedAcId: String,
 )

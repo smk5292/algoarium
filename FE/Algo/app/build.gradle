@@ -8,12 +8,11 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def kakaoKey = properties.getProperty('kakao_key')
+def kakaoKey = "\"${project.property("kakao_key")}\""
 
 android {
     namespace 'com.d204.algo'
     compileSdk 33
-
     defaultConfig {
         applicationId "com.d204.algo"
         minSdk 24
@@ -22,6 +21,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "KAKAO_KEY", kakaoKey
+        resValue "string", "KAKAO_KEY_SCHEME", '"${kakao_key_scheme}"'
     }
 
     buildTypes {
@@ -38,6 +39,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 }

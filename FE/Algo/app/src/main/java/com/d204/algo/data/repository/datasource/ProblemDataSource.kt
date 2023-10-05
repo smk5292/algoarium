@@ -9,7 +9,7 @@ interface ProblemDataSource {
     suspend fun getStrongProblems(userId: Long): List<Problem>
     suspend fun getWeakProblems(userId: Long): List<Problem>
     suspend fun getSimilarProblems(userId: Long): List<Problem>
-    suspend fun postLikeProblems(problem: Problem): Unit
+    suspend fun postLikeProblems(problem: Problem)
     suspend fun getLikeProblems(userId: Long): List<Problem>
 
     // cache

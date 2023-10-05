@@ -10,6 +10,6 @@ data class ProblemModel(
     @Json(name = "problemLevel") val problemLevel: Int,
     @Json(name = "solvedUserCount") val solvedUserCount: Int,
     @Json(name = "likeType") val problemLike: Boolean,
-    @Json(name = "memo") val problemMemo: String,
+    @Json(name = "memo") val problemMemo: String?,
     @Json(name = "userId") val userId: Long,
 )

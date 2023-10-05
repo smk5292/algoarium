@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 // RemoteModule에서 사용합니다.
@@ -23,7 +24,7 @@ object ServiceFactory {
         val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
         return retrofit.create(RankingService::class.java)
     }
-    
+
     fun createStatusService(isDebug: Boolean, baseUrl: String, tokenManager: TokenManager): StatusService {
         val retrofit = createRetrofit(isDebug, baseUrl, tokenManager)
         return retrofit.create(StatusService::class.java)
@@ -42,6 +43,7 @@ object ServiceFactory {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createOkHttpClient(createLoggingInterceptor(isDebug), tokenManager))
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

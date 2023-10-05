@@ -1,5 +1,6 @@
 package com.d204.algo.data.source.remote
 
+import android.util.Log
 import com.d204.algo.data.api.successOr
 import com.d204.algo.data.model.User
 import com.d204.algo.data.repository.datasource.UserDataSource
@@ -21,10 +22,14 @@ class UserRemoteDataSource @Inject constructor(
         return userRemote.getUser(accessToken, refreshToken).successOr(User())
     }
 
-    override suspend fun getSolvedCode(): String {
-        return userRemote.getSolvedCode().successOr("")
+    override suspend fun registerSolvedAc(userId: Long, solvedAcId: String, code: String): String {
+        Log.d("유저리모트데이터소스", "${userRemote.registerSolvedAc(userId, solvedAcId, code)}")
+        return userRemote.registerSolvedAc(userId, solvedAcId, code).successOr("fail")
     }
 
+    override suspend fun getIsSeason(): Boolean? {
+        return userRemote.getIsSeason().successOr(null)
+    }
 
     override suspend fun isRemote(): Boolean {
         return userRemote.isRemote()
