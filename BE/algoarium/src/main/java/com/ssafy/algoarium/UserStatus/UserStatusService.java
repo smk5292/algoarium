@@ -47,13 +47,13 @@ public class UserStatusService {
 		return userStatusEntity;
 	}
 
-	@Transactional
-	public UserStatusEntity getAvgStatusByTier(int tier){
-
-
-
-		return userStatusRepository.findAvgByTier(tier).get();
-	}
+//	@Transactional
+//	public UserStatusEntity getAvgStatusByTier(int tier){
+//
+//
+//
+//		return userStatusRepository.findAvgByTier(tier).get();
+//	}
 
 
 	@Transactional
