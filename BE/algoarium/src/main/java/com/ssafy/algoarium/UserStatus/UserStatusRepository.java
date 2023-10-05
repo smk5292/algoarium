@@ -19,4 +19,6 @@ public interface UserStatusRepository extends JpaRepository<UserStatusEntity, Lo
 		"WHERE ur.tier = :tier" , nativeQuery = true)
 	Optional<UserStatusEntity> findAvgByTier(@Param("tier") int tier);
 
+	UserStatusEntity findByUserUserId(Long userId);
+
 }
