@@ -61,4 +61,15 @@ public class UserStatusService {
 
 		return userStatusEntity.getUser().getUserId();
 	}
+
+	@Transactional
+	public void initSatus(String baekjoonId){
+
+
+
+	}
+
+
+
+
 }
