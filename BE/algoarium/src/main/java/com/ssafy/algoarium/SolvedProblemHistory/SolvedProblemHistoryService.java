@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,12 @@ public class SolvedProblemHistoryService {
 	public void saveSolvedProbelm(SolvedProblemHistoryDTO solvedProblemHistoryDTO){
 		solvedProblemHistoryRepository.save(toEntity(solvedProblemHistoryDTO));
 	}
+	public boolean isSolvedByUserIdAndProblemId(Long userId, Integer problemId) {
+		Optional<SolvedProblemHistoryEntity> solvedHistory = solvedProblemHistoryRepository
+			.findByUserUserIdAndProblemProblemId(userId, problemId);
 
+		return solvedHistory.isPresent(); // 데이터가 존재하면 true, 없으면 false 반환
+	}
 	public void saveBaekjoonId(String baekjoonId){
 		int pageCount = 40;
 		int page = 1;
@@ -73,9 +79,14 @@ public class SolvedProblemHistoryService {
 
 			List<SolvedResponse.Problem> problemList = solvedResponse.getItems();
 			for (SolvedResponse.Problem problem : problemList) {
-
-
 				int problemId = problem.getProblemId();
+
+				if(isSolvedByUserIdAndProblemId(
+					userRepository.findBySolvedAcId(baekjoonId).getUserId()
+					, problemRepository.findByProblemNumber(problemId).getProblemId()
+				)){
+					continue;
+				}
 				System.out.println(userRepository.findBySolvedAcId(baekjoonId).getSolvedAcId() + " ,"
 				+ problemRepository.findByProblemNumber(problemId) + "saved!!!");
 

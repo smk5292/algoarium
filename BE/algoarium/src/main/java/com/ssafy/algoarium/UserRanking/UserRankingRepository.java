@@ -16,7 +16,7 @@ public interface UserRankingRepository extends JpaRepository<UserRankingEntity, 
 	@Query(value = "SELECT ur FROM UserRankingEntity ur WHERE ur.tier = :tier")
 	List<UserRankingEntity> findByTier(@Param("tier") int tier);
 
-	@Query(value = "SELECT * FROM user_ranking WHERE tier = :tier ORDER BY ranking Asc LIMIT 1" , nativeQuery = true)
+	@Query(value = "SELECT * FROM user_ranking WHERE tier = :tier ORDER BY score Desc LIMIT 1" , nativeQuery = true)
 	Optional<UserRankingEntity> findTopByOrderByUserIdDesc(@Param("tier") int tier);
 
 	@Query(value = "SELECT ur FROM UserRankingEntity ur WHERE ur.user = :user")
