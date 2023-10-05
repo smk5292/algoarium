@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Problem, ProblemTag, TagCorrelation, BaekjoonUser, SolvedProblemHistory, RecommendProblem
+from .models import Problem, ProblemTag, TagCorrelation, BaekjoonUser, SolvedProblemHistory, RecommendProblem, User
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -13,19 +13,42 @@ from collections import defaultdict
 from django.db import transaction
 from itertools import combinations
 from scipy.stats import pearsonr
-import random
+from random import sample
+import numpy as np
+from scipy.cluster.hierarchy import linkage, fcluster
 
+#유저정보request
 @api_view(['POST'])
 def test_recommend_problem(request):
-    bj_user_data = BaekjoonUser.objects.filter(bj_id == request.solved_ac_id).first()
-    
-    if not bj_user_data.exists():
-        # 쉬운문제 랜덤추천
-        return
-    else:
+    all_users = User.objects.all()
+    users = BaekjoonUser.objects.only('bj_id', 'tier', 'solved_count', 'rating')
+    data = np.array([(user.tier, user.solved_count, user.rating) for user in users])
+
+    # 계층적 클러스터링 수행
+    linkage_matrix = linkage(data, method='ward')
+
+    # 클러스터 자르기 및 결과 출력
+    k = 5  # 클러스터의 수
+    cluster_labels = fcluster(linkage_matrix, k, criterion='maxclust')
+    # print("클러스터 레이블:", cluster_labels)
+
+    # 클러스터별 데이터 묶어서 출력 (인덱스 번호와 bj_id 포함)
+    clusters = {}
+    bj_ids = [user.bj_id for user in users]
+    for i, label in enumerate(cluster_labels):
+        if label not in clusters:
+            clusters[label] = []
+        clusters[label].append((i, bj_ids[i], data[i]))
+
+
+
+    # 1. 강약점 추천
+    for user in all_users:
+        bj_user_data = BaekjoonUser.objects.filter(bj_id = user.solved_ac_id).first()
+
         #유저가 푼 상위100문제정보
         bj_user_solved_problems = SolvedProblemHistory.object.filter(user_id = bj_user_data[0].user_id).order_by('-Problem_level', 'solved_user_count')[:100]
-        
+
         # 유저가 푼문제에 대한 태크 딕셔너리
         solved_problems_tags_dict = defaultdict(set)
         for problem in bj_user_solved_problems:
@@ -38,19 +61,28 @@ def test_recommend_problem(request):
         # 유저티어정보
         user_tier_data = bj_user_data.tier
         # 유저레벨에적합한 레벨문제 1차 필터링
-        first_filtered_problems_strong = Problem.objects.filter(problem_level__in=[user_tier_data, user_tier_data+1, user_tier_data+2])
-        # first_filtered_problems_weak = Problem.objects.filter(problem_level__in=[user_tier_data-2, user_tier_data-3, user_tier_data-4, user_tier_data-5])
+        min_tier = min(user_tier_data-5,1)
+        max_tier = max(user_tier_data+2,30)
+        first_filtered_problems_strong = Problem.objects.filter(problem_level__range=[user_tier_data,max_tier])
+        if user_tier_data>2:
+            first_filtered_problems_weak = Problem.objects.filter(problem_level__range=[user_tier_data-2, min_tier])
+        else:
+            first_filtered_problems_weak = Problem.objects.filter(problem_level__in=[1])
 
-        # 1차필터링 된 문제들의태그들
+        # 강점 1차필터링 된 문제들의태그들
         first_filtered_problems_tags_dict = defaultdict(set)
         for problem in first_filtered_problems_strong:
             problem_id = problem.problem_id
             problem_tags = ProblemTag.objects.filter(problem_id = problem_id)
             first_filtered_problems_tags_dict[problem_id].add(problem_tags.values_list('tag_id', flat=True))
-        
+        # 약점 1차필터링 된 문제들의태그들
+        first_filtered_problems_tags_dict2 = defaultdict(set)
+        for problem in first_filtered_problems_weak:
+            problem_id = problem.problem_id
+            problem_tags = ProblemTag.objects.filter(problem_id = problem_id)
+            first_filtered_problems_tags_dict2[problem_id].add(problem_tags.values_list('tag_id', flat=True))
 
         recommended_problems = []
-
         # 유사성 측정 및 추천
         for problem_index, problem_tags in enumerate(first_filtered_problems_tags_dict):
             # 유저가 이미 푼 문제는 스킵(index비교)
@@ -71,13 +103,47 @@ def test_recommend_problem(request):
         top_recommendations = recommended_problems[:n_recommendations]
 
         # 랜덤 30개 db에 저장
-        random_recommendations = random.sample(top_recommendations, 30)
+        random_recommendations = sample(top_recommendations, 30)
 
-    for last_recommend_problem_data  in random_recommendations:
-        recommend_problem = RecommendProblem(problem=last_recommend_problem_data, user=bj_user_data.id, type = 0)
-        recommend_problem.save()    
+        for last_recommend_problem_data  in random_recommendations:
+            recommend_problem = RecommendProblem(problem=last_recommend_problem_data, user=bj_user_data.id, type = 0)
+            recommend_problem.save()
 
-        
+
+
+        # 2. 비슷한유저문제
+        input_bj_id = user.solved_ac_id
+        # input_bj_id = 'smk921'
+        #같은 클러스터 찾기
+        matching_cluster = None
+        for cluster_label, cluster_data in clusters.items():
+            bj_ids_in_cluster = [item[1] for item in cluster_data]
+            if input_bj_id in bj_ids_in_cluster:
+                matching_cluster = cluster_data
+                break
+        # 유사한 다른 사용자의 solved_problem_history_id 가져오기
+        similar_user_ids = [bj_id for bj_id in bj_ids_in_cluster if bj_id != input_bj_id]
+        similar_user_id = sample(similar_user_ids,1)
+        # 중복되지 않는 problem 레코드 찾기
+        distinct_problem_ids = set()
+        distinct_problems = SolvedProblemHistory.objects.filter(user__user_id=similar_user_id).exclude(user__solved_ac_id=input_bj_id).values_list('problem__problem_id', flat=True)
+        distinct_problem_ids.update(distinct_problems)
+
+        filtered_problem_ids = []
+        user_tier = bj_user_data.bj_id
+        # user_tier = 13  # 예시로 사용한 tier 값
+        for problem_id in distinct_problem_ids:
+            problem = Problem.objects.get(problem_id=problem_id)
+            if problem.problem_level >= user_tier - 2:
+                filtered_problem_ids.append(problem_id)
+
+        # 무작위로 20개 문제 ID 선택
+        relationship_rerecommended_problems = sample(filtered_problem_ids, min(20, len(filtered_problem_ids)))
+
+
+        for relationship_rerecommended_problem in relationship_rerecommended_problems:
+            recommend_problem = RecommendProblem(problem=relationship_rerecommended_problem, user=input_bj_id, type = 2)
+            recommend_problem.save()
 
 
 @api_view(['POST'])
@@ -141,3 +207,5 @@ def cosine_similarity(set1, set2):
     return similarity
 
 
+# # 유저 정보 입력시 비슷한유저 찾기
+# def user_similarity(user_id):
