@@ -75,7 +75,12 @@ public class UserController {
 			answerUserDto.setKakaoNickname(profileDto.getName());
 			answerUserDto.setProfileImage(profileDto.getProfileUrl());
 
-			userService.saveUser(answerUserDto);
+
+			UserEntity answerUserEntity = userService.getUserByEmail(profileDto.getEmail());
+			answerUserEntity.setKakaoNickname(profileDto.getName());
+			answerUserEntity.setProfileImage(profileDto.getProfileUrl());
+
+			userRepository.save(answerUserEntity);
 
 			UserRankingEntity userRankingEntity = userRankingService.getRankingByUserId(answerUserDto.getUserId());
 

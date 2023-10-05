@@ -73,10 +73,13 @@ public class UserStatusService {
 	public void initStatus(String baekjoonId){
 		URI uri = UriComponentsBuilder
 			.fromUriString("https://solved.ac/api/v3/user/show")
-			.queryParam("query" , "s@" + baekjoonId)
+			.queryParam("handle" , baekjoonId)
 			.encode()
 			.build()
 			.toUri();
+
+		System.out.println(uri.toString());
+
 
 
 	}

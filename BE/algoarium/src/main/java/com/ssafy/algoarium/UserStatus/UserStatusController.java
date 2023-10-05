@@ -37,4 +37,7 @@ public class UserStatusController {
 		return toDto(userStatusService.getAvgStatusByTier(tier));
 	}
 
+
+	@GetMapping("/stat/init/{baekjoonId}")
+
 }
