@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SolvedProblemHistoryRepository extends JpaRepository<SolvedProblemHistoryEntity, Long> {
-
+	
 }
