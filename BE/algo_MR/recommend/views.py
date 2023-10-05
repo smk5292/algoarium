@@ -20,6 +20,7 @@ from scipy.cluster.hierarchy import linkage, fcluster
 #유저정보request
 @api_view(['POST'])
 def test_recommend_problem(request):
+    RecommendProblem.objects.all().delete()
     all_users = User.objects.all()
     users = BaekjoonUser.objects.only('bj_id', 'tier', 'solved_count', 'rating')
     data = np.array([(user.tier, user.solved_count, user.rating) for user in users])

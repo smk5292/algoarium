@@ -27,9 +27,11 @@ public class UserEntity {
     @Column(name = "kakao_id", nullable = false, length = 100)
     private String kakaoId;
 
+    @Setter
     @Column(name = "kakao_nickname", nullable = false, length = 50)
     private String kakaoNickname;
 
+    @Setter
     @Column(name = "profile_image", nullable = false, length = 200)
     private String profileImage;
 
