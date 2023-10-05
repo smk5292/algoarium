@@ -16,4 +16,6 @@ public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer>
 
     @Query("SELECT p FROM ProblemEntity p WHERE p.problemNumber = :problemNumber")
     ProblemEntity findByProblemNumber(Integer problemNumber);
+
+    boolean existsByProblemNumber(Integer problemNumber);
 }
