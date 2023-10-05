@@ -105,8 +105,8 @@ public class UserStatusService {
 
 		System.out.println(user.getUserId());
 
-		UserStatusEntity userStatusEntity = userStatusRepository.findByUserUserId(user.getUserId());
-
+		UserStatusEntity userStatusEntity = userStatusRepository.findByUser(user);
+		System.out.println(userStatusEntity.getUser());
 		userStatusEntity.setUserStatus1(solvedResponse.getSolvedCount()/100 + 20);
 		userStatusEntity.setUserStatus2((solvedResponse.getStardustsCount()-300)/100);
 		userStatusEntity.setUserStatus3(solvedResponse.getMaxStreakCount()/30 + 30);
