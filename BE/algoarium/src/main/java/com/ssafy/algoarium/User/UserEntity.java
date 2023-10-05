@@ -32,7 +32,7 @@ public class UserEntity {
     private String kakaoNickname;
 
     @Setter
-    @Column(name = "profile_image", nullable = false, length = 200)
+    @Column(name = "profile_image", nullable = false, length = 500)
     private String profileImage;
 
     @Column(name = "pre_tier", nullable = false, length = 20)
