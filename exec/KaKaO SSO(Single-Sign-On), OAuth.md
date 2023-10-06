@@ -2,7 +2,7 @@
 
 [Kakao Developers](https://developers.kakao.com/docs/latest/ko/kakaologin/common)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),Image/Untitled.png)
+![Untitled](Image/Untitled.png)
 
 # 기능
 
@@ -42,7 +42,7 @@
 
 [Kakao Developers](https://developers.kakao.com/)
 
-![kakaologin_process.png](KaKaO%20SSO(Single-Sign-On),Image/kakaologin_process.png)
+![kakaologin_process.png](Image/kakaologin_process.png)
 
 ## 내 애플리케이션 에서 앱 만들기
 
@@ -50,7 +50,7 @@
 
 ## 앱 키 확인
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),Image/Untitled%201.png)
+![Untitled](Image//Untitled%201.png)
 
 - 여기서 REST API 키 를 기억해 두자
 - 클라이언트 REST API 키 : 1e6e787538b273266b9e8054397aec13
@@ -61,20 +61,20 @@
 - Redirect URI 설정
     - 로그인 페이지 에서 동의하고 계속하기 를 클릭하면 넘어가가지는 URI
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%202.png)
+    ![Untitled](Image/Untitled%202.png)
     
     - [http://localhost:8080/auth/kakao/callback](http://localhost:8080/auth/kakao/callback)
 
 ## 동의 항목 설정
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%203.png)
+![Untitled](Image//Untitled%203.png)
 
 - 개인정보 중 필요한 것을 성정에서 동의 설정을 한다.
 - 카카오계정(이메일) 이나 다른 항목의 경우 필수 동의가 비활성화 되어있는 상태로 카카오 측에서 검수 후에 필수 동의로 바꿀 수 있어 선택 동의로 진행
 
 ## 로그아웃 Redirect URI 지정
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%204.png)
+![Untitled](Image//Untitled%204.png)
 
 - 고급에서 Logout Redirect URI 지정할 수 있다.
 - 본 프로젝트에서는 데이터 통신만을 위한 것이기 때문에 안드로이드에서 데이터와 전환 처리를 하면 된다.
@@ -98,15 +98,15 @@
 https://kauth.kakao.com/oauth/token
 > 
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%205.png)
+![Untitled](Image/Untitled%205.png)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%206.png)
+![Untitled](Image/Untitled%206.png)
 
 ### 응답
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%207.png)
+![Untitled](Image/Untitled%207.png)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%208.png)
+![Untitled](Image/Untitled%208.png)
 
 - 여기서 필요한 것은 **access_token** 값이다.
 
@@ -118,36 +118,36 @@ https://kapi.kakao.com/v2/user/me
 
 ## 요청
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%209.png)
+![Untitled](Image/Untitled%209.png)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2010.png)
+![Untitled](Image/Untitled%2010.png)
 
 ## 응답
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2011.png)
+![Untitled](Image/Untitled%2011.png)
 
 ### KakaoAccount
 
 - 응답 목록
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2012.png)
+    ![Untitled](Image/Untitled%2012.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2013.png)
+    ![Untitled](Image/Untitled%2013.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2014.png)
+    ![Untitled](Image/Untitled%2014.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2015.png)
+    ![Untitled](Image/Untitled%2015.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2016.png)
+    ![Untitled](Image/Untitled%2016.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2017.png)
+    ![Untitled](Image/Untitled%2017.png)
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2018.png)
+    ![Untitled](Image/Untitled%2018.png)
     
 
 ### Profile
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2019.png)
+![Untitled](Image/Untitled%2019.png)
 
 - 여기서 email 과 profile_image_url, nickname 을 가지고 온다.
 
@@ -229,15 +229,15 @@ response.getBody()
 
 ### JsonToJava
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2020.png)
+![Untitled](Image/Untitled%2020.png)
 
 - IntelliJ 에 있는 플러그인으로 입력하면 바로 그에 맞는 Java Class 를 만들어 준다.
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2021.png)
+    ![Untitled](Image/Untitled%2021.png)
     
 - Json 을 입력 해 주고 엔티티 이름을 만들어 주면 그에 연관된 class 또한 모두 만들어 준다.
     
-    ![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2022.png)
+    ![Untitled](Image/Untitled%2022.png)
     
 
 ## 구현
@@ -336,12 +336,12 @@ public class KakaoInfo {
 
 ## 실행 결과
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2023.png)
+![Untitled](Image/Untitled%2023.png)
 
 # 토큰 갱신하기 (RefreshToken)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2024.png)
+![Untitled](Image/Untitled%2024.png)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2025.png)
+![Untitled](Image/Untitled%2025.png)
 
-![Untitled](KaKaO%20SSO(Single-Sign-On),%20OAuth%20f7ad8b1e0a3043d8abb3d920e2b14e98/Untitled%2026.png)
+![Untitled](Image/Untitled%2026.png)
