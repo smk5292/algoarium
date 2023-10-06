@@ -66,22 +66,13 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        observe(viewModel.statusData, ::onStatusChange)
-//        viewModel.getUserStatus(espHelper.prefUserId)
-//
-//        observe(viewModel.statusAvgData, ::onAvgStatusChange)
-//        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
-        test()
-//        init()
+//        test()
+        init()
     }
 
     // 테스트용 함수, 데이터 연결 후 제거
     private fun test() = with(binding) {
-        statusRecyclerView.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
+        initViewPager()
         statusRadarChartView
             .setDataList(
                 arrayListOf(
@@ -134,6 +125,13 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
         val tierImg =
             if (ApplicationClass.skinOn) Constants.RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier] else Constants.COPYRIGHT_RANK_TIER[ApplicationClass.preferencesHelper.prefUserTier]
         binding.statusRankImage.setImageResource(tierImg)
+
+        // status 체인지
+        observe(viewModel.statusData, ::onStatusChange)
+        viewModel.getUserStatus(espHelper.prefUserId)
+
+        observe(viewModel.statusAvgData, ::onAvgStatusChange)
+        viewModel.getAvgStatus(espHelper.prefUserTier) // 평균값은 실시간 반영x -> 체크박스 체크하면 갱신
 
         // 좋아요한 문제 리스트 조회
         observe(viewModel.likeProblems, ::onViewStateChange)
@@ -208,6 +206,7 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             is StatusUIModel.Error -> handleErrorMessage(result.error)
             StatusUIModel.Loading -> handleLoading(true)
             is StatusUIModel.Success -> {
+                Log.d(TAG, "onStatusChange: ${result.data}")
                 handleLoading(false)
                 statusRadarChartView
                     .setDataList(
@@ -217,6 +216,11 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
                             RadarChartData(CharacteristicType.STRENGTH, result.data.strength),
                             RadarChartData(CharacteristicType.CHARISMA, result.data.charisma),
                             RadarChartData(CharacteristicType.LUCK, result.data.luck),
+//                            RadarChartData(CharacteristicType.WISDOM, 80),
+//                            RadarChartData(CharacteristicType.VITALITY, 90),
+//                            RadarChartData(CharacteristicType.STRENGTH, 70),
+//                            RadarChartData(CharacteristicType.CHARISMA, 60),
+//                            RadarChartData(CharacteristicType.LUCK, 50),
                         ),
                     )
             }
@@ -230,25 +234,22 @@ class StatusFragment : BaseFragment<FragmentStatusBinding, BaseViewModel>() {
             StatusUIModel.Loading -> handleLoading(true)
             is StatusUIModel.Success -> {
                 handleLoading(false)
+                Log.d(TAG, "onAvgStatusChange: ${result.data}")
                 statusChartCheckbox.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         statusRadarChartView
                             .setSameLevelDataList(
                                 arrayListOf(
                                     RadarChartData(CharacteristicType.WISDOM, result.data.wisdom),
-                                    RadarChartData(
-                                        CharacteristicType.VITALITY,
-                                        result.data.vitality,
-                                    ),
-                                    RadarChartData(
-                                        CharacteristicType.STRENGTH,
-                                        result.data.strength,
-                                    ),
-                                    RadarChartData(
-                                        CharacteristicType.CHARISMA,
-                                        result.data.charisma,
-                                    ),
+                                    RadarChartData(CharacteristicType.VITALITY, result.data.vitality,),
+                                    RadarChartData(CharacteristicType.STRENGTH, result.data.strength,),
+                                    RadarChartData(CharacteristicType.CHARISMA, result.data.charisma,),
                                     RadarChartData(CharacteristicType.LUCK, result.data.luck),
+//                                    RadarChartData(CharacteristicType.WISDOM, 30),
+//                                    RadarChartData(CharacteristicType.VITALITY, 25),
+//                                    RadarChartData(CharacteristicType.STRENGTH, 20),
+//                                    RadarChartData(CharacteristicType.CHARISMA, 35),
+//                                    RadarChartData(CharacteristicType.LUCK, 40),
                                 ),
                             )
                     } else {

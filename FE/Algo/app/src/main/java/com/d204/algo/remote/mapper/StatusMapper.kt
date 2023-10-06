@@ -7,7 +7,7 @@ import javax.inject.Inject
 class StatusMapper @Inject constructor() : Mapper<StatusModel, Status> {
     override fun mapFromModel(model: StatusModel): Status {
         return Status(
-            id = model.id,
+            id = 0,
             userId = model.userId,
             wisdom = model.wisdom,
             strength = model.strength,
@@ -19,7 +19,7 @@ class StatusMapper @Inject constructor() : Mapper<StatusModel, Status> {
 
     override fun mapToModel(type: Status): StatusModel {
         return StatusModel(
-            id = type.id,
+//            id = type.id,
             userId = type.userId,
             wisdom = type.wisdom,
             strength = type.strength,
