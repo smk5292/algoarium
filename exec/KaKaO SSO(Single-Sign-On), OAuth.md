@@ -50,7 +50,7 @@
 
 ## 앱 키 확인
 
-![Untitled](Image//Untitled1.png)
+![Untitled](Image/Untitled1.png)
 
 - 여기서 REST API 키 를 기억해 두자
 - 클라이언트 REST API 키 : 1e6e787538b273266b9e8054397aec13
@@ -67,14 +67,14 @@
 
 ## 동의 항목 설정
 
-![Untitled](Image//Untitled3.png)
+![Untitled3](Image/Untitled3.png)
 
 - 개인정보 중 필요한 것을 성정에서 동의 설정을 한다.
 - 카카오계정(이메일) 이나 다른 항목의 경우 필수 동의가 비활성화 되어있는 상태로 카카오 측에서 검수 후에 필수 동의로 바꿀 수 있어 선택 동의로 진행
 
 ## 로그아웃 Redirect URI 지정
 
-![Untitled](Image//Untitled4.png)
+![Untitled4](Image/Untitled4.png)
 
 - 고급에서 Logout Redirect URI 지정할 수 있다.
 - 본 프로젝트에서는 데이터 통신만을 위한 것이기 때문에 안드로이드에서 데이터와 전환 처리를 하면 된다.
