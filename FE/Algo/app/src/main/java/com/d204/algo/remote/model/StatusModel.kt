@@ -3,11 +3,11 @@ package com.d204.algo.remote.model
 import com.squareup.moshi.Json
 
 data class StatusModel(
-    @field:Json(name = "statusId") val id: Long,
-    @field:Json(name = "userId") val userId: Long,
-    @field:Json(name = "wisdom") val wisdom: Int,
-    @field:Json(name = "vitality") val vitality: Int,
-    @field:Json(name = "strength") val strength: Int,
-    @field:Json(name = "charisma") val charisma: Int,
-    @field:Json(name = "luck") val luck: Int,
+//    @Json(name = "statusId") val id: Long,
+    @Json(name = "userId") val userId: Long,
+    @Json(name = "userStatus1") val wisdom: Int,
+    @Json(name = "userStatus2") val vitality: Int,
+    @Json(name = "userStatus3") val strength: Int,
+    @Json(name = "userStatus4") val charisma: Int,
+    @Json(name = "userStatus5") val luck: Int,
 )
