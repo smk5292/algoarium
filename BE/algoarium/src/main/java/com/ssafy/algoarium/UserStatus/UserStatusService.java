@@ -135,13 +135,14 @@ public class UserStatusService {
 		System.out.println(userStatusEntity.getUser());
 
 		userStatusEntity.setUserStatus1(solvedResponse.getSolvedCount()/100 + 20);
-		userStatusEntity.setUserStatus2((solvedResponse.getStardustsCount()-500)/100);
+		userStatusEntity.setUserStatus2(solvedResponse.getStardustsCount()/150);
 		userStatusEntity.setUserStatus3(solvedResponse.getMaxStreakCount()/30 + 30);
 		userStatusEntity.setUserStatus4(solvedResponse.getRatingBySolvedCount()/5 +10);
 		userStatusEntity.setUserStatus5(solvedResponse.getRating()/100 + 20);
 
 		userStatusRepository.save(userStatusEntity);
-
+		System.out.println(solvedResponse.getSolvedCount());
+		System.out.println(solvedResponse.getStardustsCount());
 		System.out.println("save!!!!!!!");
 	}
 
