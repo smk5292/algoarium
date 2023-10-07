@@ -466,10 +466,10 @@ $ cd BE/algoarium
     <td class="tg-0pky">
     - 팀장<br>
     - 디자인<br>
-    - 필터링</td>
+    - 클린아키텍처</td>
     <td class="tg-0pky">
     - FE 팀장<br>
-    - 컴포넌트 구조 설계<br>
+    - 인터셉터, JWT<br>
     - 검색</td>
   </tr>
 </tbody>
